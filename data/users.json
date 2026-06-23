@@ -1,0 +1,10 @@
+[
+  {
+    "email": "admin@udaancare.in",
+    "passwordHash": "$2b$10$tcbV0rgLFO2pyELeNcnms.Z5NcPSRhs4iJZSS58LIIM4Fcb6gZaLa",
+    "name": "Admin",
+    "role": "ADMIN",
+    "id": "4c28c359-09f6-4b98-9909-8ab6c6bb1681",
+    "createdAt": "2026-06-23T08:26:17.065Z"
+  }
+]
