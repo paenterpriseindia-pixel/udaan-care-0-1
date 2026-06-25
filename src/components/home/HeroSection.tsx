@@ -61,7 +61,7 @@ export default function HeroSection() {
     <section
       style={{
         position: "relative",
-        minHeight: "80vh",
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         overflowX: "hidden",
@@ -120,7 +120,7 @@ export default function HeroSection() {
         className="container"
         style={{
           position: "relative", zIndex: 2,
-          paddingTop: 120, paddingBottom: 80,
+          paddingTop: 68, paddingBottom: 40,
           display: "grid",
           gridTemplateColumns: "3fr 2fr",
           gap: 64,
