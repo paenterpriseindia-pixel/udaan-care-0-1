@@ -45,7 +45,7 @@ export default function InternationalPage() {
   return (
     <>
       {/* Hero */}
-      <section style={{ position: "relative", paddingTop: 140, paddingBottom: 80, minHeight: 500, display: "flex", alignItems: "center", overflow: "hidden", background: "linear-gradient(135deg, #0D1117 0%, #1A2B35 60%, rgba(10,126,140,0.15) 100%)" }}>
+      <section style={{ position: "relative", paddingTop: 90, paddingBottom: 40, minHeight: 320, display: "flex", alignItems: "center", overflow: "hidden", background: "linear-gradient(135deg, #0D1117 0%, #1A2B35 60%, rgba(10,126,140,0.15) 100%)" }}>
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <span style={{ display: "block", fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--color-primary-mid)", marginBottom: 20 }}>International Families</span>
           <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px, 4vw, 42px)", color: "white", marginBottom: 20, lineHeight: 1.1, maxWidth: 680 }}>

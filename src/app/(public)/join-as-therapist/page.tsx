@@ -52,7 +52,7 @@ export default function JoinAsTherapistPage() {
   return (
     <>
       {/* Hero */}
-      <section style={{ position: "relative", paddingTop: 140, paddingBottom: 80, overflow: "hidden" }}>
+      <section style={{ position: "relative", paddingTop: 90, paddingBottom: 40, overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #1A2B35 0%, #0A7E8C22 100%)" }} />
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <span style={{ display: "block", fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--color-primary-mid)", marginBottom: 20 }}>For Occupational Therapists</span>

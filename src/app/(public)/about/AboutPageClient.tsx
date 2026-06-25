@@ -37,8 +37,8 @@ export default function AboutPageClient() {
     <>
       {/* ── Hero ── */}
       <section style={{
-        position: "relative", paddingTop: 160, paddingBottom: 100,
-        minHeight: 480, display: "flex", alignItems: "center", overflow: "hidden",
+        position: "relative", paddingTop: 100, paddingBottom: 60,
+        minHeight: 320, display: "flex", alignItems: "center", overflow: "hidden",
         background: "#0D1117",
       }}>
         <Image

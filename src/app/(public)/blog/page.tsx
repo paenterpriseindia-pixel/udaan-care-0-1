@@ -193,7 +193,7 @@ export default function BlogPage() {
   return (
     <>
       {/* Hero */}
-      <section style={{ position: "relative", paddingTop: 160, paddingBottom: 80, minHeight: 500, display: "flex", alignItems: "center", overflow: "hidden" }}>
+      <section style={{ position: "relative", paddingTop: 100, paddingBottom: 40, minHeight: 320, display: "flex", alignItems: "center", overflow: "hidden" }}>
         {featured.coverImage && (
           <Image src={featured.coverImage} alt="Blog hero" fill priority
             style={{ objectFit: "cover", filter: "blur(12px) brightness(0.35)", transform: "scale(1.05)" }}

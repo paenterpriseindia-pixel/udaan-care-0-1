@@ -27,7 +27,7 @@ export default function ServicePageTemplate({ data }: { data: ServicePageData })
   return (
     <>
       {/* Hero */}
-      <section style={{ position: "relative", paddingTop: 140, paddingBottom: 80, minHeight: 440, display: "flex", alignItems: "center" }}>
+      <section style={{ position: "relative", paddingTop: 90, paddingBottom: 40, minHeight: 440, display: "flex", alignItems: "center" }}>
         <div style={{ position: "absolute", inset: 0 }}>
           <ImagePlaceholder label={`services/${data.slug}.jpg`} style={{ position: "absolute", inset: 0, borderRadius: 0, height: "100%" }} />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(13,17,23,0.92) 55%, rgba(13,17,23,0.6) 100%)" }} />

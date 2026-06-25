@@ -57,7 +57,7 @@ export default function ServicesIndexClient() {
     <>
       {/* ── Hero ── */}
       <section style={{
-        position: "relative", paddingTop: 160, paddingBottom: 80,
+        position: "relative", paddingTop: 100, paddingBottom: 40,
         background: "#0D1117", overflowX: "hidden",
 
       }}>
