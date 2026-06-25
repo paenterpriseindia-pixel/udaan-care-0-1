@@ -56,7 +56,7 @@ export default function JoinAsTherapistPage() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #1A2B35 0%, #0A7E8C22 100%)" }} />
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <span style={{ display: "block", fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--color-primary-mid)", marginBottom: 20 }}>For Occupational Therapists</span>
-          <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(36px,5vw,60px)", color: "white", marginBottom: 20, lineHeight: 1.1, maxWidth: 640 }}>
+          <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px, 4vw, 42px)", color: "white", marginBottom: 20, lineHeight: 1.1, maxWidth: 640 }}>
             Partner with Udaan Care
           </h1>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, color: "rgba(255,255,255,0.65)", marginBottom: 36, maxWidth: 520, lineHeight: 1.65 }}>

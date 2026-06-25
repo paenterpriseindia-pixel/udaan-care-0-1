@@ -164,7 +164,7 @@ export default function ServicesSection() {
               transition={{ duration: 0.4, delay: 0.1 }}
               style={{
                 fontFamily: "'Nunito',sans-serif", fontWeight: 800,
-                fontSize: "clamp(28px,4vw,42px)",
+                fontSize: "clamp(24px, 3vw, 36px)",
                 color: "var(--color-text-primary)", maxWidth: 480,
               }}
             >

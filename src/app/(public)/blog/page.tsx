@@ -205,7 +205,7 @@ export default function BlogPage() {
             <span style={{ display: "inline-block", padding: "6px 18px", borderRadius: 8, marginBottom: 20, fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", background: "rgba(10,126,140,0.25)", color: "#0D9BAC", border: "1px solid rgba(10,126,140,0.35)", backdropFilter: "blur(4px)" }}>
               Expert Resources for Parents
             </span>
-            <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(36px,5.5vw,64px)", color: "white", lineHeight: 1.08, marginBottom: 16 }}>
+            <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px, 4vw, 42px)", color: "white", lineHeight: 1.08, marginBottom: 16 }}>
               Expert Advice<br />
               <span style={{ background: "linear-gradient(90deg,#0D9BAC,#6B3FA0)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>for Parents</span>
             </h1>
@@ -296,7 +296,7 @@ export default function BlogPage() {
       {/* CTA */}
       <section style={{ padding: "80px 0", background: "#0D1117" }}>
         <div className="container" style={{ textAlign: "center" }}>
-          <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(26px,4vw,44px)", color: "white", marginBottom: 12 }}>Ready to help your child?</h2>
+          <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(24px, 3vw, 36px)", color: "white", marginBottom: 12 }}>Ready to help your child?</h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: "rgba(255,255,255,0.55)", marginBottom: 32 }}>Book a consultation with Dr. Prasoon and get a personalised therapy plan.</p>
           <Link href="/book" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "15px 40px", borderRadius: 12, fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 16, background: "linear-gradient(135deg, #0A7E8C, #6B3FA0)", color: "white", textDecoration: "none" }}>
             Book Consultation — {fmt(599, 9)} <ArrowRight size={16} />

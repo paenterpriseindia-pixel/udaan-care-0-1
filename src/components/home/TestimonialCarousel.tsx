@@ -173,7 +173,7 @@ export default function TestimonialCarousel() {
           <span className="eyebrow">What Parents Say</span>
           <h2 style={{
             fontFamily: "'Nunito',sans-serif", fontWeight: 800,
-            fontSize: "clamp(28px,4vw,40px)", color: "var(--color-text-primary)",
+            fontSize: "clamp(24px, 3vw, 36px)", color: "var(--color-text-primary)",
           }}>
             Real Families, Real Progress
           </h2>

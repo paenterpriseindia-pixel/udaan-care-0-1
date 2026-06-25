@@ -101,7 +101,7 @@ export default function ContactPage() {
       <section style={{ paddingTop: 120, paddingBottom: 60, background: "linear-gradient(135deg, #1A2B35 0%, rgba(10,126,140,0.15) 100%)" }}>
         <div className="container">
           <span style={{ display: "block", fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--color-primary-mid)", marginBottom: 16 }}>Get in Touch</span>
-          <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(32px,5vw,52px)", color: "white", marginBottom: 12, lineHeight: 1.1 }}>Contact Udaan Care</h1>
+          <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px, 4vw, 42px)", color: "white", marginBottom: 12, lineHeight: 1.1 }}>Contact Udaan Care</h1>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: "rgba(255,255,255,0.55)", maxWidth: 480 }}>Have questions? Reach out — we respond within 24 hours.</p>
         </div>
       </section>

@@ -51,7 +51,7 @@ export default function BlogPreviewSection() {
             <motion.h2
               initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.1 }}
-              style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(28px,4vw,40px)", color: "var(--color-text-primary)" }}
+              style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(24px, 3vw, 36px)", color: "var(--color-text-primary)" }}
             >
               Written by Dr. Prasoon
             </motion.h2>

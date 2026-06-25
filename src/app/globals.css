@@ -57,7 +57,21 @@
 
 
 /* ─── Reset ─── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { 
+  box-sizing: border-box; margin: 0; padding: 0; 
+  -webkit-tap-highlight-color: transparent; /* Remove mobile tap flash */
+}
+
+/* Custom accessible focus ring globally */
+*:focus {
+  outline: none; /* Disable default browser outline */
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
 
 html {
   font-family: 'DM Sans', system-ui, sans-serif;

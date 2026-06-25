@@ -427,7 +427,7 @@ export default function BookPage() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 8 }}>
           <Calendar size={28} style={{ color: "rgba(255,255,255,0.8)" }} />
         </div>
-        <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px,4vw,40px)", color: "white", marginBottom: 8 }}>
+        <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(24px, 3vw, 36px)", color: "white", marginBottom: 8 }}>
           Book a Consultation
         </h1>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: "rgba(255,255,255,0.65)" }}>

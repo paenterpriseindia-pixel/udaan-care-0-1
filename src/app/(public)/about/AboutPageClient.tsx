@@ -53,7 +53,7 @@ export default function AboutPageClient() {
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.6 }}>
             <span style={{ display: "block", fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--color-primary-mid)", marginBottom: 20 }}>About Us</span>
-            <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(36px,5.5vw,60px)", color: "white", marginBottom: 20, lineHeight: 1.08, maxWidth: 640 }}>
+            <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px, 4vw, 42px)", color: "white", marginBottom: 20, lineHeight: 1.08, maxWidth: 640 }}>
               About<br />
               <span style={{ background: "linear-gradient(90deg,#0D9BAC,#6B3FA0)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 Udaan Care
@@ -89,7 +89,7 @@ export default function AboutPageClient() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <span className="eyebrow">Our Story</span>
-              <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(28px,3vw,38px)", color: "var(--color-text-primary)", marginBottom: 24, lineHeight: 1.2 }}>
+              <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(24px, 3vw, 36px)", color: "var(--color-text-primary)", marginBottom: 24, lineHeight: 1.2 }}>
                 Why Udaan Care Exists
               </h2>
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: "var(--color-text-secondary)", lineHeight: 1.85, marginBottom: 16 }}>
@@ -149,7 +149,7 @@ export default function AboutPageClient() {
             {/* Copy */}
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <span className="eyebrow">Meet the Therapist</span>
-              <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px,3.5vw,42px)", color: "var(--color-text-primary)", marginBottom: 8, lineHeight: 1.15 }}>
+              <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(24px, 3vw, 36px)", color: "var(--color-text-primary)", marginBottom: 8, lineHeight: 1.15 }}>
                 Dr. Prasoon Gupta
               </h2>
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--color-text-secondary)", marginBottom: 24 }}>
@@ -184,7 +184,7 @@ export default function AboutPageClient() {
         <div className="container">
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <span className="eyebrow">What We Stand For</span>
-            <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(28px,3vw,38px)", color: "var(--color-text-primary)" }}>Our Core Values</h2>
+            <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(24px, 3vw, 36px)", color: "var(--color-text-primary)" }}>Our Core Values</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
             {values.map((v, i) => (
@@ -204,7 +204,7 @@ export default function AboutPageClient() {
       {/* ── CTA ── */}
       <section style={{ padding: "96px 0", background: "#0D1117" }}>
         <div className="container" style={{ textAlign: "center" }}>
-          <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px,4vw,48px)", color: "white", marginBottom: 16 }}>
+          <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(24px, 3vw, 36px)", color: "white", marginBottom: 16 }}>
             Start your child&apos;s journey today
           </h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 17, color: "rgba(255,255,255,0.55)", marginBottom: 36 }}>

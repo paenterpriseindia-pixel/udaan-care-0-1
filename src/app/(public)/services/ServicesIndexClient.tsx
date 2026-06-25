@@ -67,7 +67,7 @@ export default function ServicesIndexClient() {
         <div className="container" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
           <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.6 }}>
             <span style={{ display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--color-primary-mid)", marginBottom: 20 }}>Our Services</span>
-            <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(36px,5.5vw,64px)", color: "white", lineHeight: 1.08, marginBottom: 20 }}>
+            <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px, 4vw, 42px)", color: "white", lineHeight: 1.08, marginBottom: 20 }}>
               Therapy Built Around<br />
               <span style={{ background: "linear-gradient(90deg,#0D9BAC,#6B3FA0)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 Your Child
@@ -223,7 +223,7 @@ export default function ServicesIndexClient() {
       {/* ── CTA ── */}
       <section style={{ padding: "80px 0", background: "#0D1117" }}>
         <div className="container" style={{ textAlign: "center" }}>
-          <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px,4vw,48px)", color: "white", marginBottom: 16 }}>Not sure where to start?</h2>
+          <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(24px, 3vw, 36px)", color: "white", marginBottom: 16 }}>Not sure where to start?</h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 17, color: "rgba(255,255,255,0.55)", marginBottom: 36 }}>Book an initial consultation — Dr. Prasoon will guide you to the right therapy plan for your child.</p>
           <Link href="/book" className="btn btn-primary" style={{ padding: "15px 40px", fontSize: 16 }}>
             Book Initial Consultation — {prices.online.display} <ArrowRight size={16} />

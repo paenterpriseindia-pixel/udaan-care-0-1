@@ -233,7 +233,7 @@ export default function VideoTestimonialsSection() {
           {/* Header */}
           <div className="reveal" style={{ textAlign: "center", marginBottom: 60 }}>
             <span className="eyebrow">Real Families · Real Results</span>
-            <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(28px,4vw,48px)", color: "var(--color-text-primary)", lineHeight: 1.15, margin: "0 0 16px" }}>
+            <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(24px, 3vw, 36px)", color: "var(--color-text-primary)", lineHeight: 1.15, margin: "0 0 16px" }}>
               Hear From{" "}
               <span className="text-gradient">Our Families</span>
             </h2>
