@@ -70,8 +70,6 @@ export default function HeroSection() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const backgroundY = scrollY * 0.35;
-
   return (
     <section
       style={{
@@ -84,16 +82,12 @@ export default function HeroSection() {
         background: "#0D1117",
       }}
     >
-      {/* ── Parallax hero background ── */}
+      {/* ── Static hero background (fixed tearing bug) ── */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 0,
-          willChange: "transform",
-          transform: `translateY(${backgroundY}px)`,
-          height: "115%",
-          top: "-7.5%",
         }}
       >
         <ClickableImage
@@ -132,10 +126,11 @@ export default function HeroSection() {
 
       {/* ── Main content grid ── */}
       <div
-        className="container hero-grid"
+        className="container grid-sidebar-right"
         style={{
           position: "relative", zIndex: 2,
           paddingTop: 68, paddingBottom: 40,
+          gap: 64, alignItems: "center",
         }}
       >
         {/* ── LEFT: copy ── */}
@@ -407,16 +402,8 @@ export default function HeroSection() {
           0%,100% { transform: translateY(0); }
           50%      { transform: translateY(8px); }
         }
-        .hero-grid {
-          display: grid;
-          grid-template-columns: 3fr 2fr;
-          gap: 64px;
-          align-items: center;
-          width: 100%;
-        }
         @media (max-width: 900px) {
-          .hero-grid {
-            grid-template-columns: 1fr;
+          .grid-sidebar-right {
             text-align: center;
             gap: 40px;
             padding-top: calc(68px + 32px) !important;

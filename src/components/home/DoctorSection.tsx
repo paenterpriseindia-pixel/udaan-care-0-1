@@ -24,11 +24,10 @@ export default function DoctorSection() {
       {/* ── PART A: Doctor intro split ── */}
       <section style={{ padding: "64px 0", background: "var(--color-surface)" }}>
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <div className="grid-cols-2" style={{ gap: 80, alignItems: "center" }}>
 
             {/* Photo side */}
             <motion.div
-              className="hide-mobile"
               initial={{ opacity: 0, x: -60 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}

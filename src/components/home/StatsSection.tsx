@@ -20,11 +20,7 @@ export default function StatsSection() {
       }}
     >
       <div className="container">
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4,1fr)",
-          gap: 0,
-        }}>
+        <div className="grid-cols-4" style={{ gap: 0 }}>
           {stats.map((s, i) => (
             <motion.div
               key={s.label}

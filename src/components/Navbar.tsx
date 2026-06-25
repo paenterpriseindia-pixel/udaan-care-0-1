@@ -62,12 +62,9 @@ export default function Navbar() {
       >
 
         {/* Full-width inner — CSS Grid 3-zone: [logo | center-nav | actions] */}
-        <div style={{
+        <div className="nav-grid" style={{
           width: "100%",
           padding: "0 24px",
-
-          display: "grid",
-          gridTemplateColumns: "1fr auto 1fr",
           alignItems: "center",
           height: "100%",
         }}>

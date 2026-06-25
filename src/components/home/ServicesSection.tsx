@@ -206,7 +206,7 @@ export default function ServicesSection() {
         </div>
 
         {/* 4-column horizontal row */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+        <div className="grid-cols-4" style={{ gap: 20 }}>
           {services.map((s, i) => <ServiceCard key={s.href} s={s} index={i} />)}
         </div>
 

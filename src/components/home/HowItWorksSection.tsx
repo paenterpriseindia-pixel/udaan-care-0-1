@@ -99,7 +99,7 @@ export default function HowItWorksSection() {
         </div>
 
         {/* Steps */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 40, position: "relative", zIndex: 1 }}>
+        <div className="grid-cols-3" style={{ gap: 40, position: "relative", zIndex: 1 }}>
           {steps.map((s, i) => (
             <motion.div
               key={s.n}
