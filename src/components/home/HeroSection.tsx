@@ -76,7 +76,7 @@ export default function HeroSection() {
     <section
       style={{
         position: "relative",
-        minHeight: "100vh",
+        minHeight: "100svh",
         display: "flex",
         alignItems: "center",
         overflowX: "hidden",
@@ -132,19 +132,14 @@ export default function HeroSection() {
 
       {/* ── Main content grid ── */}
       <div
-        className="container"
+        className="container hero-grid"
         style={{
           position: "relative", zIndex: 2,
           paddingTop: 68, paddingBottom: 40,
-          display: "grid",
-          gridTemplateColumns: "3fr 2fr",
-          gap: 64,
-          alignItems: "center",
-          width: "100%",
         }}
       >
         {/* ── LEFT: copy ── */}
-        <div>
+        <div className="hero-left-content">
           {/* Eyebrow pill */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -180,8 +175,8 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.15 }}
             style={{
               fontFamily: "'Nunito',sans-serif", fontWeight: 900,
-              fontSize: "clamp(34px, 4.5vw, 54px)",
-              lineHeight: 1.06, color: "white",
+              fontSize: "clamp(28px, 6vw, 54px)",
+              lineHeight: 1.1, color: "white",
               marginBottom: 16,
             }}
           >
@@ -412,8 +407,26 @@ export default function HeroSection() {
           0%,100% { transform: translateY(0); }
           50%      { transform: translateY(8px); }
         }
+        .hero-grid {
+          display: grid;
+          grid-template-columns: 3fr 2fr;
+          gap: 64px;
+          align-items: center;
+          width: 100%;
+        }
         @media (max-width: 900px) {
-          /* hero grid stacks */
+          .hero-grid {
+            grid-template-columns: 1fr;
+            text-align: center;
+            gap: 40px;
+            padding-top: calc(68px + 32px) !important;
+            padding-bottom: 64px !important;
+          }
+          .hero-left-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
         }
       `}</style>
     </section>
