@@ -57,9 +57,9 @@ export default function ServicesIndexClient() {
     <>
       {/* ── Hero ── */}
       <section style={{
-        position: "relative",
-        minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", overflowX: "hidden",
-        background: "#0D1117",
+        position: "relative", paddingTop: 160, paddingBottom: 80,
+        background: "#0D1117", overflowX: "hidden",
+
       }}>
         <div style={{ position: "absolute", top: 0, right: -80, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle, rgba(10,126,140,0.18), transparent 70%)", pointerEvents: "none" }} />
 
@@ -188,7 +188,7 @@ export default function ServicesIndexClient() {
       </section>
 
       {/* ── Comparison Strip ── */}
-      <section style={{ padding: "max(5vh, 40px) 0", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "var(--color-surface)", borderTop: "1px solid var(--color-border)" }}>
+      <section style={{ padding: "80px 0", background: "var(--color-surface)", borderTop: "1px solid var(--color-border)" }}>
         <div className="container">
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <span className="eyebrow">Online vs In-Clinic</span>

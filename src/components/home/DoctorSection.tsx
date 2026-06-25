@@ -22,7 +22,7 @@ export default function DoctorSection() {
   return (
     <>
       {/* ── PART A: Doctor intro split ── */}
-      <section style={{ padding: "max(5vh, 40px) 0", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "var(--color-surface)" }}>
+      <section style={{ padding: "64px 0", background: "var(--color-surface)" }}>
         <div className="container">
           <div className="grid-cols-2" style={{ gap: 80, alignItems: "center" }}>
 
@@ -48,9 +48,9 @@ export default function DoctorSection() {
               }} />
               <div style={{
                 borderRadius: 20, overflow: "hidden",
-                marginLeft: 20, position: "relative", zIndex: 1,
+                position: "relative", zIndex: 1,
                 boxShadow: "0 24px 64px rgba(0,0,0,0.15)",
-                height: 420,
+                aspectRatio: "4/5", width: "100%", maxWidth: 440, margin: "0 auto",
               }}>
                 <ClickableImage
                   src="/images/doctor/dr-prasoon-about.jpg"

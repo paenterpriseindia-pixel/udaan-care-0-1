@@ -137,7 +137,13 @@ function ServiceCard({ s, index }: { s: typeof services[0]; index: number }) {
 
 export default function ServicesSection() {
   return (
-    <section style={{ padding: "max(5vh, 40px) 0", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "var(--color-bg)" }}>
+    <section
+      id="services"
+      style={{
+        padding: "64px 0",
+        background: "var(--color-bg)",
+      }}
+    >
       <div className="container">
         {/* Header */}
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 56, flexWrap: "wrap", gap: 16 }}>

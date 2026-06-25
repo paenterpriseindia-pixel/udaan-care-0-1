@@ -36,7 +36,7 @@ export default function BlogPreviewSection() {
   const { prices } = useCurrency();
 
   return (
-    <section style={{ padding: "max(5vh, 40px) 0", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "var(--color-surface)" }}>
+    <section style={{ padding: "64px 0", background: "var(--color-surface)" }}>
       <div className="container">
         {/* Header */}
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 52, flexWrap: "wrap", gap: 16 }}>

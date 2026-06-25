@@ -193,7 +193,7 @@ export default function BlogPage() {
   return (
     <>
       {/* Hero */}
-      <section style={{ position: "relative", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden" }}>
+      <section style={{ position: "relative", paddingTop: 160, paddingBottom: 80, minHeight: 500, display: "flex", alignItems: "center", overflow: "hidden" }}>
         {featured.coverImage && (
           <Image src={featured.coverImage} alt="Blog hero" fill priority
             style={{ objectFit: "cover", filter: "blur(12px) brightness(0.35)", transform: "scale(1.05)" }}
@@ -263,7 +263,7 @@ export default function BlogPage() {
       </div>
 
       {/* Grid */}
-      <section style={{ padding: "max(5vh, 40px) 0", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "var(--color-bg)" }}>
+      <section style={{ padding: "56px 0 80px", background: "var(--color-bg)" }}>
         <div className="container">
           {loading ? (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 24 }}>
@@ -294,7 +294,7 @@ export default function BlogPage() {
       </section>
 
       {/* CTA */}
-      <section style={{ padding: "max(5vh, 40px) 0", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "#0D1117" }}>
+      <section style={{ padding: "80px 0", background: "#0D1117" }}>
         <div className="container" style={{ textAlign: "center" }}>
           <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(26px,4vw,44px)", color: "white", marginBottom: 12 }}>Ready to help your child?</h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: "rgba(255,255,255,0.55)", marginBottom: 32 }}>Book a consultation with Dr. Prasoon and get a personalised therapy plan.</p>

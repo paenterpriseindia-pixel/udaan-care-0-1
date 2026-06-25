@@ -175,8 +175,7 @@ export default function HeroSection() {
               marginBottom: 16,
             }}
           >
-            Every Child<br />
-            Has{" "}
+            Every Child Has{" "}
             <span style={{ position: "relative", display: "inline-block" }}>
               Wings.
               <WingsUnderline />
