@@ -165,9 +165,9 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.15 }}
             style={{
               fontFamily: "'Nunito',sans-serif", fontWeight: 900,
-              fontSize: "clamp(40px, 5.5vw, 70px)",
+              fontSize: "clamp(34px, 4.5vw, 54px)",
               lineHeight: 1.06, color: "white",
-              marginBottom: 24,
+              marginBottom: 16,
             }}
           >
             Every Child<br />
@@ -184,9 +184,9 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             style={{
-              fontFamily: "'DM Sans',sans-serif", fontSize: 19,
-              color: "rgba(255,255,255,0.7)", lineHeight: 1.72,
-              marginBottom: 36, maxWidth: 520,
+              fontFamily: "'DM Sans',sans-serif", fontSize: 16,
+              color: "rgba(255,255,255,0.7)", lineHeight: 1.6,
+              marginBottom: 28, maxWidth: 520,
             }}
           >
             We help children with autism, ADHD, sensory challenges, and developmental delays reach their full potential — in-clinic in Katni and online across India and worldwide.
@@ -197,18 +197,18 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.45 }}
-            style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 40 }}
+            style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 32 }}
           >
             <Link
               href="/book?type=online"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
-                padding: "15px 28px", borderRadius: 10,
+                padding: "12px 24px", borderRadius: 8,
                 background: "linear-gradient(135deg, #0A7E8C, #0D9BAC)",
                 color: "white", textDecoration: "none",
-                fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 15,
+                fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 14,
                 boxShadow: "0 4px 20px rgba(10,126,140,0.45)",
-                transition: "all 0.35s ease",
+                transition: "all 0.2s ease",
                 willChange: "transform",
               }}
               onMouseEnter={e => {

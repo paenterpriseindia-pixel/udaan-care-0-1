@@ -44,7 +44,7 @@ export default function Navbar() {
         aria-label="Main navigation"
         style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-          height: 100,
+          height: 76,
           display: "flex", alignItems: "center",
           background: isDark
             ? "rgba(10,14,20,0.92)"
@@ -64,7 +64,7 @@ export default function Navbar() {
         {/* Full-width inner — CSS Grid 3-zone: [logo | center-nav | actions] */}
         <div style={{
           width: "100%",
-          padding: "0 40px 0 52px",
+          padding: "0 32px",
 
           display: "grid",
           gridTemplateColumns: "1fr auto 1fr",
@@ -75,7 +75,7 @@ export default function Navbar() {
 
           {/* ══ ZONE 1: Logo — hard left ══ */}
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Logo variant={onDark ? "light" : "auto"} size="lg" />
+            <Logo variant={onDark ? "light" : "auto"} size="md" />
           </div>
 
           {/* ══ ZONE 2: Main Nav — mathematically centered ══ */}
@@ -95,8 +95,8 @@ export default function Navbar() {
             >
               <button style={{
                 display: "flex", alignItems: "center", gap: 5,
-                padding: "10px 16px", borderRadius: 10, border: "none", cursor: "pointer",
-                fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 15,
+                padding: "8px 14px", borderRadius: 8, border: "none", cursor: "pointer",
+                fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 14,
                 background: "transparent", whiteSpace: "nowrap",
                 color: onDark
                   ? (isActive("/services") ? "white" : "rgba(255,255,255,0.92)")
@@ -356,8 +356,8 @@ export default function Navbar() {
 function NavLink({ href, active, onDark, children, exact }: { href: string; active: boolean; onDark: boolean; children: React.ReactNode; exact?: boolean }) {
   return (
     <Link href={href} style={{
-      padding: "10px 16px", borderRadius: 10, textDecoration: "none",
-      fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 15,
+      padding: "8px 14px", borderRadius: 8, textDecoration: "none",
+      fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 14,
       transition: "all 0.2s",
       whiteSpace: "nowrap",
       color: active
@@ -387,7 +387,7 @@ function NavLink({ href, active, onDark, children, exact }: { href: string; acti
 function SmallLink({ href, active, onDark, children }: { href: string; active: boolean; onDark: boolean; children: React.ReactNode }) {
   return (
     <Link href={href} style={{
-      padding: "8px 14px", borderRadius: 8, textDecoration: "none",
+      padding: "6px 12px", borderRadius: 6, textDecoration: "none",
       fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 13,
       transition: "all 0.2s",
       whiteSpace: "nowrap",
