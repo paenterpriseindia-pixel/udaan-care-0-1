@@ -135,31 +135,25 @@ export default function HeroSection() {
       >
         {/* ── LEFT: copy ── */}
         <div className="hero-left-content">
-          {/* Eyebrow pill */}
+          {/* Announcement Ribbon */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              padding: "6px 16px 6px 10px", borderRadius: 999,
-              background: "rgba(10,126,140,0.15)",
-              border: "1px solid rgba(10,126,140,0.35)",
-              marginBottom: 28,
+              display: "inline-flex", alignItems: "center", gap: 10,
+              background: "rgba(26,175,230,0.12)", border: "1px solid rgba(26,175,230,0.25)",
+              padding: "6px 16px", borderRadius: 100, marginBottom: 24,
+              backdropFilter: "blur(8px)"
             }}
           >
-            <span style={{
-              width: 7, height: 7, borderRadius: "50%",
-              background: "#0A7E8C",
-              boxShadow: "0 0 0 3px rgba(10,126,140,0.25)",
-              display: "inline-block", flexShrink: 0,
-            }} />
-            <span style={{
-              fontFamily: "'DM Sans',sans-serif", fontWeight: 600,
-              fontSize: 13, letterSpacing: "0.02em",
-              color: "rgba(255,255,255,0.75)",
-            }}>
-              Pediatric Occupational Therapy · Katni, India
+            <span style={{ 
+              background: "#0A7E8C", color: "white", 
+              fontSize: 10, fontWeight: 800, padding: "3px 10px", borderRadius: 100,
+              letterSpacing: "0.05em", textTransform: "uppercase" 
+            }}>New</span>
+            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "rgba(255,255,255,0.95)", fontWeight: 500 }}>
+              Now offering online Tele-Therapy globally.
             </span>
           </motion.div>
 
