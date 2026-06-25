@@ -44,7 +44,7 @@ export default function Navbar() {
         aria-label="Main navigation"
         style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-          height: 76,
+          height: 68,
           display: "flex", alignItems: "center",
           background: isDark
             ? "rgba(10,14,20,0.92)"
@@ -64,7 +64,7 @@ export default function Navbar() {
         {/* Full-width inner — CSS Grid 3-zone: [logo | center-nav | actions] */}
         <div style={{
           width: "100%",
-          padding: "0 32px",
+          padding: "0 24px",
 
           display: "grid",
           gridTemplateColumns: "1fr auto 1fr",

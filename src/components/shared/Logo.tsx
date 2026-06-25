@@ -17,7 +17,7 @@ export default function Logo({ variant = "auto", size = "md" }: LogoProps) {
 
   const isDark = variant === "light" || (variant === "auto" && mounted && resolvedTheme === "dark");
   const src = isDark ? "/images/logo/logo-light.png" : "/images/logo/logo-dark.png";
-  const logoHeight = size === "sm" ? 60 : size === "lg" ? 88 : 80;
+  const logoHeight = size === "sm" ? 32 : size === "lg" ? 56 : 44;
 
   const textFallback = (
     <span style={{

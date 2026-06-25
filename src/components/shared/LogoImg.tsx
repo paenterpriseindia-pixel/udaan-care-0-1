@@ -16,7 +16,7 @@ interface LogoImgProps {
   style?: React.CSSProperties;
 }
 
-export default function LogoImg({ variant, height = 80, style }: LogoImgProps) {
+export default function LogoImg({ variant, height = 44, style }: LogoImgProps) {
   const base = variant === "light" ? "/images/logo/logo-light" : "/images/logo/logo-dark";
   const [failed, setFailed] = useState(false);
 
