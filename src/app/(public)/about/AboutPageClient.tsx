@@ -37,8 +37,8 @@ export default function AboutPageClient() {
     <>
       {/* ── Hero ── */}
       <section style={{
-        position: "relative", paddingTop: 160, paddingBottom: 100,
-        minHeight: 480, display: "flex", alignItems: "center", overflow: "hidden",
+        position: "relative",
+        minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden",
         background: "#0D1117",
       }}>
         <Image
@@ -84,9 +84,9 @@ export default function AboutPageClient() {
       </section>
 
       {/* ── Our Story ── */}
-      <section className="section" style={{ background: "var(--color-bg)" }}>
+      <section style={{ padding: "max(5vh, 40px) 0", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "var(--color-bg)" }}>
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <div className="grid-cols-2" style={{ gap: 64, alignItems: "center" }}>
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <span className="eyebrow">Our Story</span>
               <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(28px,3vw,38px)", color: "var(--color-text-primary)", marginBottom: 24, lineHeight: 1.2 }}>
@@ -180,9 +180,9 @@ export default function AboutPageClient() {
       </section>
 
       {/* ── Values ── */}
-      <section className="section" style={{ background: "var(--color-bg)" }}>
+      <section style={{ padding: "max(5vh, 40px) 0", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "var(--color-surface)" }}>
         <div className="container">
-          <div style={{ textAlign: "center", marginBottom: 56 }}>
+          <div style={{ textAlign: "center", marginBottom: 56, maxWidth: 600, margin: "0 auto 56px" }}>
             <span className="eyebrow">What We Stand For</span>
             <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(28px,3vw,38px)", color: "var(--color-text-primary)" }}>Our Core Values</h2>
           </div>

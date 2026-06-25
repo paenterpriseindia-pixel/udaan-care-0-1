@@ -98,7 +98,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section style={{ paddingTop: 120, paddingBottom: 60, background: "linear-gradient(135deg, #1A2B35 0%, rgba(10,126,140,0.15) 100%)" }}>
+      <section style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "linear-gradient(135deg, #1A2B35 0%, rgba(10,126,140,0.15) 100%)" }}>
         <div className="container">
           <span style={{ display: "block", fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--color-primary-mid)", marginBottom: 16 }}>Get in Touch</span>
           <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(32px,5vw,52px)", color: "white", marginBottom: 12, lineHeight: 1.1 }}>Contact Udaan Care</h1>
@@ -176,7 +176,7 @@ export default function ContactPage() {
       </section>
 
       {/* Map */}
-      <section style={{ background: "var(--color-surface)" }}>
+      <section style={{ minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "var(--color-surface)" }}>
         <div className="container" style={{ paddingBottom: 64 }}>
           <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: "var(--shadow-card)" }}>
             <iframe

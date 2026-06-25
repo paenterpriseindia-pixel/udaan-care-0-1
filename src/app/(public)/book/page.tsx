@@ -414,7 +414,7 @@ export default function BookPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", paddingTop: 108, paddingBottom: 64, background: "var(--color-bg)" }}>
+    <div style={{ minHeight: "100svh", paddingTop: 108, paddingBottom: 64, background: "var(--color-bg)" }}>
 
       {/* Hero strip */}
       <div style={{
