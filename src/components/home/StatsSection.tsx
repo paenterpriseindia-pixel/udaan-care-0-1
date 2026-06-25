@@ -14,7 +14,7 @@ export default function StatsSection() {
     <section
       id="stats"
       style={{
-        padding: "120px 0",
+        padding: "64px 0",
         background: "var(--color-surface)",
         borderBottom: "1px solid var(--color-border)",
       }}

@@ -140,7 +140,7 @@ export default function ServicesSection() {
     <section
       id="services"
       style={{
-        padding: "120px 0",
+        padding: "64px 0",
         background: "var(--color-bg)",
       }}
     >

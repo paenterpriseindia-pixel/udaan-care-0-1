@@ -21,7 +21,7 @@ export default function FinalCTASection() {
   return (
     <section style={{
       position: "relative",
-      padding: "120px 0",
+      padding: "64px 0",
       overflow: "hidden",
       background: "#0D1117",
     }}>

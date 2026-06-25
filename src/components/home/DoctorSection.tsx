@@ -22,7 +22,7 @@ export default function DoctorSection() {
   return (
     <>
       {/* ── PART A: Doctor intro split ── */}
-      <section style={{ padding: "120px 0", background: "var(--color-surface)" }}>
+      <section style={{ padding: "64px 0", background: "var(--color-surface)" }}>
         <div className="container">
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
 
