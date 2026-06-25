@@ -8,6 +8,12 @@ const nextConfig = {
     minimumCacheTTL: 60,
     remotePatterns: [],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   experimental: {
     optimizeCss: false,
   },

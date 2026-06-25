@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import {
   Plus, Trash2, Eye, EyeOff, Edit3, Save, X,
-  Video, Star, MapPin, GripVertical, Youtube, CheckCircle,
+  Video, Star, MapPin, GripVertical, CheckCircle,
   AlertCircle, ExternalLink, RefreshCw
 } from "lucide-react";
 import type { VideoTestimonial } from "@/lib/db";
@@ -37,7 +37,7 @@ function VideoPreview({ url }: { url: string }) {
   return (
     <div style={{ marginTop: 12, borderRadius: 12, overflow: "hidden", border: "1px solid var(--color-border)", background: "#000" }}>
       <div style={{ padding: "6px 12px", background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", gap: 6 }}>
-        <Youtube size={12} style={{ color: "#FF0000" }} />
+        <Video size={12} style={{ color: "#FF0000" }} />
         <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "rgba(255,255,255,0.6)" }}>{platform} Preview</span>
       </div>
       <div style={{ position: "relative", paddingTop: "56.25%" }}>
@@ -315,7 +315,7 @@ export default function AdminTestimonialsPage() {
                 </div>
                 {t.caption && <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "rgba(255,255,255,0.4)", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 420 }}>"{t.caption}"</p>}
                 <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 4 }}>
-                  <Youtube size={11} style={{ color: "#FF0000" }} />
+                  <Video size={11} style={{ color: "#FF0000" }} />
                   <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "rgba(255,255,255,0.3)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 280 }}>{t.videoUrl}</span>
                 </div>
               </div>
