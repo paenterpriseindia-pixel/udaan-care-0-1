@@ -258,7 +258,8 @@ export default function BlogArticlePage() {
 
   if (!article) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-6 pt-24" style={{ background: "var(--bg)" }}>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6 pt-[108px]" style={{ background: "var(--bg)" }}>
+
         <h1 className="text-2xl font-heading font-black" style={{ color: "var(--text-primary)" }}>Article not found</h1>
         <Link href="/blog" className="btn-primary px-6 py-3">← Back to Blog</Link>
       </div>

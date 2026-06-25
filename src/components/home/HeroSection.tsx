@@ -64,7 +64,8 @@ export default function HeroSection() {
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
-        overflow: "hidden",
+        overflowX: "hidden",
+
         background: "#0D1117",
       }}
     >
@@ -106,12 +107,13 @@ export default function HeroSection() {
 
       {/* ── Purple glow orb ── */}
       <div style={{
-        position: "absolute", right: -100, top: -100,
-        width: 500, height: 500, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(107,63,160,0.18), transparent 70%)",
+        position: "absolute", right: -80, top: 0,
+        width: 520, height: 520, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(107,63,160,0.22), transparent 70%)",
         pointerEvents: "none", zIndex: 1,
         animation: "heroOrbRotate 20s linear infinite",
       }} />
+
 
       {/* ── Main content grid ── */}
       <div

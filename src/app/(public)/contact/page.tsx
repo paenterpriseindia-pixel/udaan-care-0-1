@@ -10,10 +10,24 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
-    await new Promise(r => setTimeout(r, 1300));
+    try {
+      await fetch("/api/admin/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          email: form.email,
+          source: (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("utm_source")) || "website",
+          message: form.message,
+          status: "new",
+        }),
+      });
+    } catch { /* silent — don't block UX */ }
     setSending(false);
     setSent(true);
   };
+
 
   const infoItems = [
     {

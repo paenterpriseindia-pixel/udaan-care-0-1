@@ -54,22 +54,24 @@ function GalleryRow({ images, direction }: { images: typeof row1Images; directio
 export default function AutoScrollGallery() {
   return (
     <section style={{
-      background: "#0D1117",
+      background: "var(--color-surface)",
       padding: "60px 0",
       overflow: "hidden",
+      borderTop: "1px solid var(--color-border)",
+      borderBottom: "1px solid var(--color-border)",
     }}>
       {/* Title */}
       <div style={{ textAlign: "center", marginBottom: 40 }}>
         <p style={{
           fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600,
           letterSpacing: "0.14em", textTransform: "uppercase",
-          color: "rgba(255,255,255,0.3)", marginBottom: 10,
+          color: "var(--color-primary)", marginBottom: 10,
         }}>
           Our Clinic in Katni
         </p>
         <h3 style={{
           fontFamily: "'Nunito',sans-serif", fontWeight: 700,
-          fontSize: "clamp(22px,3vw,32px)", color: "white",
+          fontSize: "clamp(22px,3vw,32px)", color: "var(--color-text-primary)",
         }}>
           A Space Built for Children
         </h3>

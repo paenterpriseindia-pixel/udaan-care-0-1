@@ -58,9 +58,11 @@ export default function ServicesIndexClient() {
       {/* ── Hero ── */}
       <section style={{
         position: "relative", paddingTop: 160, paddingBottom: 80,
-        background: "#0D1117", overflow: "hidden",
+        background: "#0D1117", overflowX: "hidden",
+
       }}>
-        <div style={{ position: "absolute", top: -100, right: -100, width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle, rgba(10,126,140,0.15), transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: 0, right: -80, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle, rgba(10,126,140,0.18), transparent 70%)", pointerEvents: "none" }} />
+
         <div style={{ position: "absolute", bottom: -60, left: -60, width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(107,63,160,0.12), transparent 70%)", pointerEvents: "none" }} />
         <div className="container" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
           <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.6 }}>

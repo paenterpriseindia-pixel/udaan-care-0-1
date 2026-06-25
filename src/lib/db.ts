@@ -88,6 +88,116 @@ export interface SiteContent {
   [key: string]: string | number | boolean | object;
 }
 
+// ── NEW: Lead ──
+export interface Lead {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string;
+  source: "website" | "google" | "whatsapp" | "referral" | "direct" | "other";
+  serviceInterest?: string;
+  message?: string;
+  status: "new" | "contacted" | "booked" | "lost";
+  notes?: string;
+  createdAt: string;
+}
+
+// ── NEW: Doctor Availability ──
+export interface DoctorAvailability {
+  id: string;
+  workingDays: number[];          // 0=Sun,1=Mon,...6=Sat
+  startTime: string;              // "10:00"
+  endTime: string;                // "19:00"
+  breakStart?: string;            // "13:00"
+  breakEnd?: string;              // "14:00"
+  sessionDurationMins: number;    // 45
+  bufferMins: number;             // 10
+  updatedAt: string;
+}
+
+// ── NEW: Blocked Date ──
+export interface BlockedDate {
+  id: string;
+  date: string;                   // "2025-12-25"
+  reason?: string;
+  createdAt: string;
+}
+
+// ── NEW: Branch (franchise-ready) ────────────────────────────────────────────
+export interface Branch {
+  id: string;
+  name: string;
+  city: string;
+  address?: string;
+  phone?: string;
+  managerId?: string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+// ── NEW: Video Testimonial ────────────────────────────────────────────────────
+export interface VideoTestimonial {
+  id: string;
+  parentName: string;          // "Priya Sharma"
+  childAge?: string;           // "5 years"
+  location?: string;           // "Jabalpur, MP"
+  caption?: string;            // "Aryan improved in 3 months!"
+  videoUrl: string;            // YouTube URL, Google Drive, or direct mp4
+  thumbnailUrl?: string;       // optional custom thumbnail
+  isActive: boolean;
+  sortOrder: number;           // for ordering on public page
+  createdAt: string;
+}
+
+// ── NEW: Staff Attendance ─────────────────────────────────────────────────────
+export interface StaffAttendance {
+  id: string;
+  userId: string;
+  branchId?: string;
+  date: string;                            // "2025-06-24"
+  clockIn?: string;                        // ISO timestamp
+  clockOut?: string;                       // ISO timestamp
+  status: "present" | "absent" | "half_day" | "leave" | "holiday";
+  leaveType?: "CL" | "SL" | "PL" | "WO";
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// ── NEW: Staff Activity ───────────────────────────────────────────────────────
+export type ActivityType =
+  | "patient_session" | "parent_counselling" | "documentation"
+  | "meeting" | "break" | "admin_work" | "home_visit"
+  | "training" | "lead_followup" | "report" | "other";
+
+export interface StaffActivity {
+  id: string;
+  userId: string;
+  branchId?: string;
+  date: string;
+  activityType: ActivityType;
+  patientId?: string;
+  title: string;
+  durationMins: number;
+  notes?: string;
+  startTime?: string;
+  createdAt: string;
+}
+
+// ── NEW: Leave Request ────────────────────────────────────────────────────────
+export interface LeaveRequest {
+  id: string;
+  userId: string;
+  fromDate: string;
+  toDate: string;
+  leaveType: "CL" | "SL" | "PL" | "WO";
+  reason?: string;
+  status: "pending" | "approved" | "rejected";
+  approvedBy?: string;
+  approvedAt?: string;
+  createdAt: string;
+}
+
 // ── Helper: map snake_case Supabase rows → camelCase ──
 function mapUser(r: Record<string, unknown>): User {
   return { id: r.id as string, email: r.email as string, passwordHash: r.password_hash as string, name: r.name as string, role: r.role as User["role"], phone: r.phone as string | undefined, photo: r.photo as string | undefined, createdAt: r.created_at as string };
@@ -357,4 +467,375 @@ export const DEFAULT_CONTENT: SiteContent = {
   "fonts.body": "DM Sans",
   "seo.siteTitle": "Udaan Care — Pediatric Occupational Therapy",
   "seo.description": "Expert pediatric OT for children with autism, ADHD, sensory processing disorder. Dr. Prasoon Gupta, Katni MP. Online & in-clinic.",
+};
+
+// ── LEADS ────────────────────────────────────────────────────────────────────
+function mapLead(r: Record<string, unknown>): Lead {
+  return {
+    id: r.id as string,
+    name: r.name as string,
+    phone: r.phone as string,
+    email: r.email as string | undefined,
+    source: (r.source as Lead["source"]) ?? "website",
+    serviceInterest: r.service_interest as string | undefined,
+    message: r.message as string | undefined,
+    status: (r.status as Lead["status"]) ?? "new",
+    notes: r.notes as string | undefined,
+    createdAt: r.created_at as string,
+  };
+}
+
+export const LeadDB = {
+  getAll: async (): Promise<Lead[]> => {
+    const { data } = await supabase.from("leads").select("*").order("created_at", { ascending: false });
+    return (data ?? []).map(mapLead);
+  },
+  getByStatus: async (status: Lead["status"]): Promise<Lead[]> => {
+    const { data } = await supabase.from("leads").select("*").eq("status", status).order("created_at", { ascending: false });
+    return (data ?? []).map(mapLead);
+  },
+  create: async (lead: Omit<Lead, "id" | "createdAt">): Promise<Lead | null> => {
+    const { data, error } = await supabase.from("leads").insert([{
+      name: lead.name, phone: lead.phone, email: lead.email,
+      source: lead.source, service_interest: lead.serviceInterest,
+      message: lead.message, status: lead.status ?? "new", notes: lead.notes,
+    }]).select().single();
+    if (error) { console.error("LeadDB.create:", error); return null; }
+    return data ? mapLead(data) : null;
+  },
+  updateStatus: async (id: string, status: Lead["status"], notes?: string): Promise<void> => {
+    await supabase.from("leads").update({ status, notes, updated_at: new Date().toISOString() }).eq("id", id);
+  },
+  delete: async (id: string): Promise<void> => {
+    await supabase.from("leads").delete().eq("id", id);
+  },
+};
+
+// ── DOCTOR AVAILABILITY ───────────────────────────────────────────────────────
+function mapAvailability(r: Record<string, unknown>): DoctorAvailability {
+  return {
+    id: r.id as string,
+    workingDays: (r.working_days as number[]) ?? [1,2,3,4,5,6],
+    startTime: r.start_time as string ?? "10:00",
+    endTime: r.end_time as string ?? "19:00",
+    breakStart: r.break_start as string | undefined,
+    breakEnd: r.break_end as string | undefined,
+    sessionDurationMins: (r.session_duration_mins as number) ?? 45,
+    bufferMins: (r.buffer_mins as number) ?? 10,
+    updatedAt: r.updated_at as string,
+  };
+}
+
+export const AvailabilityDB = {
+  get: async (): Promise<DoctorAvailability | null> => {
+    const { data } = await supabase.from("doctor_availability").select("*").limit(1).single();
+    return data ? mapAvailability(data) : null;
+  },
+  upsert: async (avail: Omit<DoctorAvailability, "id" | "updatedAt">): Promise<DoctorAvailability | null> => {
+    // Get existing or create
+    const existing = await AvailabilityDB.get();
+    const payload = {
+      working_days: avail.workingDays,
+      start_time: avail.startTime,
+      end_time: avail.endTime,
+      break_start: avail.breakStart,
+      break_end: avail.breakEnd,
+      session_duration_mins: avail.sessionDurationMins,
+      buffer_mins: avail.bufferMins,
+      updated_at: new Date().toISOString(),
+    };
+    const { data, error } = existing
+      ? await supabase.from("doctor_availability").update(payload).eq("id", existing.id).select().single()
+      : await supabase.from("doctor_availability").insert([payload]).select().single();
+    if (error) { console.error("AvailabilityDB.upsert:", error); return null; }
+    return data ? mapAvailability(data) : null;
+  },
+};
+
+// ── BLOCKED DATES ─────────────────────────────────────────────────────────────
+function mapBlockedDate(r: Record<string, unknown>): BlockedDate {
+  return { id: r.id as string, date: r.date as string, reason: r.reason as string | undefined, createdAt: r.created_at as string };
+}
+
+export const BlockedDateDB = {
+  getAll: async (): Promise<BlockedDate[]> => {
+    const { data } = await supabase.from("blocked_dates").select("*").order("date", { ascending: true });
+    return (data ?? []).map(mapBlockedDate);
+  },
+  getUpcoming: async (): Promise<BlockedDate[]> => {
+    const today = new Date().toISOString().split("T")[0];
+    const { data } = await supabase.from("blocked_dates").select("*").gte("date", today).order("date");
+    return (data ?? []).map(mapBlockedDate);
+  },
+  create: async (date: string, reason?: string): Promise<BlockedDate | null> => {
+    const { data, error } = await supabase.from("blocked_dates").insert([{ date, reason }]).select().single();
+    if (error) { console.error("BlockedDateDB.create:", error); return null; }
+    return data ? mapBlockedDate(data) : null;
+  },
+  delete: async (id: string): Promise<void> => {
+    await supabase.from("blocked_dates").delete().eq("id", id);
+  },
+};
+
+// ── BRANCHES ──────────────────────────────────────────────────────────────────
+function mapBranch(r: Record<string, unknown>): Branch {
+  return {
+    id: r.id as string, name: r.name as string, city: r.city as string,
+    address: r.address as string | undefined, phone: r.phone as string | undefined,
+    managerId: r.manager_id as string | undefined, isActive: r.is_active as boolean,
+    createdAt: r.created_at as string,
+  };
+}
+export const BranchDB = {
+  getAll: async (): Promise<Branch[]> => {
+    const { data } = await supabase.from("branches").select("*").order("name");
+    return (data ?? []).map(mapBranch);
+  },
+  getActive: async (): Promise<Branch[]> => {
+    const { data } = await supabase.from("branches").select("*").eq("is_active", true).order("name");
+    return (data ?? []).map(mapBranch);
+  },
+  create: async (b: Omit<Branch, "id" | "createdAt">): Promise<Branch | null> => {
+    const { data, error } = await supabase.from("branches").insert([{
+      name: b.name, city: b.city, address: b.address, phone: b.phone,
+      manager_id: b.managerId, is_active: b.isActive ?? true,
+    }]).select().single();
+    if (error) { console.error("BranchDB.create:", error); return null; }
+    return data ? mapBranch(data) : null;
+  },
+  update: async (id: string, b: Partial<Omit<Branch, "id" | "createdAt">>): Promise<void> => {
+    await supabase.from("branches").update({
+      name: b.name, city: b.city, address: b.address, phone: b.phone,
+      manager_id: b.managerId, is_active: b.isActive,
+    }).eq("id", id);
+  },
+};
+
+// ── STAFF ATTENDANCE ──────────────────────────────────────────────────────────
+function mapAttendance(r: Record<string, unknown>): StaffAttendance {
+  return {
+    id: r.id as string, userId: r.user_id as string, branchId: r.branch_id as string | undefined,
+    date: r.date as string, clockIn: r.clock_in as string | undefined,
+    clockOut: r.clock_out as string | undefined,
+    status: (r.status as StaffAttendance["status"]) ?? "absent",
+    leaveType: r.leave_type as StaffAttendance["leaveType"],
+    notes: r.notes as string | undefined,
+    createdAt: r.created_at as string, updatedAt: r.updated_at as string,
+  };
+}
+export const AttendanceDB = {
+  getByDate: async (date: string, branchId?: string): Promise<StaffAttendance[]> => {
+    let q = supabase.from("staff_attendance").select("*").eq("date", date);
+    if (branchId) q = q.eq("branch_id", branchId);
+    const { data } = await q.order("clock_in");
+    return (data ?? []).map(mapAttendance);
+  },
+  getByUser: async (userId: string, fromDate: string, toDate: string): Promise<StaffAttendance[]> => {
+    const { data } = await supabase.from("staff_attendance").select("*")
+      .eq("user_id", userId).gte("date", fromDate).lte("date", toDate).order("date", { ascending: false });
+    return (data ?? []).map(mapAttendance);
+  },
+  clockIn: async (userId: string, branchId?: string): Promise<StaffAttendance | null> => {
+    const today = new Date().toISOString().split("T")[0];
+    const { data, error } = await supabase.from("staff_attendance").upsert([{
+      user_id: userId, branch_id: branchId, date: today,
+      clock_in: new Date().toISOString(), status: "present",
+      updated_at: new Date().toISOString(),
+    }], { onConflict: "user_id,date" }).select().single();
+    if (error) { console.error("AttendanceDB.clockIn:", error); return null; }
+    return data ? mapAttendance(data) : null;
+  },
+  clockOut: async (userId: string): Promise<void> => {
+    const today = new Date().toISOString().split("T")[0];
+    await supabase.from("staff_attendance").update({
+      clock_out: new Date().toISOString(), updated_at: new Date().toISOString(),
+    }).eq("user_id", userId).eq("date", today);
+  },
+  markStatus: async (userId: string, date: string, status: StaffAttendance["status"], leaveType?: string, notes?: string): Promise<void> => {
+    await supabase.from("staff_attendance").upsert([{
+      user_id: userId, date, status, leave_type: leaveType, notes,
+      updated_at: new Date().toISOString(),
+    }], { onConflict: "user_id,date" });
+  },
+  getTodayForUser: async (userId: string): Promise<StaffAttendance | null> => {
+    const today = new Date().toISOString().split("T")[0];
+    const { data } = await supabase.from("staff_attendance").select("*").eq("user_id", userId).eq("date", today).single();
+    return data ? mapAttendance(data) : null;
+  },
+  getMonthSummary: async (userId: string, year: number, month: number): Promise<StaffAttendance[]> => {
+    const from = `${year}-${String(month).padStart(2,"0")}-01`;
+    const to   = `${year}-${String(month).padStart(2,"0")}-31`;
+    const { data } = await supabase.from("staff_attendance").select("*")
+      .eq("user_id", userId).gte("date", from).lte("date", to).order("date");
+    return (data ?? []).map(mapAttendance);
+  },
+};
+
+// ── STAFF ACTIVITIES ──────────────────────────────────────────────────────────
+function mapActivity(r: Record<string, unknown>): StaffActivity {
+  return {
+    id: r.id as string, userId: r.user_id as string, branchId: r.branch_id as string | undefined,
+    date: r.date as string, activityType: r.activity_type as ActivityType,
+    patientId: r.patient_id as string | undefined, title: r.title as string,
+    durationMins: (r.duration_mins as number) ?? 0, notes: r.notes as string | undefined,
+    startTime: r.start_time as string | undefined, createdAt: r.created_at as string,
+  };
+}
+export const ActivityDB = {
+  getByDate: async (userId: string, date: string): Promise<StaffActivity[]> => {
+    const { data } = await supabase.from("staff_activities").select("*")
+      .eq("user_id", userId).eq("date", date).order("created_at");
+    return (data ?? []).map(mapActivity);
+  },
+  getByDateRange: async (userId: string, from: string, to: string): Promise<StaffActivity[]> => {
+    const { data } = await supabase.from("staff_activities").select("*")
+      .eq("user_id", userId).gte("date", from).lte("date", to).order("date").order("created_at");
+    return (data ?? []).map(mapActivity);
+  },
+  getAllByDate: async (date: string, branchId?: string): Promise<StaffActivity[]> => {
+    let q = supabase.from("staff_activities").select("*").eq("date", date);
+    if (branchId) q = q.eq("branch_id", branchId);
+    const { data } = await q.order("user_id").order("created_at");
+    return (data ?? []).map(mapActivity);
+  },
+  create: async (a: Omit<StaffActivity, "id" | "createdAt">): Promise<StaffActivity | null> => {
+    const { data, error } = await supabase.from("staff_activities").insert([{
+      user_id: a.userId, branch_id: a.branchId, date: a.date,
+      activity_type: a.activityType, patient_id: a.patientId,
+      title: a.title, duration_mins: a.durationMins,
+      notes: a.notes, start_time: a.startTime,
+    }]).select().single();
+    if (error) { console.error("ActivityDB.create:", error); return null; }
+    return data ? mapActivity(data) : null;
+  },
+  update: async (id: string, a: Partial<Omit<StaffActivity, "id" | "userId" | "createdAt">>): Promise<void> => {
+    await supabase.from("staff_activities").update({
+      activity_type: a.activityType, title: a.title,
+      duration_mins: a.durationMins, notes: a.notes, patient_id: a.patientId,
+    }).eq("id", id);
+  },
+  delete: async (id: string): Promise<void> => {
+    await supabase.from("staff_activities").delete().eq("id", id);
+  },
+};
+
+// ── LEAVE REQUESTS ────────────────────────────────────────────────────────────
+function mapLeaveReq(r: Record<string, unknown>): LeaveRequest {
+  return {
+    id: r.id as string, userId: r.user_id as string,
+    fromDate: r.from_date as string, toDate: r.to_date as string,
+    leaveType: r.leave_type as LeaveRequest["leaveType"],
+    reason: r.reason as string | undefined,
+    status: r.status as LeaveRequest["status"],
+    approvedBy: r.approved_by as string | undefined,
+    approvedAt: r.approved_at as string | undefined,
+    createdAt: r.created_at as string,
+  };
+}
+export const LeaveRequestDB = {
+  getAll: async (): Promise<LeaveRequest[]> => {
+    const { data } = await supabase.from("leave_requests").select("*").order("created_at", { ascending: false });
+    return (data ?? []).map(mapLeaveReq);
+  },
+  getPending: async (): Promise<LeaveRequest[]> => {
+    const { data } = await supabase.from("leave_requests").select("*").eq("status", "pending").order("from_date");
+    return (data ?? []).map(mapLeaveReq);
+  },
+  create: async (req: Omit<LeaveRequest, "id" | "status" | "approvedBy" | "approvedAt" | "createdAt">): Promise<LeaveRequest | null> => {
+    const { data, error } = await supabase.from("leave_requests").insert([{
+      user_id: req.userId, from_date: req.fromDate, to_date: req.toDate,
+      leave_type: req.leaveType, reason: req.reason, status: "pending",
+    }]).select().single();
+    if (error) { console.error("LeaveRequestDB.create:", error); return null; }
+    return data ? mapLeaveReq(data) : null;
+  },
+  approve: async (id: string, approverId: string): Promise<void> => {
+    await supabase.from("leave_requests").update({
+      status: "approved", approved_by: approverId, approved_at: new Date().toISOString(),
+    }).eq("id", id);
+  },
+  reject: async (id: string, approverId: string): Promise<void> => {
+    await supabase.from("leave_requests").update({
+      status: "rejected", approved_by: approverId, approved_at: new Date().toISOString(),
+    }).eq("id", id);
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════
+// VideoTestimonialDB
+// ═══════════════════════════════════════════════════════════════
+function mapVideoTestimonial(r: Record<string, unknown>): VideoTestimonial {
+  return {
+    id:           r.id as string,
+    parentName:   r.parent_name as string,
+    childAge:     r.child_age as string | undefined,
+    location:     r.location as string | undefined,
+    caption:      r.caption as string | undefined,
+    videoUrl:     r.video_url as string,
+    thumbnailUrl: r.thumbnail_url as string | undefined,
+    isActive:     r.is_active as boolean,
+    sortOrder:    r.sort_order as number ?? 0,
+    createdAt:    r.created_at as string,
+  };
+}
+
+export const VideoTestimonialDB = {
+  // All active — for public website
+  getActive: async (): Promise<VideoTestimonial[]> => {
+    const { data, error } = await supabase
+      .from("video_testimonials")
+      .select("*")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: false });
+    if (error) { console.error("VideoTestimonialDB.getActive:", error); return []; }
+    return (data ?? []).map(mapVideoTestimonial);
+  },
+
+  // All — for admin panel
+  getAll: async (): Promise<VideoTestimonial[]> => {
+    const { data, error } = await supabase
+      .from("video_testimonials")
+      .select("*")
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: false });
+    if (error) { console.error("VideoTestimonialDB.getAll:", error); return []; }
+    return (data ?? []).map(mapVideoTestimonial);
+  },
+
+  create: async (t: Omit<VideoTestimonial, "id" | "createdAt">): Promise<VideoTestimonial | null> => {
+    const { data, error } = await supabase.from("video_testimonials").insert([{
+      parent_name:   t.parentName,
+      child_age:     t.childAge,
+      location:      t.location,
+      caption:       t.caption,
+      video_url:     t.videoUrl,
+      thumbnail_url: t.thumbnailUrl,
+      is_active:     t.isActive ?? true,
+      sort_order:    t.sortOrder ?? 0,
+    }]).select().single();
+    if (error) { console.error("VideoTestimonialDB.create:", error); return null; }
+    return data ? mapVideoTestimonial(data) : null;
+  },
+
+  update: async (id: string, t: Partial<VideoTestimonial>): Promise<void> => {
+    const patch: Record<string, unknown> = {};
+    if (t.parentName   !== undefined) patch.parent_name   = t.parentName;
+    if (t.childAge     !== undefined) patch.child_age     = t.childAge;
+    if (t.location     !== undefined) patch.location      = t.location;
+    if (t.caption      !== undefined) patch.caption       = t.caption;
+    if (t.videoUrl     !== undefined) patch.video_url     = t.videoUrl;
+    if (t.thumbnailUrl !== undefined) patch.thumbnail_url = t.thumbnailUrl;
+    if (t.isActive     !== undefined) patch.is_active     = t.isActive;
+    if (t.sortOrder    !== undefined) patch.sort_order    = t.sortOrder;
+    await supabase.from("video_testimonials").update(patch).eq("id", id);
+  },
+
+  delete: async (id: string): Promise<void> => {
+    await supabase.from("video_testimonials").delete().eq("id", id);
+  },
+
+  toggleActive: async (id: string, isActive: boolean): Promise<void> => {
+    await supabase.from("video_testimonials").update({ is_active: isActive }).eq("id", id);
+  },
 };

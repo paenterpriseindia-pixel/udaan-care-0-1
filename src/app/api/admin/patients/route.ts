@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PatientDB } from "@/lib/db";
+import { requireAdmin } from "@/lib/serverAuth";
 
 export async function GET() {
   const patients = await PatientDB.getAll();
@@ -7,6 +8,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  try { await requireAdmin(); } catch (e: any) { return NextResponse.json({ error: e.message }, { status: 401 }); }
   try {
     const body = await req.json();
     const { guardianPin, ...rest } = body;

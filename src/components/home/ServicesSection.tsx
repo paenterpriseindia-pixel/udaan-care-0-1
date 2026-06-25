@@ -52,15 +52,16 @@ function ServiceCard({ s, index }: { s: typeof services[0]; index: number }) {
             border: "1px solid var(--color-border)",
             overflow: "hidden",
             cursor: "pointer",
-            transform: hovered ? "translateY(-6px)" : "translateY(0)",
+            transform: hovered ? "translateY(-8px) scale(1.015)" : "translateY(0) scale(1)",
             boxShadow: hovered
-              ? `0 20px 48px ${s.accent}22, 0 4px 16px rgba(0,0,0,0.08)`
+              ? `0 24px 56px ${s.accent}28, 0 6px 20px rgba(0,0,0,0.10)`
               : "0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05)",
-            transition: "all 300ms cubic-bezier(0.4,0,0.2,1)",
+            transition: "all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1)",
             willChange: "transform",
             position: "relative",
           }}
         >
+
           {/* Left accent bar */}
           <div style={{
             position: "absolute", left: 0, top: 0,
@@ -73,7 +74,8 @@ function ServiceCard({ s, index }: { s: typeof services[0]; index: number }) {
           }} />
 
           {/* Image */}
-          <div style={{ height: 200, overflow: "hidden", position: "relative" }}>
+          <div style={{ height: 160, overflow: "hidden", position: "relative" }}>
+
             <ImagePlaceholder label={s.img} style={{ height: "100%", borderRadius: 0 }} />
             {/* Tag badge */}
             <span style={{
@@ -138,7 +140,7 @@ export default function ServicesSection() {
     <section
       id="services"
       style={{
-        padding: "100px 0",
+        padding: "120px 0",
         background: "var(--color-bg)",
       }}
     >
@@ -166,7 +168,8 @@ export default function ServicesSection() {
                 color: "var(--color-text-primary)", maxWidth: 480,
               }}
             >
-              Evidence-Based Care<br />for Every Child
+              Evidence-Based Care for Every Child
+
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 12 }}
@@ -202,10 +205,11 @@ export default function ServicesSection() {
           </motion.div>
         </div>
 
-        {/* 2×2 grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px,1fr))", gap: 24 }}>
+        {/* 4-column horizontal row */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
           {services.map((s, i) => <ServiceCard key={s.href} s={s} index={i} />)}
         </div>
+
       </div>
     </section>
   );

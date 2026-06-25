@@ -7,16 +7,20 @@ export default withAuth(
     const token = req.nextauth.token;
     const role = token?.role as string | undefined;
 
+    const isApi = pathname.startsWith("/api/");
+
     // Admin routes: only ADMIN or DOCTOR
-    if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
+    if ((pathname.startsWith("/admin") && pathname !== "/admin/login") || pathname.startsWith("/api/admin")) {
       if (!token || (role !== "ADMIN" && role !== "DOCTOR")) {
+        if (isApi) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         return NextResponse.redirect(new URL("/admin/login", req.url));
       }
     }
 
     // Portal routes: only PARENT
-    if (pathname.startsWith("/portal") && pathname !== "/portal/login") {
+    if ((pathname.startsWith("/portal") && pathname !== "/portal/login") || pathname.startsWith("/api/portal")) {
       if (!token || role !== "PARENT") {
+        if (isApi) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         return NextResponse.redirect(new URL("/portal/login", req.url));
       }
     }
@@ -27,10 +31,16 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         const { pathname } = req.nextUrl;
-        // Always allow login pages
-        if (pathname === "/admin/login" || pathname === "/portal/login") return true;
-        // Require auth for /admin and /portal
-        if (pathname.startsWith("/admin") || pathname.startsWith("/portal")) return !!token;
+        // Always allow login pages and NextAuth core APIs
+        if (pathname === "/admin/login" || pathname === "/portal/login" || pathname.startsWith("/api/auth")) return true;
+        
+        // Let custom middleware handle API route authorization to return 401 instead of redirecting
+        if (pathname.startsWith("/api/")) return true;
+
+        // Require auth for /admin and /portal pages (will redirect if false)
+        if (pathname.startsWith("/admin") || pathname.startsWith("/portal")) {
+          return !!token;
+        }
         return true;
       },
     },
@@ -38,5 +48,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/admin/:path*", "/portal/:path*"],
+  matcher: ["/admin/:path*", "/portal/:path*", "/api/admin/:path*", "/api/portal/:path*"],
 };

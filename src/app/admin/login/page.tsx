@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Eye, EyeOff, Lock, Mail, ArrowRight } from "lucide-react";
+import LogoImg from "@/components/shared/LogoImg";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -50,7 +51,10 @@ export default function AdminLoginPage() {
       }}>
         {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <img src="/images/logo/logo-light.png" alt="Udaan Care" style={{ height: 48, objectFit: "contain", marginBottom: 20 }} onError={() => {}} />
+          <LogoImg variant="light" height={120} style={{ margin: "0 auto 20px", display: "block" }} />
+
+
+
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 14px", borderRadius: 20, background: "rgba(10,126,140,0.15)", border: "1px solid rgba(10,126,140,0.25)", marginBottom: 16 }}>
             <Lock size={12} style={{ color: "#0D9BAC" }} />
             <span style={{ fontSize: 12, fontWeight: 600, color: "#0D9BAC", letterSpacing: "0.06em" }}>ADMIN PORTAL</span>

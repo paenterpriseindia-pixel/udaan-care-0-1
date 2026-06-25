@@ -21,22 +21,18 @@ export default function Navbar() {
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
   const { currency, setCurrency } = useCurrency();
-  const [scrolled, setScrolled] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+
   useEffect(() => setMounted(true), []);
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 16);
-    fn();
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
   useEffect(() => { setDrawer(false); }, [pathname]);
 
+
   const isDark = mounted && resolvedTheme === "dark";
-  const onDark = !scrolled; // transparent nav = white text
+  const onDark = isDark; // glass navbar: dark text on light, white text on dark
+
 
   const isActive = (href: string) =>
     pathname === href || (href !== "/" && pathname.startsWith(href));
@@ -48,60 +44,70 @@ export default function Navbar() {
         aria-label="Main navigation"
         style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-          height: 72,
+          height: 100,
           display: "flex", alignItems: "center",
-          transition: "all 0.35s ease",
-          background: scrolled
-            ? (isDark ? "rgba(13,17,23,0.97)" : "rgba(255,255,255,0.97)")
-            : "transparent",
-          backdropFilter: scrolled ? "blur(16px)" : "none",
-          borderBottom: scrolled ? `1px solid ${isDark ? "#30363D" : "#E2EBF0"}` : "none",
-          boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.08)" : "none",
+          background: isDark
+            ? "rgba(10,14,20,0.92)"
+            : "rgba(255,255,255,0.92)",
+          backdropFilter: "blur(20px) saturate(180%)",
+          WebkitBackdropFilter: "blur(20px) saturate(180%)",
+          borderBottom: isDark
+            ? "1.5px solid rgba(255,255,255,0.10)"
+            : "1.5px solid rgba(10,126,140,0.18)",
+          boxShadow: isDark
+            ? "0 4px 28px rgba(0,0,0,0.35)"
+            : "0 4px 28px rgba(10,126,140,0.10)",
+          transition: "background 0.3s ease, box-shadow 0.3s ease",
         }}
       >
-        {/* Full-width inner — spread logo, links, actions */}
+
+        {/* Full-width inner — CSS Grid 3-zone: [logo | center-nav | actions] */}
         <div style={{
           width: "100%",
-          maxWidth: 1280,
-          margin: "0 auto",
-          padding: "0 32px",
-          display: "flex",
+          padding: "0 40px 0 52px",
+
+          display: "grid",
+          gridTemplateColumns: "1fr auto 1fr",
           alignItems: "center",
-          justifyContent: "space-between",
-          gap: 24,
           height: "100%",
         }}>
-          {/* LEFT — Logo */}
-          <Logo variant={onDark ? "light" : "auto"} size="md" editable />
 
-          {/* CENTER — Main links (desktop only) */}
-          <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {/* Home */}
-            <NavLink href="/" active={isActive("/")} onDark={onDark} exact>Home</NavLink>
-            {/* About */}
-            <NavLink href="/about" active={isActive("/about")} onDark={onDark}>About</NavLink>
+
+          {/* ══ ZONE 1: Logo — hard left ══ */}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Logo variant={onDark ? "light" : "auto"} size="lg" />
+          </div>
+
+          {/* ══ ZONE 2: Main Nav — mathematically centered ══ */}
+
+          <div className="hide-mobile" style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+          }}>
+            <NavLink href="/"        active={isActive("/")}        onDark={onDark} exact>Home</NavLink>
+            <NavLink href="/about"   active={isActive("/about")}   onDark={onDark}>About</NavLink>
 
             {/* Services dropdown */}
-            <div
-              style={{ position: "relative" }}
+            <div style={{ position: "relative" }}
               onMouseEnter={() => setDropdown(true)}
               onMouseLeave={() => setDropdown(false)}
             >
-              <button
-                style={{
-                  display: "flex", alignItems: "center", gap: 4,
-                  padding: "8px 14px", borderRadius: 10, border: "none", cursor: "pointer",
-                  fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 15,
-                  background: "transparent",
-                  color: onDark ? (isActive("/services") ? "white" : "rgba(255,255,255,0.8)") : (isActive("/services") ? "var(--color-primary)" : "var(--color-text-secondary)"),
-                  transition: "all 0.2s",
-                }}
-              >
+              <button style={{
+                display: "flex", alignItems: "center", gap: 5,
+                padding: "10px 16px", borderRadius: 10, border: "none", cursor: "pointer",
+                fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 15,
+                background: "transparent", whiteSpace: "nowrap",
+                color: onDark
+                  ? (isActive("/services") ? "white" : "rgba(255,255,255,0.92)")
+                  : (isActive("/services") ? "var(--color-primary)" : "var(--color-text-primary)"),
+                transition: "all 0.2s",
+              }}>
                 Services
                 <ChevronDown size={14} style={{ transition: "transform 0.25s", transform: dropdown ? "rotate(180deg)" : "none" }} />
               </button>
 
-              {/* Dropdown */}
+              {/* Dropdown panel */}
               <div style={{
                 position: "absolute", top: "calc(100% + 8px)", left: "50%",
                 width: 340, background: "var(--color-card)",
@@ -133,58 +139,53 @@ export default function Navbar() {
 
             <NavLink href="/blog"    active={isActive("/blog")}    onDark={onDark}>Blog</NavLink>
             <NavLink href="/contact" active={isActive("/contact")} onDark={onDark}>Contact</NavLink>
-
-            {/* Divider */}
-            <div style={{ width: 1, height: 18, background: onDark ? "rgba(255,255,255,0.18)" : "var(--color-border)", margin: "0 6px" }} />
-
-            <SmallLink href="/international"     active={isActive("/international")}     onDark={onDark}>International</SmallLink>
-            <SmallLink href="/join-as-therapist" active={isActive("/join-as-therapist")} onDark={onDark}>For Therapists</SmallLink>
-
-            {/* Second divider */}
-            <div style={{ width: 1, height: 18, background: onDark ? "rgba(255,255,255,0.18)" : "var(--color-border)", margin: "0 6px" }} />
-
-            {/* Portal links */}
-            <Link href="/portal/login"
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 5,
-                padding: "6px 11px", borderRadius: 8, textDecoration: "none",
-                fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 12,
-                background: "rgba(10,126,140,0.12)",
-                color: onDark ? "#0D9BAC" : "var(--color-primary)",
-                border: "1px solid rgba(10,126,140,0.2)",
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(10,126,140,0.22)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(10,126,140,0.12)"; }}
-            >
-              <Users size={11} /> Parent Portal
-            </Link>
-            <Link href="/admin"
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 5,
-                padding: "6px 11px", borderRadius: 8, textDecoration: "none",
-                fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 12,
-                background: "rgba(107,63,160,0.1)",
-                color: onDark ? "#a78bd4" : "#6B3FA0",
-                border: "1px solid rgba(107,63,160,0.2)",
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(107,63,160,0.2)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(107,63,160,0.1)"; }}
-            >
-              <ShieldCheck size={11} /> Admin
-            </Link>
           </div>
 
-          {/* RIGHT — Controls */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          {/* ══ ZONE 3: Actions — hard right ══ */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 8 }}>
+
+            {/* Portal pills */}
+            <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Link href="/portal/login" style={{
+                display: "inline-flex", alignItems: "center", gap: 6,
+                padding: "8px 14px", borderRadius: 10, textDecoration: "none",
+                fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 13,
+                background: "rgba(26,175,230,0.10)",
+                color: onDark ? "#5BC8F0" : "var(--color-primary)",
+                border: "1px solid rgba(26,175,230,0.22)",
+                transition: "all 0.2s", whiteSpace: "nowrap",
+              }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(26,175,230,0.22)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(26,175,230,0.10)"; }}
+              >
+                <Users size={13} /> Portal
+              </Link>
+              <Link href="/admin" style={{
+                display: "inline-flex", alignItems: "center", gap: 6,
+                padding: "8px 14px", borderRadius: 10, textDecoration: "none",
+                fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 13,
+                background: "rgba(171,71,188,0.08)",
+                color: onDark ? "#CE93D8" : "var(--color-purple)",
+                border: "1px solid rgba(171,71,188,0.22)",
+                transition: "all 0.2s", whiteSpace: "nowrap",
+              }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(171,71,188,0.18)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(171,71,188,0.08)"; }}
+              >
+                <ShieldCheck size={13} /> Admin
+              </Link>
+            </div>
+
+            {/* Thin divider */}
+            <div className="hide-mobile" style={{ width: 1, height: 24, background: onDark ? "rgba(255,255,255,0.15)" : "var(--color-border)", margin: "0 2px" }} />
+
             {/* Theme toggle */}
             {mounted && (
               <button
                 onClick={() => setTheme(isDark ? "light" : "dark")}
                 aria-label="Toggle theme"
                 style={{
-                  width: 40, height: 40, borderRadius: 10, border: "none",
+                  width: 38, height: 38, borderRadius: 10, border: "none",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   cursor: "pointer", background: "transparent",
                   color: onDark ? "rgba(255,255,255,0.75)" : "var(--color-text-secondary)",
@@ -197,39 +198,37 @@ export default function Navbar() {
               </button>
             )}
 
-            {/* Currency pills */}
-            <div style={{ display: "flex", background: onDark ? "rgba(255,255,255,0.1)" : "var(--color-primary-light)", borderRadius: 10, padding: 3, gap: 2 }} className="hide-mobile">
+            {/* Currency toggle */}
+            <div className="hide-mobile" style={{ display: "flex", background: onDark ? "rgba(255,255,255,0.08)" : "var(--color-primary-light)", borderRadius: 10, padding: 3, gap: 2 }}>
               {(["INR", "USD"] as const).map(c => (
-                <button key={c} onClick={() => setCurrency(c)}
-                  style={{
-                    padding: "5px 12px", borderRadius: 8, border: "none", cursor: "pointer",
-                    fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 12,
-                    transition: "all 0.2s",
-                    background: currency === c ? "var(--color-primary)" : "transparent",
-                    color: currency === c ? "white" : onDark ? "rgba(255,255,255,0.65)" : "var(--color-text-secondary)",
-                    boxShadow: currency === c ? "0 2px 8px rgba(10,126,140,0.3)" : "none",
-                  }}
-                >
-                  {c === "INR" ? "₹ India" : "$ USD"}
+                <button key={c} onClick={() => setCurrency(c)} style={{
+                  padding: "5px 11px", borderRadius: 8, border: "none", cursor: "pointer",
+                  fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 12,
+                  transition: "all 0.2s",
+                  background: currency === c ? "var(--color-primary)" : "transparent",
+                  color: currency === c ? "white" : onDark ? "rgba(255,255,255,0.6)" : "var(--color-text-secondary)",
+                  boxShadow: currency === c ? "0 2px 8px rgba(26,175,230,0.35)" : "none",
+                }}>
+                  {c === "INR" ? "₹" : "$"}
                 </button>
               ))}
             </div>
 
-            {/* Book CTA */}
+            {/* Book Now CTA */}
             <Link href="/book" className="btn btn-primary hide-mobile"
-              style={{ fontSize: 14, padding: "9px 22px", boxShadow: "0 4px 14px rgba(10,126,140,0.35)" }}>
+              style={{ fontSize: 14, padding: "10px 22px", whiteSpace: "nowrap" }}>
               Book Now
             </Link>
 
-            {/* Hamburger */}
+            {/* Hamburger — mobile only */}
             <button onClick={() => setDrawer(true)} aria-label="Open menu"
+              className="hide-desktop"
               style={{
                 width: 44, height: 44, borderRadius: 10, border: "none",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 cursor: "pointer", background: "transparent",
                 color: onDark ? "white" : "var(--color-text-primary)",
               }}
-              className="hide-desktop"
             >
               <Menu size={22} />
             </button>
@@ -238,6 +237,7 @@ export default function Navbar() {
       </nav>
 
       {/* ── MOBILE DRAWER ── */}
+
       {drawer && (
         <div style={{ position: "fixed", inset: 0, zIndex: 100 }} onClick={() => setDrawer(false)}>
           <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(4px)", animation: "fade-in 0.2s ease" }} />
@@ -356,23 +356,24 @@ export default function Navbar() {
 function NavLink({ href, active, onDark, children, exact }: { href: string; active: boolean; onDark: boolean; children: React.ReactNode; exact?: boolean }) {
   return (
     <Link href={href} style={{
-      padding: "8px 14px", borderRadius: 10, textDecoration: "none",
-      fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 15,
+      padding: "10px 16px", borderRadius: 10, textDecoration: "none",
+      fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 15,
       transition: "all 0.2s",
+      whiteSpace: "nowrap",
       color: active
         ? (onDark ? "white" : "var(--color-primary)")
-        : (onDark ? "rgba(255,255,255,0.78)" : "var(--color-text-secondary)"),
+        : (onDark ? "rgba(255,255,255,0.92)" : "var(--color-text-primary)"),
       background: active && !onDark ? "var(--color-primary-light)" : "transparent",
     }}
       onMouseEnter={e => {
         if (!active) {
           (e.currentTarget as HTMLElement).style.color = onDark ? "white" : "var(--color-primary)";
-          (e.currentTarget as HTMLElement).style.background = onDark ? "rgba(255,255,255,0.1)" : "var(--color-primary-light)";
+          (e.currentTarget as HTMLElement).style.background = onDark ? "rgba(255,255,255,0.10)" : "var(--color-primary-light)";
         }
       }}
       onMouseLeave={e => {
         if (!active) {
-          (e.currentTarget as HTMLElement).style.color = onDark ? "rgba(255,255,255,0.78)" : "var(--color-text-secondary)";
+          (e.currentTarget as HTMLElement).style.color = onDark ? "rgba(255,255,255,0.92)" : "var(--color-text-primary)";
           (e.currentTarget as HTMLElement).style.background = "transparent";
         }
       }}
@@ -382,12 +383,14 @@ function NavLink({ href, active, onDark, children, exact }: { href: string; acti
   );
 }
 
+
 function SmallLink({ href, active, onDark, children }: { href: string; active: boolean; onDark: boolean; children: React.ReactNode }) {
   return (
     <Link href={href} style={{
-      padding: "6px 10px", borderRadius: 8, textDecoration: "none",
+      padding: "8px 14px", borderRadius: 8, textDecoration: "none",
       fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 13,
       transition: "all 0.2s",
+      whiteSpace: "nowrap",
       color: active
         ? (onDark ? "white" : "var(--color-primary)")
         : (onDark ? "rgba(255,255,255,0.55)" : "var(--color-text-secondary)"),

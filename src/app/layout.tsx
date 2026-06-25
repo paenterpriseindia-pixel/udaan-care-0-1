@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SplashWrapper from "@/components/shared/SplashWrapper";
 import { Providers } from "@/providers/Providers";
+import SmoothEffects from "@/components/providers/SmoothEffects";
+
+
 
 export const metadata: Metadata = {
   title: {
@@ -50,7 +54,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <SmoothEffects />
+          <SplashWrapper>{children}</SplashWrapper>
+        </Providers>
+
+
       </body>
     </html>
   );

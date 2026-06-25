@@ -4,6 +4,8 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Target, Clock, Calendar, LogOut, CheckCircle, Circle, BookOpen, Phone } from "lucide-react";
 import type { Patient, Session, Goal, Booking } from "@/lib/db";
+import LogoImg from "@/components/shared/LogoImg";
+
 
 interface PortalData { patient: Patient; sessions: Session[]; goals: Goal[]; bookings: Booking[]; }
 
@@ -66,8 +68,12 @@ export default function ParentPortalDashboard() {
     <div style={{ minHeight: "100vh", background: "linear-gradient(160deg,#f0f9ff 0%,#f5f0ff 100%)", fontFamily: "'DM Sans',sans-serif" }}>
 
       {/* Header */}
-      <header style={{ background: "white", borderBottom: "1px solid #e2e8f0", padding: "0 24px", height: 64, display: "flex", alignItems: "center", gap: 16, boxShadow: "0 1px 4px rgba(0,0,0,0.04)", position: "sticky", top: 0, zIndex: 50 }}>
-        <img src="/images/logo/logo-dark.png" alt="Udaan Care" style={{ height: 40, objectFit: "contain" }} />
+      <header style={{ background: "white", borderBottom: "1px solid #e2e8f0", padding: "0 24px", height: 80, display: "flex", alignItems: "center", gap: 16, boxShadow: "0 1px 4px rgba(0,0,0,0.04)", position: "sticky", top: 0, zIndex: 50 }}>
+
+        <LogoImg variant="dark" height={80} />
+
+
+
         <div style={{ flex: 1 }} />
         <div style={{ fontSize: 14, color: "#64748b" }}>Welcome, <strong style={{ color: "#1e293b" }}>{patient.guardianName}</strong></div>
         <button onClick={() => signOut({ callbackUrl: "/portal/login" })} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 14px", borderRadius: 8, border: "1px solid #e2e8f0", background: "white", cursor: "pointer", fontSize: 13, color: "#64748b", fontFamily: "'DM Sans',sans-serif" }}>

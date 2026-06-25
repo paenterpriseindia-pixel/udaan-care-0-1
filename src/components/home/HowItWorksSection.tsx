@@ -58,7 +58,7 @@ export default function HowItWorksSection() {
   }, [lineDrawn]);
 
   return (
-    <section ref={sectionRef} style={{ padding: "100px 0", background: "var(--color-bg)" }}>
+    <section ref={sectionRef} style={{ padding: "120px 0", background: "var(--color-bg)" }}>
       <div className="container">
         {/* Header */}
         <div style={{ maxWidth: 520, marginBottom: 72 }}>

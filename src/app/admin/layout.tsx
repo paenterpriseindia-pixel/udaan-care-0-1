@@ -6,19 +6,33 @@ import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Users, Calendar, BookOpen, Settings,
   Image as ImageIcon, UserPlus, BarChart3, Menu, X, LogOut,
-  ChevronRight, Stethoscope, FileText,
+  ChevronRight, Stethoscope, FileText, CalendarClock, TrendingUp,
+  MessageCircle, ClipboardList, Building2, Video,
 } from "lucide-react";
+
+
+
+import LogoImg from "@/components/shared/LogoImg";
 
 const NAV = [
   { href: "/admin/dashboard",  label: "Dashboard",    icon: LayoutDashboard, group: "main" },
   { href: "/admin/patients",   label: "Patients",      icon: Users,           group: "main" },
   { href: "/admin/bookings",   label: "Bookings",      icon: Calendar,        group: "main" },
   { href: "/admin/doctors",    label: "Doctors",       icon: Stethoscope,     group: "main" },
-  { href: "/admin/blog",       label: "Blog",          icon: FileText,        group: "content" },
-  { href: "/admin/cms",        label: "Site Content",  icon: Settings,        group: "content" },
-  { href: "/admin/upload",     label: "Images",        icon: ImageIcon,       group: "content" },
+  { href: "/admin/schedule",   label: "My Schedule",   icon: CalendarClock,   group: "clinic" },
+  { href: "/admin/leads",      label: "Leads",         icon: TrendingUp,      group: "clinic" },
+  { href: "/admin/staff",      label: "Staff Tracker", icon: ClipboardList,   group: "clinic" },
+  { href: "/admin/attendance", label: "Attendance",    icon: Calendar,        group: "clinic" },
+  { href: "/admin/branches",   label: "Branches",      icon: Building2,       group: "clinic" },
+  { href: "/admin/blog",          label: "Blog",          icon: FileText,  group: "content" },
+  { href: "/admin/testimonials",   label: "Testimonials",   icon: Video,     group: "content" },
+  { href: "/admin/cms",            label: "Site Content",   icon: Settings,  group: "content" },
+  { href: "/admin/upload",         label: "Images",         icon: ImageIcon, group: "content" },
   { href: "/admin/analytics",  label: "Analytics",     icon: BarChart3,       group: "reports" },
 ];
+
+
+
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -34,7 +48,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Logo area */}
       <div style={{ padding: "20px 16px", borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 8 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <img src="/images/logo/logo-light.png" alt="Udaan Care" style={{ height: 32, objectFit: "contain", flexShrink: 0 }} />
+          <LogoImg variant="light" height={80} style={{ flexShrink: 0 }} />
+
+
+
           {!collapsed && (
             <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.4)", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
               ADMIN PANEL
@@ -45,7 +62,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Nav groups */}
       {[
-        { key: "main", label: "Main" },
+        { key: "main",    label: "Main" },
+        { key: "clinic",  label: "Clinic" },
         { key: "content", label: "Content" },
         { key: "reports", label: "Reports" },
       ].map(group => {

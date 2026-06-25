@@ -4,9 +4,9 @@ import { Upload, Check, RefreshCw, Clipboard, FolderOpen, Zap, X } from "lucide-
 import Image from "next/image";
 
 const SLOTS = [
-  // Logo
-  { key: "logo-dark",    dest: "images/logo/logo-dark.png",              label: "Logo — Light Background",        hint: "PNG · Navbar on light bg",            group: "Logo" },
-  { key: "logo-light",   dest: "images/logo/logo-light.png",             label: "Logo — Dark Background",         hint: "PNG · Navbar on dark bg / footer",    group: "Logo" },
+  // Logo — dest is a BASE path; actual ext is determined at upload time from the file
+  { key: "logo-dark",    dest: "images/logo/logo-dark",                  label: "Logo — Light Background",        hint: "SVG or PNG · No background · Navbar, portal, all pages",  group: "Logo", svgOnly: true },
+  { key: "logo-light",   dest: "images/logo/logo-light",                 label: "Logo — Dark Background",         hint: "SVG or PNG · No background · Admin panel, footer",        group: "Logo", svgOnly: true },
   // Hero / Global
   { key: "hero-bg",      dest: "images/global/hero-background.jpg",      label: "Hero Background",                hint: "1920×1080 · Home page full-width bg", group: "Hero" },
   { key: "cta-bg",       dest: "images/global/cta-background.jpg",       label: "CTA Background",                 hint: "1920×1080 · Book section bg",         group: "Hero" },
@@ -37,6 +37,7 @@ const SLOTS = [
 
 const GROUPS = [...new Set(SLOTS.map(s => s.group))];
 type UpStatus = "idle" | "uploading" | "done" | "error";
+type Slot = typeof SLOTS[number];
 
 interface SlotState { status: UpStatus; preview?: string; error?: string; }
 
@@ -74,12 +75,16 @@ export default function AdminUploadPage() {
     });
   }, []);
 
-  const doUpload = useCallback(async (key: string, dest: string, file: File) => {
+  const doUpload = useCallback(async (key: string, baseDest: string, file: File) => {
     setStates(p => ({ ...p, [key]: { status: "uploading" } }));
+    // Preserve the uploaded file's extension (svg, png, jpg, webp…)
+    const ext = file.name.split(".").pop()?.toLowerCase() ?? "png";
+    // For logo slots (no extension in dest), append ext; for other slots, dest already has ext
+    const dest = baseDest.includes(".") ? baseDest : `${baseDest}.${ext}`;
     try {
       const path = await uploadFile(file, dest);
       setStates(p => ({ ...p, [key]: { status: "done", preview: `${path}?t=${Date.now()}` } }));
-      showToast(`✓ ${dest.split("/").pop()} saved!`);
+      showToast(`✓ ${dest.split("/").pop()} saved — logo updated everywhere!`);
     } catch (e) {
       setStates(p => ({ ...p, [key]: { status: "error", error: String(e) } }));
       showToast("Upload failed", false);
@@ -347,7 +352,7 @@ export default function AdminUploadPage() {
                 <input
                   ref={el => { fileRefs.current[slot.key] = el; }}
                   type="file"
-                  accept="image/*"
+                  accept={(slot as Slot).svgOnly ? "image/svg+xml,image/png,image/webp,image/*" : "image/*"}
                   style={{ display: "none" }}
                   onChange={e => { const f = e.target.files?.[0]; if (f) doUpload(slot.key, slot.dest, f); e.target.value = ""; }}
                   onClick={e => e.stopPropagation()}
