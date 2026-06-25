@@ -9,7 +9,7 @@ import FAQSection        from "@/components/home/FAQSection";
 import FinalCTASection   from "@/components/home/FinalCTASection";
 
 // Heavy / client-only — loaded dynamically
-const ScrollStoryLine          = dynamic(() => import("@/components/home/ScrollStoryLine"),          { ssr: false });
+
 const TestimonialCarousel      = dynamic(() => import("@/components/home/TestimonialCarousel"),      { ssr: false });
 const VideoTestimonialsSection = dynamic(() => import("@/components/home/VideoTestimonialsSection"), { ssr: false });
 
@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <>
       {/* Fixed scroll-story line — desktop only */}
-      <ScrollStoryLine />
+
 
       {/* Sections in order */}
       <HeroSection />
