@@ -90,7 +90,7 @@ function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
 
 export default function FAQSection() {
   return (
-    <section style={{ padding: "64px 0", background: "var(--color-bg)" }}>
+    <section style={{ padding: "max(5vh, 40px) 0", minHeight: "100svh", display: "flex", flexDirection: "column", justifyContent: "center", background: "var(--color-bg)" }}>
       <div className="container" style={{ maxWidth: 720 }}>
         <div style={{ textAlign: "center", marginBottom: 56 }}>
           <motion.span
