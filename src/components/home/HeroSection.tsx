@@ -39,12 +39,27 @@ function WingsUnderline() {
   );
 }
 
+const ChildFigure = () => (
+  <svg width="24" height="36" viewBox="0 0 48 72" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ animation: "heroBounce 1.5s ease-in-out infinite", marginTop: 4 }}>
+    <circle cx="24" cy="10" r="8" />
+    <line x1="24" y1="18" x2="24" y2="44" />
+    <line x1="24" y1="26" x2="12" y2="36" />
+    <line x1="24" y1="26" x2="36" y2="36" />
+    <line x1="24" y1="44" x2="16" y2="62" />
+    <line x1="24" y1="44" x2="32" y2="62" />
+  </svg>
+);
+
 export default function HeroSection() {
   const { isIndia, prices } = useCurrency();
   const [scrollY, setScrollY] = useState(0);
   const [showScroll, setShowScroll] = useState(true);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.history.scrollRestoration = "manual";
+      window.scrollTo(0, 0);
+    }
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
     const onScroll = () => {
@@ -385,7 +400,7 @@ export default function HeroSection() {
         }}
       >
         Scroll
-        <ChevronDown size={16} style={{ animation: "heroBounce 1.5s ease-in-out infinite" }} />
+        <ChildFigure />
       </motion.a>
 
       <style>{`
