@@ -30,48 +30,95 @@ export function BookingConfirmationEmail({
   time,
   sessionType,
 }: BookingConfirmationProps) {
-  // Use a public absolute URL for the logo inside the email
   const logoUrl = 'https://fbogcjvivaehpsgabtqv.supabase.co/storage/v1/object/public/images/logo/logo-dark.png';
 
   return (
     <Html>
       <Head />
-      <Preview>Your booking with UdaanCare is confirmed</Preview>
+      <Preview>Your UdaanCare booking is confirmed - {date}</Preview>
       <Body style={main}>
         <Container style={container}>
+          {/* Header */}
           <Section style={header}>
-            <Img src={logoUrl} width="200" alt="UdaanCare Logo" style={logo} />
+            <Img src={logoUrl} width="160" alt="UdaanCare" style={logo} />
+          </Section>
+
+          {/* Banner */}
+          <Section style={bannerSection}>
+            <Text style={bannerTitle}>Booking Confirmed</Text>
+            <Text style={bannerSubtitle}>We are excited to support you on this journey.</Text>
           </Section>
 
           <Section style={contentSection}>
-            <Text style={title}>Booking Confirmation</Text>
-            
-            <Text style={text}>Hi {clientName},</Text>
-            
+            <Text style={greeting}>Hi {clientName},</Text>
             <Text style={text}>
-              Thank you for booking with UdaanCare. Your session has been successfully logged. Please keep this email for your reference. Our team looks forward to supporting you.
+              Thank you for choosing UdaanCare. Your {sessionType.toLowerCase()} session has been successfully booked and confirmed. Please find your appointment details below.
             </Text>
 
-            <Section style={detailsBox}>
-              <Text style={detailRow}><strong>Confirmation Number:</strong> {confirmationNumber}</Text>
-              <Text style={detailRow}><strong>Date:</strong> {date}</Text>
-              <Text style={detailRow}><strong>Time:</strong> {time}</Text>
-              <Text style={detailRow}><strong>Session Type:</strong> {sessionType}</Text>
-              <Text style={detailRow}><strong>Payment Status:</strong> Pending Verification</Text>
+            {/* Details Card */}
+            <Section style={detailsCard}>
+              <Text style={cardTitle}>Appointment Details</Text>
+              
+              <Section style={detailRow}>
+                <Text style={detailLabel}>Patient Name</Text>
+                <Text style={detailValue}>{clientName}</Text>
+              </Section>
+              
+              <Section style={detailRow}>
+                <Text style={detailLabel}>Confirmation No.</Text>
+                <Text style={detailValue}>{confirmationNumber}</Text>
+              </Section>
+
+              <Section style={detailRow}>
+                <Text style={detailLabel}>Date</Text>
+                <Text style={detailValue}>{date}</Text>
+              </Section>
+
+              <Section style={detailRow}>
+                <Text style={detailLabel}>Time</Text>
+                <Text style={detailValue}>{time} IST</Text>
+              </Section>
+
+              <Section style={detailRow}>
+                <Text style={detailLabel}>Session Type</Text>
+                <Text style={detailValue}>{sessionType}</Text>
+              </Section>
+
+              <Section style={detailRowLast}>
+                <Text style={detailLabel}>Payment Status</Text>
+                <Text style={paymentValue}>Paid</Text>
+              </Section>
             </Section>
 
-            <Text style={text}>
-              Note: If you have already paid via UPI, Dr. Prasoon will verify it and confirm your slot shortly via WhatsApp.
-            </Text>
+            {/* What to expect */}
+            <Section style={infoSection}>
+              <Text style={infoTitle}>What to expect next?</Text>
+              <Text style={infoText}>
+                • If you booked an <strong>Online Consultation</strong>, Dr. Prasoon will share a Zoom link via WhatsApp shortly before the session.<br/><br/>
+                • If you booked a <strong>Clinic Visit</strong>, please arrive 10 minutes early at our Katni clinic.
+              </Text>
+            </Section>
+
+            {/* Reschedule */}
+            <Section style={infoSection}>
+              <Text style={infoTitle}>Need to reschedule?</Text>
+              <Text style={infoText}>
+                We understand that plans change. If you need to reschedule or cancel, please contact us at least 24 hours in advance via WhatsApp or email.
+              </Text>
+            </Section>
           </Section>
 
           <Hr style={hr} />
 
+          {/* Footer */}
           <Section style={footer}>
-            <Text style={footerText}>
-              Need help? Reply to this email or contact us at <a href="mailto:support@udaancare.in" style={link}>support@udaancare.in</a>
+            <Img src={logoUrl} width="120" alt="UdaanCare" style={footerLogo} />
+            <Text style={footerContact}>
+              <strong>UdaanCare Pediatric Therapy</strong><br/>
+              Katni, Madhya Pradesh<br/>
+              <a href="mailto:prasoon@udaancare.in" style={link}>prasoon@udaancare.in</a> | +91 8349764084
             </Text>
-            <Text style={footerText}>
+            <Text style={footerCopyright}>
               © {new Date().getFullYear()} UdaanCare. All rights reserved.
             </Text>
           </Section>
@@ -83,16 +130,16 @@ export function BookingConfirmationEmail({
 
 // Styles
 const main = {
-  backgroundColor: '#f6f9fc',
-  fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
+  backgroundColor: '#f3f4f6',
+  fontFamily: '"DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
 };
 
 const container = {
   backgroundColor: '#ffffff',
   margin: '40px auto',
   padding: '0',
-  borderRadius: '12px',
-  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+  borderRadius: '16px',
+  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.06)',
   maxWidth: '600px',
   overflow: 'hidden',
 };
@@ -101,69 +148,151 @@ const header = {
   padding: '32px 32px 24px',
   textAlign: 'center' as const,
   backgroundColor: '#ffffff',
-  borderBottom: '1px solid #eaeaea',
 };
 
 const logo = {
   margin: '0 auto',
 };
 
-const contentSection = {
-  padding: '32px',
-};
-
-const title = {
-  fontSize: '24px',
-  fontWeight: 'bold',
-  color: '#0A7E8C',
-  marginBottom: '24px',
+const bannerSection = {
+  backgroundColor: '#1AAFE6',
+  padding: '32px 20px',
   textAlign: 'center' as const,
 };
 
-const text = {
-  color: '#333333',
-  fontSize: '16px',
-  lineHeight: '24px',
-  marginBottom: '16px',
+const bannerTitle = {
+  fontSize: '28px',
+  fontWeight: '800',
+  color: '#ffffff',
+  margin: '0',
+  fontFamily: '"Nunito", sans-serif',
 };
 
-const detailsBox = {
+const bannerSubtitle = {
+  fontSize: '16px',
+  color: '#e0f2fe',
+  margin: '8px 0 0 0',
+};
+
+const contentSection = {
+  padding: '40px 32px',
+};
+
+const greeting = {
+  fontSize: '20px',
+  fontWeight: '700',
+  color: '#1f2937',
+  margin: '0 0 16px 0',
+  fontFamily: '"Nunito", sans-serif',
+};
+
+const text = {
+  color: '#4b5563',
+  fontSize: '16px',
+  lineHeight: '26px',
+  margin: '0 0 24px 0',
+};
+
+const detailsCard = {
   backgroundColor: '#f8fafc',
   border: '1px solid #e2e8f0',
-  borderRadius: '8px',
+  borderRadius: '12px',
   padding: '24px',
-  marginTop: '24px',
-  marginBottom: '24px',
+  marginBottom: '32px',
+};
+
+const cardTitle = {
+  fontSize: '14px',
+  fontWeight: '700',
+  color: '#64748b',
+  textTransform: 'uppercase' as const,
+  letterSpacing: '0.05em',
+  margin: '0 0 16px 0',
 };
 
 const detailRow = {
+  borderBottom: '1px solid #f1f5f9',
+  paddingBottom: '12px',
+  marginBottom: '12px',
+};
+
+const detailRowLast = {
+  paddingBottom: '0',
+  marginBottom: '0',
+};
+
+const detailLabel = {
+  fontSize: '14px',
+  color: '#64748b',
+  margin: '0 0 4px 0',
+};
+
+const detailValue = {
+  fontSize: '16px',
+  fontWeight: '600',
+  color: '#0f172a',
+  margin: '0',
+};
+
+const paymentValue = {
+  fontSize: '16px',
+  fontWeight: '700',
+  color: '#10b981', // Success green
+  margin: '0',
+};
+
+const infoSection = {
+  marginBottom: '24px',
+};
+
+const infoTitle = {
+  fontSize: '18px',
+  fontWeight: '700',
+  color: '#1f2937',
+  margin: '0 0 8px 0',
+  fontFamily: '"Nunito", sans-serif',
+};
+
+const infoText = {
+  color: '#4b5563',
   fontSize: '15px',
-  lineHeight: '1.5',
-  color: '#1e293b',
-  margin: '8px 0',
+  lineHeight: '24px',
+  margin: '0',
 };
 
 const hr = {
-  borderColor: '#eaeaea',
+  borderColor: '#e5e7eb',
   margin: '0',
 };
 
 const footer = {
-  backgroundColor: '#fafafa',
-  padding: '24px 32px',
+  backgroundColor: '#f9fafb',
+  padding: '32px',
+  textAlign: 'center' as const,
 };
 
-const footerText = {
-  color: '#8898aa',
-  fontSize: '13px',
-  lineHeight: '20px',
-  textAlign: 'center' as const,
-  margin: '8px 0',
+const footerLogo = {
+  margin: '0 auto 16px',
+  opacity: 0.5,
+  filter: 'grayscale(100%)',
+};
+
+const footerContact = {
+  color: '#6b7280',
+  fontSize: '14px',
+  lineHeight: '24px',
+  margin: '0 0 16px 0',
 };
 
 const link = {
-  color: '#0A7E8C',
+  color: '#1AAFE6',
   textDecoration: 'none',
+};
+
+const footerCopyright = {
+  color: '#9ca3af',
+  fontSize: '12px',
+  margin: '0',
 };
 
 export async function sendBookingEmail(to: string, props: BookingConfirmationProps) {
