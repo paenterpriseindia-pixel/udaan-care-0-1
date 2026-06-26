@@ -41,7 +41,7 @@ export default function FinalCTASection() {
       {/* Overlay */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 1,
-        background: "rgba(0,0,0,0.5)",
+        background: "var(--glass-bg)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
       }} />
@@ -62,12 +62,12 @@ export default function FinalCTASection() {
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             padding: "6px 16px 6px 8px", borderRadius: 999,
-            background: "rgba(10,126,140,0.15)",
-            border: "1px solid rgba(10,126,140,0.3)",
+            background: "rgba(10,126,140,0.1)",
+            border: "1px solid rgba(10,126,140,0.2)",
             marginBottom: 28,
           }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", boxShadow: "0 0 0 3px rgba(34,197,94,0.25)", display: "inline-block" }} />
-            <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 13, color: "rgba(255,255,255,0.6)" }}>
+            <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 13, color: "var(--color-text-secondary)" }}>
               Appointments Mon–Sat · 10 AM – 7 PM IST
             </span>
           </div>
@@ -76,7 +76,7 @@ export default function FinalCTASection() {
           <h2 style={{
             fontFamily: "'Nunito',sans-serif", fontWeight: 900,
             fontSize: "clamp(32px,5.5vw,58px)",
-            color: "white", lineHeight: 1.08, marginBottom: 18,
+            color: "var(--color-text-primary)", lineHeight: 1.08, marginBottom: 18,
           }}>
             Ready to Take the<br />
             <span style={{
@@ -91,7 +91,7 @@ export default function FinalCTASection() {
           {/* Subline */}
           <p style={{
             fontFamily: "'DM Sans',sans-serif", fontSize: 19,
-            color: "rgba(255,255,255,0.55)", marginBottom: 48,
+            color: "var(--color-text-secondary)", marginBottom: 48,
             maxWidth: 480, marginLeft: "auto", marginRight: "auto",
             lineHeight: 1.65,
           }}>
@@ -141,13 +141,13 @@ export default function FinalCTASection() {
                 display: "inline-flex", alignItems: "center", gap: 8,
                 padding: "16px 28px", borderRadius: 10, fontSize: 15, fontWeight: 600,
                 background: "transparent",
-                border: "1.5px solid rgba(255,255,255,0.25)",
-                color: "white", textDecoration: "none",
+                border: "1.5px solid var(--glass-border)",
+                color: "var(--color-text-primary)", textDecoration: "none",
                 fontFamily: "'DM Sans',sans-serif",
                 transition: "all 0.3s ease",
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.5)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.25)"; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "var(--color-text-secondary)"; (e.currentTarget as HTMLElement).style.color = "var(--color-bg)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)"; }}
             >
               Contact Us
             </Link>
@@ -158,9 +158,9 @@ export default function FinalCTASection() {
             {["No waiting lists", "Mon–Sat appointments", "Reply within 2 hours"].map((t, i) => (
               <span key={t} style={{
                 fontFamily: "'DM Sans',sans-serif", fontSize: 13,
-                color: "rgba(255,255,255,0.3)",
+                color: "var(--color-text-secondary)", opacity: 0.8,
                 paddingRight: i < 2 ? 18 : 0, marginRight: i < 2 ? 18 : 0,
-                borderRight: i < 2 ? "1px solid rgba(255,255,255,0.1)" : "none",
+                borderRight: i < 2 ? "1px solid var(--glass-border)" : "none",
               }}>
                 {t}
               </span>
