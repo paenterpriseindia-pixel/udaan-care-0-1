@@ -7,7 +7,7 @@ import {
   LayoutDashboard, Users, Calendar, BookOpen, Settings,
   Image as ImageIcon, UserPlus, BarChart3, Menu, X, LogOut,
   ChevronRight, Stethoscope, FileText, CalendarClock, TrendingUp,
-  MessageCircle, ClipboardList, Building2, Video,
+  MessageCircle, ClipboardList, Building2, Video, CreditCard
 } from "lucide-react";
 
 
@@ -18,6 +18,7 @@ const NAV = [
   { href: "/admin/dashboard",  label: "Dashboard",    icon: LayoutDashboard, group: "main" },
   { href: "/admin/patients",   label: "Patients",      icon: Users,           group: "main" },
   { href: "/admin/bookings",   label: "Bookings",      icon: Calendar,        group: "main" },
+  { href: "/admin/payments",   label: "Payments",      icon: CreditCard,      group: "main" },
   { href: "/admin/doctors",    label: "Doctors",       icon: Stethoscope,     group: "main" },
   { href: "/admin/schedule",   label: "My Schedule",   icon: CalendarClock,   group: "clinic" },
   { href: "/admin/leads",      label: "Leads",         icon: TrendingUp,      group: "clinic" },
