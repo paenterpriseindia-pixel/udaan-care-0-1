@@ -70,8 +70,8 @@ function StepBar({ current, total }: { current: number; total: number }) {
 }
 
 // ── Step 1: Type ─────────────────────────────────────────────────────────────
-function Step1({ state, setState, isIndia, fmt }: {
-  state: BookingState; setState: (s: BookingState) => void; isIndia: boolean; fmt: (i: number, u: number) => string;
+function Step1({ state, setState, prices }: {
+  state: BookingState; setState: (s: BookingState) => void; prices: any;
 }) {
   return (
     <div>
@@ -96,7 +96,7 @@ function Step1({ state, setState, isIndia, fmt }: {
           <div style={{ flex: 1 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
               <span style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 16, color: "var(--color-text-primary)" }}>Online Consultation</span>
-              <span style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 18, color: "var(--color-primary)" }}>{fmt(599, 9)}</span>
+              <span style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 18, color: "var(--color-primary)" }}>{prices.online.display}</span>
             </div>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", marginTop: 4 }}>
               Via Zoom · Available across India & worldwide · 45 mins · WhatsApp confirmation
@@ -106,7 +106,7 @@ function Step1({ state, setState, isIndia, fmt }: {
         </button>
 
         {/* Clinic / International note */}
-        {isIndia ? (
+        {prices.showClinic ? (
           <button onClick={() => setState({ ...state, type: "clinic" })} style={{
             width: "100%", padding: "20px 24px", borderRadius: 16, border: `2px solid ${state.type === "clinic" ? "var(--color-accent)" : "var(--color-border)"}`,
             textAlign: "left", cursor: "pointer", display: "flex", alignItems: "flex-start", gap: 16,
@@ -119,7 +119,7 @@ function Step1({ state, setState, isIndia, fmt }: {
             <div style={{ flex: 1 }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
                 <span style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 16, color: "var(--color-text-primary)" }}>Visit the Clinic</span>
-                <span style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 18, color: "var(--color-accent)" }}>₹799</span>
+                <span style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 18, color: "var(--color-accent)" }}>{prices.clinic?.display}</span>
               </div>
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", marginTop: 4 }}>
                 In-person · Udaan Care, Katni, MP · 45 mins · By appointment only
@@ -129,7 +129,7 @@ function Step1({ state, setState, isIndia, fmt }: {
           </button>
         ) : (
           <div style={{ padding: "16px 20px", borderRadius: 12, background: "var(--color-primary-light)", border: "1px solid rgba(26,175,230,0.20)", fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--color-primary)" }}>
-            Clinic visits are available in Katni, India only. International visitors can book online sessions from anywhere worldwide.
+            {prices.clinicNote}
           </div>
         )}
       </div>
@@ -262,9 +262,9 @@ function generateZoomLink(date: string, time: string, name: string) {
 }
 
 // ── Step 4: Confirm + Advance Payment ────────────────────────────────────────
-function Step4({ state, fmt }: { state: BookingState; fmt: (i: number, u: number) => string }) {
-  const price    = state.type === "online" ? fmt(599, 9) : "₹799";
-  const priceNum = state.type === "online" ? 599 : 799;
+function Step4({ state, prices }: { state: BookingState; prices: any }) {
+  const price    = state.type === "online" ? prices.online.display : (prices.clinic?.display || "₹799");
+  const priceNum = state.type === "online" ? prices.online.amount : (prices.clinic?.amount || 799);
   const label    = state.type === "online" ? "Online Consultation via Zoom" : "In-Clinic Visit, Katni";
   const zoomLink = state.type === "online" ? generateZoomLink(state.date, state.time, state.childName) : null;
   const [leadSent, setLeadSent] = useState(false);
@@ -398,7 +398,7 @@ function Step4({ state, fmt }: { state: BookingState; fmt: (i: number, u: number
 
 // ── Main Book Page ────────────────────────────────────────────────────────────
 export default function BookPage() {
-  const { isIndia, fmt } = useCurrency();
+  const { prices } = useCurrency();
   const [step, setStep] = useState(1);
   const TOTAL = 4;
 
@@ -439,10 +439,10 @@ export default function BookPage() {
         <StepBar current={step} total={TOTAL} />
 
         <div className="card" style={{ padding: "32px 36px" }}>
-          {step === 1 && <Step1 state={state} setState={setState} isIndia={isIndia} fmt={fmt} />}
+          {step === 1 && <Step1 state={state} setState={setState} prices={prices} />}
           {step === 2 && <Step2 state={state} setState={setState} />}
           {step === 3 && <Step3 state={state} setState={setState} />}
-          {step === 4 && <Step4 state={state} fmt={fmt} />}
+          {step === 4 && <Step4 state={state} prices={prices} />}
 
           {/* Navigation */}
           {step < 4 && (
