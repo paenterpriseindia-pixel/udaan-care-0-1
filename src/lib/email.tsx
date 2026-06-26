@@ -174,7 +174,7 @@ export async function sendBookingEmail(to: string, props: BookingConfirmationPro
 
   try {
     const { data, error } = await resend.emails.send({
-      from: 'UdaanCare <bookings@udaancare.in>',
+      from: 'UdaanCare <prasoon@udaancare.in>',
       to,
       subject: `Booking Confirmation: ${props.sessionType} - ${props.confirmationNumber}`,
       react: <BookingConfirmationEmail {...props} /> as React.ReactElement,
