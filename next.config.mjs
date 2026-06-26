@@ -17,6 +17,16 @@ const nextConfig = {
   experimental: {
     optimizeCss: false,
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/images/:path*',
+          destination: 'https://fbogcjvivaehpsgabtqv.supabase.co/storage/v1/object/public/images/:path*',
+        },
+      ],
+    }
+  },
 };
 
 export default nextConfig;

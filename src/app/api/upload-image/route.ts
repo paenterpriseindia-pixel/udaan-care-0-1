@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { supabase } from "@/lib/supabase";
 
 // POST /api/upload-image
 // Body: FormData { file: File, dest: string }
@@ -21,15 +20,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid destination" }, { status: 400 });
     }
 
-    const publicDir = path.join(process.cwd(), "public");
-    const fullPath = path.join(publicDir, safeDest);
-    const dir = path.dirname(fullPath);
+    // Determine the path in the "images" bucket
+    // E.g. "images/logo/logo-dark.png" -> "logo/logo-dark.png"
+    const storagePath = safeDest.substring(7);
 
-    await mkdir(dir, { recursive: true });
+    const buffer = await file.arrayBuffer();
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    await writeFile(fullPath, buffer);
+    const { error: uploadError } = await supabase.storage
+      .from("images")
+      .upload(storagePath, buffer, {
+        contentType: file.type,
+        upsert: true
+      });
 
+    if (uploadError) {
+      console.error("[upload-image] Supabase upload error:", uploadError);
+      return NextResponse.json({ error: "Upload failed via Supabase" }, { status: 500 });
+    }
+
+    // The frontend relies on Next.js rewrites to map /images/* to Supabase, 
+    // so we can still return the local path convention.
     return NextResponse.json({ ok: true, path: `/${safeDest}` });
   } catch (err) {
     console.error("[upload-image]", err);
