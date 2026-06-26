@@ -219,23 +219,29 @@ export default function BlogPage() {
       {/* Featured */}
       <section style={{ background: "var(--color-surface)", borderBottom: "1px solid var(--color-border)" }}>
         <div className="container" style={{ paddingTop: 0, paddingBottom: 0 }}>
-          <div style={{ marginTop: -48, borderRadius: 20, overflow: "hidden", position: "relative", minHeight: 340, border: "1px solid var(--color-border)", boxShadow: "0 24px 64px rgba(0,0,0,0.2)", background: CAT_COLORS[featured.category ?? "General"]?.gradient ?? "#111" }}>
+          <div style={{ marginTop: -20, borderRadius: 20, overflow: "hidden", position: "relative", minHeight: 340, border: "1px solid var(--color-border)", boxShadow: "0 24px 64px rgba(0,0,0,0.2)", background: CAT_COLORS[featured.category ?? "General"]?.gradient ?? "#111", zIndex: 10 }}>
             {featured.coverImage && (
-              <Image src={featured.coverImage} alt={featured.title ?? ""} fill style={{ objectFit: "cover" }} priority sizes="100vw" onError={() => {}} />
+              <Image src={featured.coverImage.startsWith("http") ? featured.coverImage : featured.coverImage} alt={featured.title ?? ""} fill style={{ objectFit: "cover" }} priority sizes="100vw" onError={() => {}} />
             )}
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(13,17,23,0.92) 45%, rgba(13,17,23,0.45) 100%)" }} />
-            <div style={{ position: "absolute", inset: 0, padding: "48px 56px", display: "flex", flexDirection: "column", justifyContent: "flex-end", zIndex: 1 }}>
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(13,17,23,0.92) 20%, rgba(13,17,23,0.45) 100%)" }} />
+            <div className="blog-featured-content" style={{ position: "absolute", inset: 0, padding: "clamp(24px, 5vw, 48px) clamp(20px, 5vw, 56px)", display: "flex", flexDirection: "column", justifyContent: "flex-end", zIndex: 1 }}>
               <span style={{ display: "inline-block", padding: "4px 12px", borderRadius: 6, marginBottom: 16, fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 11, background: "rgba(245,130,13,0.25)", color: "#F5820D", border: "1px solid rgba(245,130,13,0.4)", backdropFilter: "blur(6px)", width: "fit-content" }}>
                 {loading ? "Loading…" : "Featured"}
               </span>
-              <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: "clamp(22px,3vw,36px)", color: "white", lineHeight: 1.2, marginBottom: 12, maxWidth: 560 }}>{featured.title}</h2>
-              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: 480, marginBottom: 24 }}>{featured.excerpt}</p>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <Link href={`/blog/${featured.slug}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 24px", borderRadius: 10, fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 14, background: "var(--color-primary)", color: "white", textDecoration: "none" }}>
+              <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(24px, 2.5vw, 36px)", color: "white", lineHeight: 1.25, maxWidth: "100%", marginBottom: 12 }}>
+                {featured.title}
+              </h2>
+              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: "rgba(255,255,255,0.75)", lineHeight: 1.7, maxWidth: "100%", marginBottom: 24 }}>
+                {featured.excerpt}
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16 }}>
+                <Link href={`/blog/${featured.slug}`} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "12px 24px", borderRadius: 12, fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 14, background: "var(--color-primary)", color: "white", textDecoration: "none", transition: "all 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-2px)")}
+                  onMouseLeave={e => (e.currentTarget.style.transform = "translateY(0)")}>
                   Read Article <ArrowRight size={14} />
                 </Link>
-                <span style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "rgba(255,255,255,0.5)" }}>
-                  <Calendar size={12} /> {fmtDate(featured.publishedAt ?? featured.createdAt)}
+                <span style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "rgba(255,255,255,0.6)" }}>
+                  <Calendar size={13} /> {fmtDate(featured.publishedAt ?? featured.createdAt)}
                 </span>
               </div>
             </div>
