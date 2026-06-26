@@ -77,6 +77,18 @@ export default function ClickableImage({
     ...style,
   };
 
+  // ── IN PRODUCTION, RENDER A NORMAL STATIC IMAGE ──
+  if (process.env.NODE_ENV === "production") {
+    if (fill) {
+      return (
+        <Image src={src} alt={alt} fill style={imageStyle} sizes={sizes ?? "100vw"} priority={priority} quality={quality} className={className} />
+      );
+    }
+    return (
+      <Image src={src} alt={alt} width={width ?? 800} height={height ?? 600} style={imageStyle} sizes={sizes} priority={priority} quality={quality} className={className} />
+    );
+  }
+
   return (
     <div
       style={{ position: "relative", width: fill ? "100%" : width, height: fill ? "100%" : height, cursor: "pointer" }}
