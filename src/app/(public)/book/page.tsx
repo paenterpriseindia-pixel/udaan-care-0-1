@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Script from "next/script";
 
 import { useCurrency } from "@/context/CurrencyContext";
 import {
@@ -269,24 +270,112 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
   const zoomLink = state.type === "online" ? generateZoomLink(state.date, state.time, state.childName) : null;
   const [leadSent, setLeadSent] = useState(false);
 
-  // Capture lead once when this step opens
-  useEffect(() => {
-    if (leadSent) return;
+  // We will no longer send the lead *immediately* on this step.
+  // We will wait for Razorpay success. But for manual UPI flow, we might want to still log it or let them click "Confirm via WhatsApp" which already handles it manually.
+
+  const handleRazorpay = async () => {
+    if (leadSent) return; // Prevent double clicking
     setLeadSent(true);
-    fetch("/api/book", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: state.parentName || state.childName,
-        phone: state.phone,
-        email: state.email,
-        date: state.date,
-        time: state.time,
-        source: (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("utm_source")) || "website",
-        serviceInterest: state.type === "online" ? "Online Consultation" : "Clinic Visit",
-        message: state.reason,
-      }),
-    }).catch(() => {});
+    
+    try {
+      // 1. Create order on backend
+      const res = await fetch("/api/razorpay/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: priceNum }),
+      });
+      const order = await res.json();
+      
+      if (!order.id) {
+        alert("Server error. Please try again or use UPI.");
+        setLeadSent(false);
+        return;
+      }
+
+      // 2. Open Razorpay Checkout
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T6IKIEWy4JFJOJ", // Fallback to provided key if env missing
+        amount: order.amount,
+        currency: order.currency,
+        name: "UdaanCare",
+        description: `Booking for ${state.childName}`,
+        image: "https://fbogcjvivaehpsgabtqv.supabase.co/storage/v1/object/public/images/logo/logo-dark.png",
+        order_id: order.id,
+        handler: async function (response: any) {
+          // 3. Verify Payment and Send Email
+          const verifyRes = await fetch("/api/razorpay/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              leadData: {
+                name: state.parentName || state.childName,
+                phone: state.phone,
+                email: state.email,
+                date: state.date,
+                time: state.time,
+                source: (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("utm_source")) || "website",
+                serviceInterest: state.type === "online" ? "Online Consultation" : "Clinic Visit",
+                message: state.reason,
+              }
+            }),
+          });
+          
+          const result = await verifyRes.json();
+          if (result.success) {
+            alert(`Payment successful! Your confirmation number is ${result.confirmationNumber}. Check your email.`);
+            // Send whatsapp confirmation optionally or just redirect
+            window.location.href = "/";
+          } else {
+            alert("Payment verification failed. Please contact support.");
+          }
+        },
+        prefill: {
+          name: state.parentName || state.childName,
+          email: state.email,
+          contact: state.phone,
+        },
+        theme: {
+          color: "#1AAFE6",
+        },
+      };
+
+      const rzp1 = new (window as any).Razorpay(options);
+      rzp1.on("payment.failed", function (response: any) {
+        alert(response.error.description);
+        setLeadSent(false);
+      });
+      rzp1.open();
+      
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong opening Razorpay.");
+      setLeadSent(false);
+    }
+  };
+
+  // Capture lead for abandoned cart manually if they don't click razorpay
+  useEffect(() => {
+    // Only capture if they stay on this step for 10 seconds without paying
+    const timer = setTimeout(() => {
+       fetch("/api/book", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: state.parentName || state.childName,
+            phone: state.phone,
+            email: state.email,
+            date: state.date,
+            time: state.time,
+            source: "website_abandoned_checkout",
+            serviceInterest: state.type === "online" ? "Online Consultation" : "Clinic Visit",
+            message: state.reason,
+          }),
+        }).catch(() => {});
+    }, 10000);
+    return () => clearTimeout(timer);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // UPI deep link (works with Google Pay, PhonePe, Paytm)
@@ -342,34 +431,49 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
         </div>
       </div>
 
-      {/* Step 1: Pay via UPI */}
+      {/* Step 1: Pay securely */}
       <div className="card" style={{ padding: "20px 24px", marginBottom: 16 }}>
         <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "var(--color-text-primary)", marginBottom: 4 }}>
-          Step 1 — Pay via UPI
+          Step 1 — Make Payment
         </div>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 16 }}>
-          Use any UPI app (Google Pay, PhonePe, Paytm, BHIM) to pay:
+          Pay securely using Cards, UPI, Netbanking, or Wallets via Razorpay.
+        </p>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" as const, alignItems: "center", marginBottom: 16 }}>
+          <button onClick={handleRazorpay} disabled={leadSent} style={{
+            display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 24px", borderRadius: 12,
+            background: "var(--color-primary)", color: "white", textDecoration: "none", border: "none", cursor: leadSent ? "wait" : "pointer",
+            fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 15,
+            boxShadow: "0 4px 16px rgba(26,175,230,0.35)",
+            opacity: leadSent ? 0.7 : 1
+          }}>
+            Pay {price} Securely
+          </button>
+        </div>
+
+        <div style={{ height: 1, background: "var(--color-border)", margin: "16px 0" }} />
+        
+        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 12 }}>
+          Alternatively, you can manually send {price} to our UPI ID:
         </p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" as const, alignItems: "center" }}>
           <a href={upiLink} style={{
-            display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 24px", borderRadius: 12,
-            background: "var(--color-primary)", color: "white", textDecoration: "none",
-            fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 15,
-            boxShadow: "0 4px 16px rgba(26,175,230,0.35)",
+            display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 16px", borderRadius: 8,
+            background: "var(--color-surface)", color: "var(--color-text-primary)", textDecoration: "none", border: "1px solid var(--color-border)",
+            fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 14,
           }}>
-            Pay {price} via UPI
+            Open UPI App
           </a>
           <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)" }}>
-            or send to UPI ID:<br />
-            <strong style={{ color: "var(--color-text-primary)", fontSize: 15 }}>7000699278@ybl</strong>
+            <strong>7000699278@ybl</strong>
           </div>
         </div>
       </div>
 
-      {/* Step 2: WhatsApp confirmation */}
+      {/* Step 2: WhatsApp confirmation (only needed for manual UPI) */}
       <div className="card" style={{ padding: "20px 24px", marginBottom: 16 }}>
         <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "var(--color-text-primary)", marginBottom: 4 }}>
-          Step 2 — Send Payment Screenshot on WhatsApp
+          Step 2 — WhatsApp Confirmation (For Manual UPI only)
         </div>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 16 }}>
           After paying, tap the button below to send your booking details + payment screenshot to Dr. Prasoon. He will confirm your slot within 2 hours.
@@ -474,6 +578,7 @@ export default function BookPage() {
           ))}
         </div>
       </div>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
     </div>
   );
 }
