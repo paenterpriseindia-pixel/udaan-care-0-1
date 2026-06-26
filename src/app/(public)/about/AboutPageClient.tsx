@@ -99,7 +99,7 @@ export default function AboutPageClient() {
                 The name &ldquo;Udaan&rdquo; — meaning &ldquo;flight&rdquo; in Hindi — reflects our core belief: every child has the potential to soar. With the right support and tools, no child&apos;s development is beyond reach. &ldquo;Small Steps. Strong Wings.&rdquo; is not just our tagline — it is our promise.
               </p>
             </motion.div>
-            <div style={{ borderRadius: 20, overflow: "hidden", position: "relative", minHeight: 300, aspectRatio: "4/3" }}>
+            <div style={{ borderRadius: 20, overflow: "hidden", position: "relative", width: "100%", aspectRatio: "4/3" }}>
               <Image
                 src="/images/doctor/dr-prasoon-hero.jpg"
                 alt="Udaan Care clinic"
@@ -119,7 +119,7 @@ export default function AboutPageClient() {
         <div className="container">
           <div className="grid-responsive-2" style={{ gap: 80, alignItems: "start" }}>
             {/* Photo */}
-            <div style={{ position: "relative", minHeight: 350, aspectRatio: "3/4" }}>
+            <div style={{ position: "relative", width: "100%", aspectRatio: "3/4" }}>
               <div style={{ position: "absolute", left: 0, top: 24, bottom: 24, width: 4, borderRadius: 2, background: "var(--color-primary)", zIndex: 2 }} />
               <div style={{ borderRadius: 20, overflow: "hidden", marginLeft: 20, height: "100%", position: "relative" }}>
                 <Image

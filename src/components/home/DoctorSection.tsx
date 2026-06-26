@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { useCurrency } from "@/context/CurrencyContext";
-import ClickableImage from "@/components/shared/ClickableImage";
+import Image from "next/image";
 
 const AutoScrollGallery = dynamic(() => import("./AutoScrollGallery"), { ssr: false });
 
@@ -52,15 +52,13 @@ export default function DoctorSection() {
                 boxShadow: "0 24px 64px rgba(0,0,0,0.15)",
                 aspectRatio: "4/5", width: "100%", maxWidth: 440, margin: "0 auto",
               }}>
-                <ClickableImage
+                <Image
                   src="/images/doctor/dr-prasoon-about.jpg"
                   alt="Dr. Prasoon Gupta"
                   fill
-                  objectFit="cover"
-                  objectPosition="top center"
-                  sizes="(max-width: 900px) 100vw, 480px"
-                  quality={100}
-                  dest="images/doctor/dr-prasoon-about.jpg"
+                  style={{ objectFit: "cover", objectPosition: "top center" }}
+                  sizes="(max-width: 768px) 100vw, 440px"
+                  quality={95}
                 />
               </div>
               {/* Floating credential */}

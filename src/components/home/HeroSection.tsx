@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Building2, Globe, Award, Heart, ChevronDown, Star } from "lucide-react";
 import { useCurrency } from "@/context/CurrencyContext";
-import ClickableImage from "@/components/shared/ClickableImage";
+import Image from "next/image";
 
 /* ── Animated underline for "Wings" ── */
 function WingsUnderline() {
@@ -90,16 +90,14 @@ export default function HeroSection() {
           zIndex: 0,
         }}
       >
-        <ClickableImage
+        <Image
           src="/images/global/hero-background.jpg"
           alt="Hero background"
           fill
           priority
-          objectFit="cover"
-          objectPosition="center top"
+          style={{ objectFit: "cover", objectPosition: "center top" }}
           sizes="100vw"
           quality={100}
-          dest="images/global/hero-background.jpg"
         />
       </div>
 
@@ -320,16 +318,14 @@ export default function HeroSection() {
               position: "relative",
             }}
           >
-            <ClickableImage
+            <Image
               src="/images/doctor/dr-prasoon-hero.jpg"
               alt="Dr. Prasoon Gupta — Pediatric Occupational Therapist"
               fill
-              objectFit="cover"
-              objectPosition="center top"
+              style={{ objectFit: "cover", objectPosition: "center top" }}
               sizes="340px"
               priority
               quality={100}
-              dest="images/doctor/dr-prasoon-hero.jpg"
             />
           </motion.div>
 
