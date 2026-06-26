@@ -144,7 +144,8 @@ export default function HeroSection() {
               display: "inline-flex", alignItems: "center", gap: 10,
               background: "rgba(26,175,230,0.12)", border: "1px solid rgba(26,175,230,0.25)",
               padding: "6px 16px", borderRadius: 100, marginBottom: 24,
-              backdropFilter: "blur(8px)"
+              backdropFilter: "blur(8px)",
+              maxWidth: "100%", flexWrap: "wrap"
             }}
           >
             <span style={{ 
