@@ -378,16 +378,7 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
     return () => clearTimeout(timer);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // UPI deep link (works with Google Pay, PhonePe, Paytm)
-  const upiLink = `upi://pay?pa=7000699278@ybl&pn=Udaan+Care&am=${priceNum}&cu=INR&tn=Booking+${state.childName}`;
 
-  const waText = encodeURIComponent(
-    `Hello Dr. Prasoon,\n\nI have paid ₹${priceNum} for my appointment. Please confirm:\n\n` +
-    `Type: ${label}\nDate: ${new Date(state.date + "T00:00:00").toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" })}\nTime: ${state.time} IST\n` +
-    `Patient: ${state.childName} (${state.childAge})\nParent: ${state.parentName}\n` +
-    `Phone: ${state.phone}${state.type === "online" ? `\n\nZoom Link: ${zoomLink}` : ""}\n\nReason: ${state.reason}\n\nPayment done. Kindly confirm. Thank you!`
-  );
-  const waLink = `https://wa.me/918349764084?text=${waText}`;
 
   return (
     <div>
@@ -431,13 +422,13 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
         </div>
       </div>
 
-      {/* Step 1: Pay securely */}
+      {/* Payment Step */}
       <div className="card" style={{ padding: "20px 24px", marginBottom: 16 }}>
         <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "var(--color-text-primary)", marginBottom: 4 }}>
-          Step 1 — Make Payment
+          Make Payment
         </div>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 16 }}>
-          Pay securely using Cards, UPI, Netbanking, or Wallets via Razorpay.
+          Pay securely using Cards, UPI, Netbanking, or Wallets.
         </p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" as const, alignItems: "center", marginBottom: 16 }}>
           <button onClick={handleRazorpay} disabled={leadSent} style={{
@@ -451,50 +442,11 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
           </button>
         </div>
 
-        <div style={{ height: 1, background: "var(--color-border)", margin: "16px 0" }} />
-        
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 12 }}>
-          Alternatively, you can manually send {price} to our UPI ID:
-        </p>
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" as const, alignItems: "center" }}>
-          <a href={upiLink} style={{
-            display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 16px", borderRadius: 8,
-            background: "var(--color-surface)", color: "var(--color-text-primary)", textDecoration: "none", border: "1px solid var(--color-border)",
-            fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 14,
-          }}>
-            Open UPI App
-          </a>
-          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)" }}>
-            <strong>7000699278@ybl</strong>
-          </div>
-        </div>
-      </div>
-
-      {/* Step 2: WhatsApp confirmation (only needed for manual UPI) */}
-      <div className="card" style={{ padding: "20px 24px", marginBottom: 16 }}>
-        <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "var(--color-text-primary)", marginBottom: 4 }}>
-          Step 2 — WhatsApp Confirmation (For Manual UPI only)
-        </div>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 16 }}>
-          After paying, tap the button below to send your booking details + payment screenshot to Dr. Prasoon. He will confirm your slot within 2 hours.
-        </p>
-        <a href={waLink} target="_blank" rel="noopener noreferrer"
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
-            width: "100%", padding: "15px", borderRadius: 12,
-            background: "#25D366", color: "white", textDecoration: "none",
-            fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16,
-            boxShadow: "0 4px 20px rgba(37,211,102,0.3)",
-          }}
-        >
-          <MessageCircle size={20} />
-          Send on WhatsApp · Confirm Booking
-        </a>
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "center", fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--color-text-secondary)" }}>
         <ShieldCheck size={13} style={{ color: "var(--color-success)" }} />
-        Slot is reserved after Dr. Prasoon confirms receipt of payment · Usually within 2 hours
+        Slot is reserved immediately upon successful payment
       </div>
     </div>
   );
