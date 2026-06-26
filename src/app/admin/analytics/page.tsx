@@ -85,7 +85,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Charts row */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
+      <div className="grid-responsive-2" style={{ gap: 20, marginBottom: 20 }}>
         <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, padding: 20 }}>
           <h3 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 15, color: "white", marginBottom: 4 }}>New Patients / Month</h3>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginBottom: 12 }}>Last 6 months</p>
@@ -101,7 +101,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Diagnosis breakdown + session type */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+      <div className="grid-responsive-2" style={{ gap: 20 }}>
         <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, padding: 20 }}>
           <h3 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 15, color: "white", marginBottom: 16 }}>Top Diagnoses</h3>
           {topDiagnoses.length === 0 ? (

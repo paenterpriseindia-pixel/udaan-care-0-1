@@ -143,7 +143,7 @@ export default function SchedulePage() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+      <div className="grid-responsive-2" style={{ gap: 20 }}>
 
         {/* LEFT: Working Days */}
         <div>
@@ -178,7 +178,7 @@ export default function SchedulePage() {
             <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "white", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
               <Clock size={16} style={{ color: "#6B3FA0" }} /> Working Hours
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div className="grid-responsive-2" style={{ gap: 12 }}>
               <div>
                 <span style={label}>Start Time</span>
                 <select style={select} value={avail.startTime} onChange={e => setAvail(a => ({ ...a, startTime: e.target.value }))}>
@@ -199,7 +199,7 @@ export default function SchedulePage() {
             <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "white", marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
               <Coffee size={16} style={{ color: "#F5820D" }} /> Break & Buffer
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+            <div className="grid-responsive-2" style={{ gap: 12, marginBottom: 12 }}>
               <div>
                 <span style={label}>Break Start</span>
                 <select style={select} value={avail.breakStart ?? ""} onChange={e => setAvail(a => ({ ...a, breakStart: e.target.value || undefined }))}>
@@ -246,7 +246,7 @@ export default function SchedulePage() {
 
             {/* Add new */}
             <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 10, padding: 16, marginBottom: 20 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
+              <div className="grid-responsive-2" style={{ gap: 10, marginBottom: 10 }}>
                 <div>
                   <span style={label}>Date</span>
                   <input type="date" value={newDate} min={new Date().toISOString().split("T")[0]}

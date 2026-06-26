@@ -101,7 +101,7 @@ export default function CMSPage() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 20 }}>
+      <div className="grid-sidebar" style={{ gap: 20 }}>
         {/* Sidebar */}
         <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: 8, height: "fit-content" }}>
           {SECTIONS.map(s => (

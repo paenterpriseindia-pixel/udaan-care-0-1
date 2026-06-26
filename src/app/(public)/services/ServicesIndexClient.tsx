@@ -94,12 +94,11 @@ export default function ServicesIndexClient() {
           <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
             {services.map((s, i) => (
               <motion.div
+                className="grid-responsive-2"
                 key={s.slug}
                 variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.08 }}
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: i % 2 === 0 ? "1fr 1.2fr" : "1.2fr 1fr",
                   gap: 0, borderRadius: 20, overflow: "hidden",
                   border: "1px solid var(--color-border)",
                   background: "var(--color-card)",
@@ -141,7 +140,7 @@ export default function ServicesIndexClient() {
 
                   <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: "var(--color-text-secondary)", lineHeight: 1.8, marginBottom: 24 }}>{s.desc}</p>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 32 }}>
+                  <div className="grid-responsive-2" style={{ gap: 8, marginBottom: 32 }}>
                     {s.highlights.map(h => (
                       <div key={h} style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         <Check size={14} style={{ color: s.accent, flexShrink: 0 }} />
@@ -194,7 +193,7 @@ export default function ServicesIndexClient() {
             <span className="eyebrow">Online vs In-Clinic</span>
             <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(26px,3vw,36px)", color: "var(--color-text-primary)" }}>Which is right for us?</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, maxWidth: 800, margin: "0 auto" }}>
+          <div className="grid-responsive-2" style={{ gap: 24, maxWidth: 800, margin: "0 auto" }}>
             {[
               { title: "Online Session", color: "#0A7E8C", items: ["Available across India & worldwide", "No travel required", "Zoom — HD video & audio", "Parent coaching included", "Home program every session", "₹599 / $9 per session"] },
               { title: "In-Clinic Visit", color: "#6B3FA0", items: ["Katni, Madhya Pradesh only", "Hands-on sensory equipment", "Full clinic environment", "Direct hands-on therapy", "Equipment & materials available", "₹799 per session"] },

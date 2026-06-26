@@ -64,9 +64,10 @@ export default function PatientsPage() {
       </div>
 
       {/* Table */}
-      <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, overflow: "hidden" }}>
-        {/* Table header */}
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1.5fr 1fr 1fr 40px", gap: 0, padding: "12px 20px", borderBottom: "1px solid rgba(255,255,255,0.07)", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+      <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, overflowX: "auto" }}>
+        <div style={{ minWidth: 900 }}>
+          {/* Table header */}
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1.5fr 1fr 1fr 40px", gap: 0, padding: "12px 20px", borderBottom: "1px solid rgba(255,255,255,0.07)", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
           <span>Patient</span><span>ID</span><span>Guardian</span><span>Diagnoses</span><span>Status</span><span />
         </div>
 
@@ -109,6 +110,7 @@ export default function PatientsPage() {
             <ChevronRight size={14} style={{ color: "rgba(255,255,255,0.2)" }} />
           </Link>
         ))}
+        </div>
       </div>
     </div>
   );

@@ -127,7 +127,7 @@ export default function ParentPortalDashboard() {
 
         {/* ── PROGRESS TAB ── */}
         {activeTab === "progress" && (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <div className="grid-responsive-2" style={{ gap: 20 }}>
 
             {/* Progress circle */}
             <div style={{ background: "white", borderRadius: 20, padding: 28, boxShadow: "0 2px 12px rgba(0,0,0,0.06)", gridColumn: "1/-1" }}>

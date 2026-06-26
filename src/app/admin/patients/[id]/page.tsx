@@ -124,7 +124,7 @@ export default function PatientDetailPage() {
 
       {/* ── OVERVIEW ── */}
       {activeTab === "Overview" && (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+        <div className="grid-responsive-2" style={{ gap: 20 }}>
           {/* Patient details card */}
           <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, padding: 20 }}>
             <h3 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 15, color: "white", marginBottom: 16 }}>Child Details</h3>
@@ -262,7 +262,7 @@ export default function PatientDetailPage() {
 
           {showAddGoal && (
             <div style={{ background: "rgba(107,63,160,0.08)", border: "1px solid rgba(107,63,160,0.25)", borderRadius: 16, padding: 20, marginBottom: 16 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+              <div className="grid-responsive-2" style={{ gap: 12, marginBottom: 12 }}>
                 <div style={{ gridColumn: "1/-1" }}><label style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", display: "block", marginBottom: 4 }}>Goal Title *</label><input style={inputStyle} value={goalForm.title} onChange={e => setGoalForm(f => ({ ...f, title: e.target.value }))} placeholder="e.g. Hold pencil correctly for 5 mins" /></div>
                 <div style={{ gridColumn: "1/-1" }}><label style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", display: "block", marginBottom: 4 }}>Description</label><textarea style={{ ...inputStyle, minHeight: 60, resize: "vertical" }} value={goalForm.description} onChange={e => setGoalForm(f => ({ ...f, description: e.target.value }))} /></div>
                 <div><label style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", display: "block", marginBottom: 4 }}>Target Date</label><input type="date" style={inputStyle} value={goalForm.targetDate} onChange={e => setGoalForm(f => ({ ...f, targetDate: e.target.value }))} /></div>

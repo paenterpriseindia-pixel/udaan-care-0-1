@@ -69,7 +69,7 @@ export default function BookingsPage() {
       {showForm && (
         <div style={{ background: "rgba(10,126,140,0.06)", border: "1px solid rgba(10,126,140,0.2)", borderRadius: 16, padding: 24, marginBottom: 24 }}>
           <h3 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "white", marginBottom: 16 }}>Create Booking</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div className="grid-responsive-2" style={{ gap: 12 }}>
             <div><label style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", display: "block", marginBottom: 4 }}>Patient *</label>
               <select style={inputStyle} value={form.patientId} onChange={e => setForm(f => ({ ...f, patientId: e.target.value }))}>
                 <option value="">Select patient…</option>

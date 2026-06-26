@@ -113,7 +113,7 @@ export default function NewBlogPostPage() {
           </div>
 
           {/* Title + Category + Slug */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div className="grid-responsive-2" style={{ gap: 12 }}>
             <div style={{ gridColumn: "1/-1" }}>
               <label style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.5)", display: "block", marginBottom: 6 }}>Title *</label>
               <input style={{ ...inputStyle, fontSize: 18, fontWeight: 700 }} value={form.title} onChange={e => handleTitle(e.target.value)} placeholder="Blog post title…" />

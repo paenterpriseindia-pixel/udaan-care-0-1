@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="admin@udaancare.in"
+                placeholder="admin@example.com"
                 required
                 style={{
                   width: "100%", padding: "12px 14px 12px 40px", borderRadius: 10,
@@ -121,27 +121,27 @@ export default function AdminLoginPage() {
           )}
 
           {/* Submit */}
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: "100%", padding: "14px", borderRadius: 10, border: "none", cursor: loading ? "not-allowed" : "pointer",
-              background: loading ? "rgba(10,126,140,0.5)" : "linear-gradient(135deg, #0A7E8C, #6B3FA0)",
-              color: "white", fontSize: 15, fontWeight: 700,
-              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-              transition: "all 0.2s", marginTop: 4,
-              fontFamily: "'DM Sans', sans-serif",
-            }}
-          >
+          <button type="submit" disabled={loading} style={{
+            width: "100%", padding: 14, borderRadius: 10, border: "none", cursor: loading ? "not-allowed" : "pointer",
+            background: "linear-gradient(135deg, #0A7E8C, #6B3FA0)", color: "white", fontSize: 15, fontWeight: 700,
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 8,
+            fontFamily: "'DM Sans', sans-serif",
+            transition: "transform 0.2s, box-shadow 0.2s",
+            boxShadow: "0 8px 24px rgba(10,126,140,0.2)",
+          }}>
             {loading ? (
               <>
                 <div style={{ width: 18, height: 18, border: "2px solid rgba(255,255,255,0.3)", borderTop: "2px solid white", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />
-                Signing in…
+                Authenticating…
               </>
             ) : (
-              <>Sign In <ArrowRight size={15} /></>
+              <>Sign In to Admin <ArrowRight size={15} /></>
             )}
           </button>
+          
+          <div style={{ textAlign: "center", marginTop: 4 }}>
+            <a href="/admin/forgot-password" style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}>Forgot Password?</a>
+          </div>
         </form>
 
         {/* Parent portal link */}

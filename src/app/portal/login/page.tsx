@@ -50,7 +50,7 @@ export default function ParentPortalLogin() {
               <Hash size={15} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: "#9CA3AF" }} />
               <input
                 value={uniqueId} onChange={e => setUniqueId(e.target.value.toUpperCase())}
-                placeholder="UC-2024-0001"
+                placeholder="UC-XXXX"
                 required
                 style={{ width: "100%", padding: "12px 14px 12px 40px", borderRadius: 10, background: "#f8fafc", border: "1.5px solid #e2e8f0", color: "#1e293b", fontSize: 15, fontWeight: 700, letterSpacing: "0.05em", outline: "none", boxSizing: "border-box", fontFamily: "'DM Sans',sans-serif" }}
                 onFocus={e => e.target.style.borderColor = "#0A7E8C"}
@@ -88,6 +88,10 @@ export default function ParentPortalLogin() {
           }}>
             {loading ? <><div style={{ width: 18, height: 18, border: "2px solid rgba(255,255,255,0.3)", borderTop: "2px solid white", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} /> Logging in…</> : <>View Progress <ArrowRight size={15} /></>}
           </button>
+          
+          <div style={{ textAlign: "center", marginTop: 4 }}>
+            <a href="/portal/forgot-password" style={{ color: "#64748b", fontSize: 13, textDecoration: "none" }}>Forgot PIN?</a>
+          </div>
         </form>
 
         <div style={{ marginTop: 28, textAlign: "center", paddingTop: 24, borderTop: "1px solid #f1f5f9", fontSize: 13, color: "#94a3b8" }}>

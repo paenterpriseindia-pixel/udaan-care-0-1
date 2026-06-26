@@ -109,7 +109,7 @@ export default function ContactPage() {
       {/* Main content */}
       <section className="section" style={{ background: "var(--color-bg)" }}>
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }} className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="grid-responsive-2" style={{ gap: 64, alignItems: "start" }}>
             {/* Left — Info */}
             <div>
               <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 28, color: "var(--color-text-primary)", marginBottom: 32 }}>How to Reach Us</h2>

@@ -50,7 +50,7 @@ export default function BranchesPage() {
       {adding && (
         <div style={{ background: "rgba(26,175,230,0.06)", border: "1px solid rgba(26,175,230,0.2)", borderRadius: 16, padding: 24, marginBottom: 24 }}>
           <h3 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "white", marginBottom: 16 }}>New Branch</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+          <div className="grid-responsive-2" style={{ gap: 12, marginBottom: 12 }}>
             <div><label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.5)", marginBottom: 6, fontFamily: "'DM Sans',sans-serif" }}>Branch Name *</label><input style={inp} placeholder="e.g. Bhopal Clinic" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))} /></div>
             <div><label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.5)", marginBottom: 6, fontFamily: "'DM Sans',sans-serif" }}>City</label><input style={inp} placeholder="e.g. Bhopal" value={form.city} onChange={e => setForm(f => ({...f, city: e.target.value}))} /></div>
             <div><label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.5)", marginBottom: 6, fontFamily: "'DM Sans',sans-serif" }}>Address</label><input style={inp} placeholder="Full clinic address" value={form.address} onChange={e => setForm(f => ({...f, address: e.target.value}))} /></div>

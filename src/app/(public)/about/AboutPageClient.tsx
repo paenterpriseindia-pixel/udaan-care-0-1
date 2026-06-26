@@ -69,7 +69,7 @@ export default function AboutPageClient() {
       {/* ── Stats Strip ── */}
       <section style={{ background: "var(--color-primary)", padding: "40px 0" }}>
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 0 }}>
+          <div className="grid-responsive-4" style={{ gap: 0 }}>
             {stats.map((s, i) => (
               <div key={s.label} style={{
                 textAlign: "center", padding: "16px 24px",
@@ -86,7 +86,7 @@ export default function AboutPageClient() {
       {/* ── Our Story ── */}
       <section className="section" style={{ background: "var(--color-bg)" }}>
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <div className="grid-responsive-2" style={{ gap: 80, alignItems: "center" }}>
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <span className="eyebrow">Our Story</span>
               <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: "clamp(24px, 3vw, 36px)", color: "var(--color-text-primary)", marginBottom: 24, lineHeight: 1.2 }}>
@@ -99,7 +99,7 @@ export default function AboutPageClient() {
                 The name &ldquo;Udaan&rdquo; — meaning &ldquo;flight&rdquo; in Hindi — reflects our core belief: every child has the potential to soar. With the right support and tools, no child&apos;s development is beyond reach. &ldquo;Small Steps. Strong Wings.&rdquo; is not just our tagline — it is our promise.
               </p>
             </motion.div>
-            <div style={{ borderRadius: 20, overflow: "hidden", position: "relative", height: 440 }} className="hide-mobile">
+            <div style={{ borderRadius: 20, overflow: "hidden", position: "relative", minHeight: 300, aspectRatio: "4/3" }}>
               <Image
                 src="/images/doctor/dr-prasoon-hero.jpg"
                 alt="Udaan Care clinic"
@@ -117,9 +117,9 @@ export default function AboutPageClient() {
       {/* ── Dr. Prasoon ── */}
       <section className="section" style={{ background: "var(--color-surface)" }}>
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+          <div className="grid-responsive-2" style={{ gap: 80, alignItems: "start" }}>
             {/* Photo */}
-            <div style={{ position: "relative", height: 560 }} className="hide-mobile">
+            <div style={{ position: "relative", minHeight: 350, aspectRatio: "3/4" }}>
               <div style={{ position: "absolute", left: 0, top: 24, bottom: 24, width: 4, borderRadius: 2, background: "var(--color-primary)", zIndex: 2 }} />
               <div style={{ borderRadius: 20, overflow: "hidden", marginLeft: 20, height: "100%", position: "relative" }}>
                 <Image

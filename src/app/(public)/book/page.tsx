@@ -180,7 +180,7 @@ function Step2({ state, setState }: { state: BookingState; setState: (s: Booking
             <Clock size={14} style={{ display: "inline", marginRight: 6, verticalAlign: "middle" }} />
             Select Time Slot <span style={{ fontWeight: 400, fontSize: 12, color: "var(--color-text-secondary)" }}>All times in IST</span>
           </label>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
+          <div className="grid-responsive-4" style={{ gap: 8 }}>
             {TIMES.map(t => {
               const booked = BOOKED.includes(t);
               const selected = state.time === t;

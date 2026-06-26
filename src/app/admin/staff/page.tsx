@@ -87,7 +87,7 @@ function StaffCard({ user, attendance, activities, onClockIn, onClockOut, onMark
       </div>
 
       {/* Clock in/out row */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 12 }}>
+      <div className="grid-responsive-2" style={{ gap: 8, marginBottom: 12 }}>
         <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "10px 14px" }}>
           <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "rgba(255,255,255,0.35)", marginBottom: 2 }}>Clock In</div>
           <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 14, color: att?.clockIn ? "#22c55e" : "rgba(255,255,255,0.2)" }}>
@@ -103,7 +103,7 @@ function StaffCard({ user, attendance, activities, onClockIn, onClockOut, onMark
       </div>
 
       {/* Stats row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8, marginBottom: 14 }}>
+      <div className="grid-responsive-3" style={{ gap: 8, marginBottom: 14 }}>
         {[
           { label: "Sessions", value: sessions, color: "#1AAFE6" },
           { label: "Hours",    value: worked ?? "—", color: "#22c55e" },
@@ -253,7 +253,7 @@ export default function StaffPage() {
       </div>
 
       {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 24 }}>
+      <div className="grid-responsive-4" style={{ gap: 12, marginBottom: 24 }}>
         {[
           { label: "Total Staff", value: staff.length, icon: <Users size={18} />, color: "#1AAFE6" },
           { label: "Present Today", value: presentCount, icon: <CheckCircle size={18} />, color: "#22c55e" },

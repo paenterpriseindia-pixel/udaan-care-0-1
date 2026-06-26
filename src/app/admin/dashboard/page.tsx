@@ -168,7 +168,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Today's Schedule + New Leads side by side */}
-      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 20 }}>
+      <div className="grid-responsive-2" style={{ gap: 20 }}>
 
         {/* Today's Schedule */}
         <div style={card}>

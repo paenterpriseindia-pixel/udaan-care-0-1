@@ -63,7 +63,7 @@ export default function NewPatientPage() {
             <User size={16} style={{ color: "#0A7E8C" }} />
             <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "white" }}>Child Information</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div className="grid-responsive-2" style={{ gap: 16 }}>
             <div style={{ gridColumn: "1/-1" }}>
               <label style={labelStyle}>Child's Full Name *</label>
               <input style={inputStyle} value={form.name} onChange={e => set("name", e.target.value)} placeholder="e.g. Arjun Sharma" required />
@@ -112,7 +112,7 @@ export default function NewPatientPage() {
             <Phone size={16} style={{ color: "#F5820D" }} />
             <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "white" }}>Parent / Guardian</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div className="grid-responsive-2" style={{ gap: 16 }}>
             <div>
               <label style={labelStyle}>Guardian Name *</label>
               <input style={inputStyle} value={form.guardianName} onChange={e => set("guardianName", e.target.value)} placeholder="Father / Mother name" required />
@@ -141,7 +141,7 @@ export default function NewPatientPage() {
 
         {/* Notes & Status */}
         <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, padding: 24 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div className="grid-responsive-2" style={{ gap: 16 }}>
             <div>
               <label style={labelStyle}>Status</label>
               <select style={inputStyle} value={form.status} onChange={e => set("status", e.target.value)}>

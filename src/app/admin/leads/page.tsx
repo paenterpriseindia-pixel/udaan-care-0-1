@@ -84,7 +84,7 @@ export default function LeadsPage() {
       </div>
 
       {/* Stats row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 24 }}>
+      <div className="grid-responsive-4" style={{ gap: 12, marginBottom: 24 }}>
         {[
           { label: "New Leads", value: counts.new, icon: UserPlus, color: "#1AAFE6" },
           { label: "Contacted", value: counts.contacted, icon: MessageCircle, color: "#F5820D" },

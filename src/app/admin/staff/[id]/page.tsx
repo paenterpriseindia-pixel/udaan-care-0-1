@@ -279,12 +279,12 @@ export default function StaffDetailPage() {
 
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 20 }}>
+      <div className="grid-sidebar-right" style={{ gap: 20 }}>
 
         {/* LEFT: Activity Timeline */}
         <div>
           {/* Summary cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10, marginBottom: 16 }}>
+          <div className="grid-responsive-4" style={{ gap: 10, marginBottom: 16 }}>
             {[
               { label: "Clock In", value: attendance?.clockIn ? fmt12(attendance.clockIn) : "—", color: "#22c55e" },
               { label: "Clock Out", value: attendance?.clockOut ? fmt12(attendance.clockOut) : attendance?.clockIn ? "Still in" : "—", color: "#1AAFE6" },

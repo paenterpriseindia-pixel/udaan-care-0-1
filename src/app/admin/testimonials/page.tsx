@@ -228,7 +228,7 @@ export default function AdminTestimonialsPage() {
             </button>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div className="grid-responsive-2" style={{ gap: 16 }}>
             {field("Parent Name", "parentName", "e.g. Priya Sharma", "text", true)}
             {field("Child Age", "childAge", "e.g. 5 years")}
             {field("Location", "location", "e.g. Jabalpur, MP")}

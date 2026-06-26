@@ -167,7 +167,7 @@ export default function StaffPerformancePage() {
         <div style={{ display: "flex", flexDirection: "column" as const, gap: 20 }}>
 
           {/* Top KPI row */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12 }}>
+          <div className="grid-responsive-4" style={{ gap: 12 }}>
             {[
               { label: "Attendance",     value: `${attendancePct}%`, sub: `${presentDays}/${workingDays} days`, color: attendancePct >= 80 ? "#22c55e" : attendancePct >= 60 ? "#F5820D" : "#EF4444", icon: <CheckCircle size={20} /> },
               { label: "Patient Sessions", value: totalSessions,  sub: `${avgSessionsPerDay}/day avg`, color: "#1AAFE6", icon: <Users size={20} /> },
@@ -187,7 +187,7 @@ export default function StaffPerformancePage() {
             ))}
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <div className="grid-responsive-2" style={{ gap: 20 }}>
 
             {/* Attendance Breakdown */}
             <div style={card}>
@@ -244,7 +244,7 @@ export default function StaffPerformancePage() {
           </div>
 
           {/* Extra metrics */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12 }}>
+          <div className="grid-responsive-3" style={{ gap: 12 }}>
             {[
               { label: "Avg Sessions/Day", value: avgSessionsPerDay, color: "#1AAFE6", sub: "patient sessions" },
               { label: "Parent Counselling", value: totalCounselling, color: "#6B3FA0", sub: "sessions" },

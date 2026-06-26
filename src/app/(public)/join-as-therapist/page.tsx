@@ -113,7 +113,7 @@ export default function JoinAsTherapistPage() {
         <div className="container" style={{ maxWidth: 720 }}>
           <span className="eyebrow">Eligibility</span>
           <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 36, color: "var(--color-text-primary)", marginBottom: 36 }}>Who Can Apply</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }} className="grid grid-cols-1 sm:grid-cols-2">
+          <div className="grid-responsive-2" style={{ gap: 12 }} className="grid grid-cols-1 sm:grid-cols-2">
             {requirements.map((r) => (
               <div key={r} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 18px", borderRadius: 10, border: "1px solid var(--color-border)", background: "var(--color-surface)" }}>
                 <div style={{ width: 22, height: 22, borderRadius: "50%", background: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
@@ -191,7 +191,7 @@ export default function JoinAsTherapistPage() {
                 </Field>
 
                 {/* Years + Specialization */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div className="grid-responsive-2" style={{ gap: 16 }}>
                   <Field label="Years of Experience" required>
                     <input className="input" type="number" min={0} max={50} required placeholder="e.g. 2" value={form.years} onChange={e => setForm({...form, years: e.target.value})} />
                   </Field>
@@ -201,7 +201,7 @@ export default function JoinAsTherapistPage() {
                 </div>
 
                 {/* City + Phone */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div className="grid-responsive-2" style={{ gap: 16 }}>
                   <Field label="City / State" required>
                     <input className="input" required placeholder="e.g. Bhopal, MP" value={form.city} onChange={e => setForm({...form, city: e.target.value})} />
                   </Field>
