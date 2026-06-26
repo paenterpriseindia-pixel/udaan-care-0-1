@@ -41,27 +41,27 @@ const portals = [
   { label: "Admin Panel",    href: "/admin",          color: "#a78bd4" },
 ];
 
-const S: React.CSSProperties = { fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 2, textDecoration: "none", display: "block", transition: "color 0.15s" };
+const S: React.CSSProperties = { fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", lineHeight: 2, textDecoration: "none", display: "block", transition: "color 0.15s" };
 
 export default function Footer() {
   return (
-    <footer style={{ background: "rgba(0, 0, 0, 0.45)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderTop: "1px solid rgba(255, 255, 255, 0.15)", color: "white" }}>
+    <footer className="glass-card" style={{ borderTop: "1px solid var(--glass-border)", color: "var(--color-text-primary)" }}>
       <div className="container" style={{ paddingTop: 64, paddingBottom: 40 }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 40, marginBottom: 48 }}>
           {/* Brand */}
           <div style={{ gridColumn: "span 1" }}>
-            <div style={{ marginBottom: 16 }}><Logo variant="light" /></div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.75, marginBottom: 4 }}>Small Steps. Strong Wings.</p>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "rgba(255,255,255,0.4)", lineHeight: 1.75, marginBottom: 20 }}>Expert pediatric occupational therapy, online across India and worldwide.</p>
+            <div style={{ marginBottom: 16 }}><Logo variant="auto" /></div>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", lineHeight: 1.75, marginBottom: 4 }}>Small Steps. Strong Wings.</p>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)", lineHeight: 1.75, marginBottom: 20 }}>Expert pediatric occupational therapy, online across India and worldwide.</p>
             <div style={{ display: "flex", gap: 12 }}>
               {[
                 { href: "https://instagram.com/udaancare", icon: <InstagramIcon />, label: "Instagram" },
                 { href: "https://wa.me/918349764084", icon: <WhatsAppIcon />, label: "WhatsApp" },
               ].map((s) => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
-                  style={{ width: 38, height: 38, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)", transition: "all 0.2s", textDecoration: "none" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = "var(--color-primary)"; e.currentTarget.style.color = "white"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = "rgba(255,255,255,0.6)"; }}
+                  style={{ width: 38, height: 38, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--glass-bg)", color: "var(--color-text-secondary)", border: "1px solid var(--glass-border)", transition: "all 0.2s", textDecoration: "none" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = "var(--color-primary)"; e.currentTarget.style.color = "white"; e.currentTarget.style.borderColor = "var(--color-primary)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = "var(--glass-bg)"; e.currentTarget.style.color = "var(--color-text-secondary)"; e.currentTarget.style.borderColor = "var(--glass-border)"; }}
                 >{s.icon}</a>
               ))}
             </div>
@@ -69,29 +69,29 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <div style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: 16 }}>Services</div>
+            <div style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--color-text-secondary)", opacity: 0.8, marginBottom: 16 }}>Services</div>
             {services.map((l) => (
               <Link key={l.href} href={l.href} style={S}
                 onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "var(--color-primary-mid)"; }}
-                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "rgba(255,255,255,0.55)"; }}
+                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "var(--color-text-secondary)"; }}
               >{l.label}</Link>
             ))}
           </div>
 
           {/* Pages */}
           <div>
-            <div style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: 16 }}>Pages</div>
+            <div style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--color-text-secondary)", opacity: 0.8, marginBottom: 16 }}>Pages</div>
             {pages.map((l) => (
               <Link key={l.href} href={l.href} style={S}
                 onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "var(--color-primary-mid)"; }}
-                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "rgba(255,255,255,0.55)"; }}
+                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "var(--color-text-secondary)"; }}
               >{l.label}</Link>
             ))}
           </div>
 
           {/* Portals */}
           <div>
-            <div style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: 16 }}>Portals</div>
+            <div style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--color-text-secondary)", opacity: 0.8, marginBottom: 16 }}>Portals</div>
             {portals.map((l) => (
               <Link key={l.href} href={l.href}
                 style={{ ...S, color: l.color, fontWeight: 600 }}
@@ -99,8 +99,8 @@ export default function Footer() {
                 onMouseLeave={(e) => { (e.target as HTMLElement).style.opacity = "1"; }}
               >{l.label}</Link>
             ))}
-            <div style={{ marginTop: 16, padding: "10px 14px", borderRadius: 10, background: "rgba(0, 0, 0, 0.3)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255, 255, 255, 0.15)" }}>
-              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "rgba(255,255,255,0.3)", lineHeight: 1.6 }}>
+            <div className="glass-card" style={{ marginTop: 16, padding: "10px 14px", borderRadius: 10 }}>
+              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "var(--color-text-secondary)", lineHeight: 1.6 }}>
                 Parents: use your Patient ID and PIN to track your child's progress.
               </div>
             </div>
@@ -108,7 +108,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <div style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: 16 }}>Contact</div>
+            <div style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--color-text-secondary)", opacity: 0.8, marginBottom: 16 }}>Contact</div>
             {[
               { icon: <MapPin size={14} />, text: "Sai Kripa, Garg Chowraha, Katni MP 483501" },
               { icon: <Phone size={14} />, text: "+91 83497 64084", href: "tel:+918349764084" },
@@ -127,15 +127,15 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
+        <div style={{ borderTop: "1px solid var(--glass-border)", paddingTop: 24, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--color-text-secondary)", opacity: 0.8 }}>
             © 2025 Udaan Care · udaancare.in · Katni, Madhya Pradesh, India
           </span>
           <div style={{ display: "flex", gap: 20 }}>
             {[{ label: "Privacy Policy", href: "/privacy" }, { label: "Terms of Service", href: "/terms" }, { label: "Refund Policy", href: "/refund" }].map((l) => (
-              <Link key={l.href} href={l.href} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "rgba(255,255,255,0.3)", textDecoration: "none", transition: "color 0.15s" }}
-                onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "rgba(255,255,255,0.6)"; }}
-                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "rgba(255,255,255,0.3)"; }}
+              <Link key={l.href} href={l.href} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--color-text-secondary)", opacity: 0.8, textDecoration: "none", transition: "color 0.15s" }}
+                onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "var(--color-text-primary)"; }}
+                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "var(--color-text-secondary)"; }}
               >{l.label}</Link>
             ))}
           </div>

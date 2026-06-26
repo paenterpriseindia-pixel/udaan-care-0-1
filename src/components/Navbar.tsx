@@ -31,7 +31,7 @@ export default function Navbar() {
 
 
   const isDark = mounted && resolvedTheme === "dark";
-  const onDark = true; // Always dark glass as requested
+  const onDark = isDark;
 
 
   const isActive = (href: string) =>
@@ -46,11 +46,11 @@ export default function Navbar() {
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
           height: 68,
           display: "flex", alignItems: "center",
-          background: "rgba(0, 0, 0, 0.75)",
+          background: "var(--glass-bg)",
           backdropFilter: "blur(16px) saturate(180%)",
           WebkitBackdropFilter: "blur(16px) saturate(180%)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
-          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
+          borderBottom: "1px solid var(--glass-border)",
+          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.05)",
           transition: "background 0.3s ease, box-shadow 0.3s ease",
         }}
       >
