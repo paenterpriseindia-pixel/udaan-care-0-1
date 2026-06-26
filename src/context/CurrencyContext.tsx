@@ -114,9 +114,9 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
         onlineAmount = 599;
         onlineDisplay = "₹599";
       } else {
-        const usdVal = Math.round(599 / exchangeRate);
-        onlineAmount = usdVal;
-        onlineDisplay = `$${usdVal}`;
+        // If an Indian visitor toggles to USD, they see the flat international price of $29
+        onlineAmount = 29;
+        onlineDisplay = `$29`;
       }
       
       return {
