@@ -1,10 +1,15 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import SplashWrapper from "@/components/shared/SplashWrapper";
 import { Providers } from "@/providers/Providers";
 import SmoothEffects from "@/components/providers/SmoothEffects";
 
-
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#0A7E8C",
+};
 
 export const metadata: Metadata = {
   title: {
@@ -30,6 +35,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
         <meta name="theme-color" content="#0A7E8C" />
         <script
           type="application/ld+json"
