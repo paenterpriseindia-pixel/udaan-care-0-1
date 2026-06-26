@@ -273,23 +273,24 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
   useEffect(() => {
     if (leadSent) return;
     setLeadSent(true);
-    fetch("/api/admin/leads", {
+    fetch("/api/book", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: state.parentName || state.childName,
         phone: state.phone,
         email: state.email,
+        date: state.date,
+        time: state.time,
         source: (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("utm_source")) || "website",
         serviceInterest: state.type === "online" ? "Online Consultation" : "Clinic Visit",
         message: state.reason,
-        status: "contacted",
       }),
     }).catch(() => {});
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // UPI deep link (works with Google Pay, PhonePe, Paytm)
-  const upiLink = `upi://pay?pa=prasoon@upi&pn=Udaan+Care&am=${priceNum}&cu=INR&tn=Booking+${state.childName}`;
+  const upiLink = `upi://pay?pa=700699278@YBL&pn=Udaan+Care&am=${priceNum}&cu=INR&tn=Booking+${state.childName}`;
 
   const waText = encodeURIComponent(
     `Hello Dr. Prasoon,\n\nI have paid ₹${priceNum} for my appointment. Please confirm:\n\n` +
@@ -360,7 +361,7 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
           </a>
           <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)" }}>
             or send to UPI ID:<br />
-            <strong style={{ color: "var(--color-text-primary)", fontSize: 15 }}>prasoon@upi</strong>
+            <strong style={{ color: "var(--color-text-primary)", fontSize: 15 }}>700699278@YBL</strong>
           </div>
         </div>
       </div>
