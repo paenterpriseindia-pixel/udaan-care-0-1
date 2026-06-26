@@ -336,28 +336,28 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 1.0 }}
             style={{
               position: "absolute", bottom: 24, left: -20, zIndex: 4,
-              background: "rgba(255, 255, 255, 0.15)",
+              background: "rgba(0, 0, 0, 0.5)",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2)",
               borderRadius: 16, padding: "18px 22px",
               minWidth: 210,
             }}
           >
-            <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "#0f172a" }}>
+            <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "white" }}>
               Dr. Prasoon Gupta
             </div>
-            <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-primary)", marginTop: 2, fontWeight: 700 }}>
+            <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "#0D9BAC", marginTop: 2, fontWeight: 700 }}>
               BOT · MOT — Pediatric OT
             </div>
-            <div style={{ height: 1, background: "rgba(0,0,0,0.1)", margin: "11px 0" }} />
+            <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "11px 0" }} />
             <div style={{ display: "flex", gap: 3, marginBottom: 5 }}>
               {Array(5).fill(0).map((_, i) => (
                 <Star key={i} size={13} style={{ color: "#F59E0B", fill: "#F59E0B" }} />
               ))}
             </div>
-            <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "#475569", fontWeight: 500 }}>
+            <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>
               Rated 5.0 by 120+ parents
             </div>
           </motion.div>
