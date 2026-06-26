@@ -62,8 +62,9 @@ export interface Booking {
   datetime: string;
   type: "CLINIC" | "ONLINE";
   status: "PENDING" | "CONFIRMED" | "COMPLETED" | "CANCELLED";
-  paymentStatus: "UNPAID" | "PAID";
+  paymentStatus: "UNPAID" | "PAID" | "FAILED";
   amount: number;
+  transactionId?: string;
   zoomLink?: string;
   notes?: string;
   createdAt: string;

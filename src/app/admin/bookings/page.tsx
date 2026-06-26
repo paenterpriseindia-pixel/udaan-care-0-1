@@ -4,6 +4,7 @@ import { Plus, Check, X, Clock, Calendar, Video, Building2, ChevronDown } from "
 import type { Booking, Patient } from "@/lib/db";
 
 const STATUS_COLORS: Record<string, string> = { PENDING: "#F5820D", CONFIRMED: "#22c55e", COMPLETED: "#0A7E8C", CANCELLED: "#EF4444" };
+const PAYMENT_COLORS: Record<string, string> = { PAID: "#22c55e", UNPAID: "#f59e0b", FAILED: "#ef4444" };
 
 export default function BookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -103,55 +104,72 @@ export default function BookingsPage() {
       </div>
 
       {/* Booking list */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {loading ? (
-          <div style={{ textAlign: "center", padding: 40, color: "rgba(255,255,255,0.3)" }}>Loading…</div>
-        ) : sorted.length === 0 ? (
-          <div style={{ textAlign: "center", padding: 48, color: "rgba(255,255,255,0.3)", fontSize: 14 }}>No bookings yet.</div>
-        ) : sorted.map(b => {
-          const patient = patients.find(p => p.id === b.patientId);
-          const dt = new Date(b.datetime);
-          return (
-            <div key={b.id} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-              {/* Icon */}
-              <div style={{ width: 40, height: 40, borderRadius: 10, background: b.type === "ONLINE" ? "rgba(107,63,160,0.2)" : "rgba(10,126,140,0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                {b.type === "ONLINE" ? <Video size={16} style={{ color: "#9B59B6" }} /> : <Building2 size={16} style={{ color: "#0A7E8C" }} />}
-              </div>
-
-              {/* Info */}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 15, fontWeight: 700, color: "white" }}>{patient?.name ?? "Unknown Patient"}</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>
-                  {dt.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" })} · {dt.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })} · {b.type} · ₹{b.amount}
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                {/* Payment toggle */}
-                <button onClick={() => updatePayment(b.id, b.paymentStatus === "PAID" ? "UNPAID" : "PAID")} style={{ fontSize: 11, padding: "5px 10px", borderRadius: 6, border: "none", cursor: "pointer", fontWeight: 700, background: b.paymentStatus === "PAID" ? "rgba(34,197,94,0.15)" : "rgba(239,68,68,0.12)", color: b.paymentStatus === "PAID" ? "#22c55e" : "#f87171", fontFamily: "'DM Sans',sans-serif" }}>
-                  {b.paymentStatus === "PAID" ? "✓ Paid" : "Unpaid"}
-                </button>
-
-                {/* Status dropdown */}
-                <select value={b.status} onChange={e => updateStatus(b.id, e.target.value as Booking["status"])} style={{ fontSize: 12, padding: "5px 10px", borderRadius: 6, border: `1px solid ${STATUS_COLORS[b.status]}44`, background: `${STATUS_COLORS[b.status]}22`, color: STATUS_COLORS[b.status], cursor: "pointer", outline: "none", fontWeight: 700, fontFamily: "'DM Sans',sans-serif" }}>
-                  <option value="PENDING">Pending</option>
-                  <option value="CONFIRMED">Confirmed</option>
-                  <option value="COMPLETED">Completed</option>
-                  <option value="CANCELLED">Cancelled</option>
-                </select>
-
-                {/* WhatsApp reminder */}
-                {patient?.guardianPhone && (
-                  <a href={`https://wa.me/${patient.guardianPhone.replace(/\D/g,"")}?text=Reminder: ${patient.name}'s appointment is on ${dt.toLocaleDateString("en-IN")} at ${dt.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})}${b.type==="ONLINE"&&b.zoomLink?". Zoom: "+b.zoomLink:""}. - Udaan Care`} target="_blank" rel="noopener noreferrer"
-                    style={{ fontSize: 11, padding: "5px 10px", borderRadius: 6, background: "rgba(37,211,102,0.1)", color: "#25D366", textDecoration: "none", fontWeight: 700, whiteSpace: "nowrap" }}>
-                    WA Remind
-                  </a>
-                )}
-              </div>
-            </div>
-          );
-        })}
+      <div style={{ background: "var(--color-card)", border: "1px solid var(--color-border)", borderRadius: 12, overflow: "hidden" }}>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)" }}>
+            <thead>
+              <tr style={{ background: "rgba(255,255,255,0.02)", borderBottom: "1px solid var(--color-border)" }}>
+                <th style={{ padding: "16px 20px", fontWeight: 600 }}>Date & Time</th>
+                <th style={{ padding: "16px 20px", fontWeight: 600 }}>Patient</th>
+                <th style={{ padding: "16px 20px", fontWeight: 600 }}>Type</th>
+                <th style={{ padding: "16px 20px", fontWeight: 600 }}>Amount</th>
+                <th style={{ padding: "16px 20px", fontWeight: 600 }}>Payment</th>
+                <th style={{ padding: "16px 20px", fontWeight: 600 }}>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr><td colSpan={6} style={{ textAlign: "center", padding: 40 }}>Loading…</td></tr>
+              ) : sorted.length === 0 ? (
+                <tr><td colSpan={6} style={{ textAlign: "center", padding: 48 }}>No bookings found.</td></tr>
+              ) : sorted.map(b => {
+                const patient = patients.find(p => p.id === b.patientId);
+                const dt = new Date(b.datetime);
+                return (
+                  <tr key={b.id} style={{ borderBottom: "1px solid var(--color-border)" }}>
+                    <td style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>
+                      <div style={{ fontWeight: 600, color: "white" }}>{dt.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</div>
+                      <div style={{ fontSize: 12, marginTop: 4 }}>{dt.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}</div>
+                    </td>
+                    <td style={{ padding: "16px 20px", fontWeight: 600, color: "white" }}>
+                      {patient?.name ?? "Unknown Patient"}
+                      {patient?.guardianPhone && (
+                        <a href={`https://wa.me/${patient.guardianPhone.replace(/\D/g,"")}?text=Reminder: ${patient.name}'s appointment is on ${dt.toLocaleDateString("en-IN")} at ${dt.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})}.`} target="_blank" rel="noopener noreferrer" style={{ display: "block", fontSize: 11, color: "#25D366", textDecoration: "none", marginTop: 4, fontWeight: 500 }}>
+                          WA Reminder ↗
+                        </a>
+                      )}
+                    </td>
+                    <td style={{ padding: "16px 20px" }}>
+                      <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: b.type === "ONLINE" ? "rgba(107,63,160,0.15)" : "rgba(10,126,140,0.15)", color: b.type === "ONLINE" ? "#c084fc" : "#2dd4bf", padding: "4px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700 }}>
+                        {b.type === "ONLINE" ? <Video size={12} /> : <Building2 size={12} />}
+                        {b.type}
+                      </div>
+                    </td>
+                    <td style={{ padding: "16px 20px", fontWeight: 600, color: "white" }}>
+                      ₹{b.amount}
+                      {b.transactionId && <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontWeight: 400, marginTop: 4, fontFamily: "monospace" }}>{b.transactionId}</div>}
+                    </td>
+                    <td style={{ padding: "16px 20px" }}>
+                      <select value={b.paymentStatus} onChange={e => updatePayment(b.id, e.target.value as Booking["paymentStatus"])} style={{ fontSize: 12, padding: "5px 10px", borderRadius: 6, border: `1px solid ${PAYMENT_COLORS[b.paymentStatus]}44`, background: `${PAYMENT_COLORS[b.paymentStatus]}15`, color: PAYMENT_COLORS[b.paymentStatus], cursor: "pointer", outline: "none", fontWeight: 700, fontFamily: "'DM Sans',sans-serif" }}>
+                        <option value="UNPAID">Unpaid</option>
+                        <option value="PAID">Paid</option>
+                        <option value="FAILED">Failed</option>
+                      </select>
+                    </td>
+                    <td style={{ padding: "16px 20px" }}>
+                      <select value={b.status} onChange={e => updateStatus(b.id, e.target.value as Booking["status"])} style={{ fontSize: 12, padding: "5px 10px", borderRadius: 6, border: `1px solid ${STATUS_COLORS[b.status]}44`, background: `${STATUS_COLORS[b.status]}15`, color: STATUS_COLORS[b.status], cursor: "pointer", outline: "none", fontWeight: 700, fontFamily: "'DM Sans',sans-serif" }}>
+                        <option value="PENDING">Pending</option>
+                        <option value="CONFIRMED">Confirmed</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="CANCELLED">Cancelled</option>
+                      </select>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
