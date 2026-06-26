@@ -44,18 +44,16 @@ function ServiceCard({ s, index }: { s: typeof services[0]; index: number }) {
     >
       <Link href={s.href} style={{ textDecoration: "none", display: "block" }}>
         <div
+          className="glass-card"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           style={{
-            borderRadius: 16,
-            background: "var(--color-card)",
-            border: "1px solid var(--color-border)",
             overflow: "hidden",
             cursor: "pointer",
             transform: hovered ? "translateY(-8px) scale(1.015)" : "translateY(0) scale(1)",
             boxShadow: hovered
               ? `0 24px 56px ${s.accent}28, 0 6px 20px rgba(0,0,0,0.10)`
-              : "0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05)",
+              : undefined,
             transition: "all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1)",
             willChange: "transform",
             position: "relative",

@@ -16,20 +16,20 @@ function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
-      style={{
-        borderRadius: 14,
-        border: `1.5px solid ${open ? "#0A7E8C" : "var(--color-border)"}`,
-        overflow: "hidden",
-        transition: "border-color 0.25s ease, box-shadow 0.25s ease",
-        boxShadow: open ? "0 4px 24px rgba(10,126,140,0.1)" : "none",
-        borderLeft: open ? "4px solid #0A7E8C" : "1.5px solid var(--color-border)",
-      }}
-    >
+      <motion.div
+        className="glass-card"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, delay: index * 0.06 }}
+        style={{
+          overflow: "hidden",
+          transition: "border-color 0.25s ease, box-shadow 0.25s ease",
+          boxShadow: open ? "0 4px 24px rgba(10,126,140,0.1)" : undefined,
+          borderLeft: open ? "4px solid #0A7E8C" : undefined,
+          borderColor: open ? "#0A7E8C" : undefined,
+        }}
+      >
       <button
         onClick={() => setOpen(!open)}
         aria-expanded={open}
@@ -90,7 +90,7 @@ function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
 
 export default function FAQSection() {
   return (
-    <section style={{ padding: "64px 0", background: "var(--color-bg)" }}>
+    <section style={{ padding: "64px 0" }}>
       <div className="container" style={{ maxWidth: 720 }}>
         <div style={{ textAlign: "center", marginBottom: 56 }}>
           <motion.span

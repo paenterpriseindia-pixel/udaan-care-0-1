@@ -45,7 +45,7 @@ const S: React.CSSProperties = { fontFamily: "'DM Sans',sans-serif", fontSize: 1
 
 export default function Footer() {
   return (
-    <footer style={{ background: "#0D1117", color: "white" }}>
+    <footer style={{ background: "rgba(0, 0, 0, 0.45)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderTop: "1px solid rgba(255, 255, 255, 0.15)", color: "white" }}>
       <div className="container" style={{ paddingTop: 64, paddingBottom: 40 }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 40, marginBottom: 48 }}>
           {/* Brand */}
@@ -99,7 +99,7 @@ export default function Footer() {
                 onMouseLeave={(e) => { (e.target as HTMLElement).style.opacity = "1"; }}
               >{l.label}</Link>
             ))}
-            <div style={{ marginTop: 16, padding: "10px 14px", borderRadius: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
+            <div style={{ marginTop: 16, padding: "10px 14px", borderRadius: 10, background: "rgba(0, 0, 0, 0.3)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: "1px solid rgba(255, 255, 255, 0.15)" }}>
               <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "rgba(255,255,255,0.3)", lineHeight: 1.6 }}>
                 Parents: use your Patient ID and PIN to track your child's progress.
               </div>

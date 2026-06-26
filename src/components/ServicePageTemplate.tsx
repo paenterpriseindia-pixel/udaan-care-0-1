@@ -65,13 +65,13 @@ export default function ServicePageTemplate({ data }: { data: ServicePageData })
       </section>
 
       {/* Who it helps */}
-      <section className="section" style={{ background: "var(--color-surface)" }}>
+      <section className="section">
         <div className="container" style={{ maxWidth: 800 }}>
           <span className="eyebrow">Who We Help</span>
           <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 32, color: "var(--color-text-primary)", marginBottom: 32 }}>Is this right for my child?</h2>
           <div className="grid-responsive-2" style={{ gap: 12 }} className="grid grid-cols-1 sm:grid-cols-2">
             {data.who.map((w) => (
-              <div key={w} style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 18px", borderRadius: 10, border: "1px solid var(--color-border)", background: "var(--color-bg)" }}>
+              <div key={w} className="glass-card" style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 18px" }}>
                 <div style={{ width: 24, height: 24, borderRadius: "50%", background: data.accent, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <Check size={12} style={{ color: "white" }} />
                 </div>
@@ -83,13 +83,13 @@ export default function ServicePageTemplate({ data }: { data: ServicePageData })
       </section>
 
       {/* Session steps */}
-      <section className="section" style={{ background: "var(--color-bg)" }}>
+      <section className="section">
         <div className="container" style={{ maxWidth: 760 }}>
           <span className="eyebrow">The Process</span>
           <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 32, color: "var(--color-text-primary)", marginBottom: 40 }}>What happens in a session?</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {data.steps.map((s, i) => (
-              <div key={i} style={{ display: "flex", gap: 20, padding: "24px 28px", borderRadius: 14, border: "1px solid var(--color-border)", background: "var(--color-surface)", alignItems: "flex-start" }}>
+              <div key={i} className="glass-card" style={{ display: "flex", gap: 20, padding: "24px 28px", alignItems: "flex-start" }}>
                 <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: 32, color: data.accent, lineHeight: 1, flexShrink: 0, width: 44 }}>
                   0{i + 1}
                 </div>
@@ -104,15 +104,15 @@ export default function ServicePageTemplate({ data }: { data: ServicePageData })
       </section>
 
       {/* Outcomes */}
-      <section style={{ padding: "80px 0", background: "#1A2B35" }}>
+      <section style={{ padding: "80px 0" }}>
         <div className="container" style={{ maxWidth: 800 }}>
           <span className="eyebrow" style={{ color: "var(--color-primary-mid)" }}>Expected Results</span>
-          <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 32, color: "white", marginBottom: 36 }}>What results can I expect?</h2>
+          <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 32, color: "var(--color-text-primary)", marginBottom: 36 }}>What results can I expect?</h2>
           <div className="grid-responsive-2" style={{ gap: 12 }} className="grid grid-cols-1 sm:grid-cols-2">
             {data.outcomes.map((o) => (
-              <div key={o} style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 20px", borderRadius: 10, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
+              <div key={o} className="glass-card" style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 20px" }}>
                 <Check size={16} style={{ color: "var(--color-primary-mid)", flexShrink: 0 }} />
-                <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "rgba(255,255,255,0.8)" }}>{o}</span>
+                <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--color-text-primary)" }}>{o}</span>
               </div>
             ))}
           </div>
@@ -120,13 +120,13 @@ export default function ServicePageTemplate({ data }: { data: ServicePageData })
       </section>
 
       {/* FAQ */}
-      <section className="section" style={{ background: "var(--color-bg)" }}>
+      <section className="section">
         <div className="container" style={{ maxWidth: 720 }}>
           <span className="eyebrow">Common Questions</span>
           <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 32, color: "var(--color-text-primary)", marginBottom: 40 }}>Frequently Asked Questions</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {data.faqs.map((f, i) => (
-              <div key={i} style={{ borderRadius: 12, border: `1px solid ${open === i ? data.accent : "var(--color-border)"}`, overflow: "hidden", transition: "border-color 0.2s", borderLeft: open === i ? `4px solid ${data.accent}` : undefined }}>
+              <div key={i} className="glass-card" style={{ borderLeft: open === i ? `4px solid ${data.accent}` : undefined }}>
                 <button onClick={() => setOpen(open === i ? null : i)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "18px 22px", background: "transparent", border: "none", cursor: "pointer", textAlign: "left" }}>
                   <span style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 15, color: "var(--color-text-primary)" }}>{f.q}</span>
                   <ChevronDown size={16} style={{ color: "var(--color-text-secondary)", flexShrink: 0, transition: "transform 0.25s", transform: open === i ? "rotate(180deg)" : "none" }} />
@@ -143,7 +143,7 @@ export default function ServicePageTemplate({ data }: { data: ServicePageData })
       </section>
 
       {/* CTA */}
-      <section style={{ padding: "80px 0", background: "var(--color-surface)", borderTop: "1px solid var(--color-border)" }}>
+      <section style={{ padding: "80px 0", borderTop: "1px solid var(--color-border)" }}>
         <div className="container" style={{ textAlign: "center" }}>
           <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 32, color: "var(--color-text-primary)", marginBottom: 12 }}>Ready to start?</h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: "var(--color-text-secondary)", marginBottom: 32, maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>Book an initial consultation with Dr. Prasoon and take the first step toward your child&apos;s progress.</p>

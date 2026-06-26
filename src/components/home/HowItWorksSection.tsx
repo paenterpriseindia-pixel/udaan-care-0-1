@@ -58,7 +58,7 @@ export default function HowItWorksSection() {
   }, [lineDrawn]);
 
   return (
-    <section ref={sectionRef} style={{ padding: "64px 0", background: "var(--color-bg)" }}>
+    <section ref={sectionRef} style={{ padding: "64px 0" }}>
       <div className="container">
         {/* Header */}
         <div style={{ maxWidth: 520, marginBottom: 72 }}>
@@ -103,6 +103,8 @@ export default function HowItWorksSection() {
           {steps.map((s, i) => (
             <motion.div
               key={s.n}
+              className="glass-card"
+              style={{ padding: "32px", display: "flex", flexDirection: "column", alignItems: "flex-start", position: "relative" }}
               initial={{ opacity: 0, scale: 0.85 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}

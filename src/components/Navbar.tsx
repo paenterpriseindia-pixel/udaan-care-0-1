@@ -31,7 +31,7 @@ export default function Navbar() {
 
 
   const isDark = mounted && resolvedTheme === "dark";
-  const onDark = isDark; // glass navbar: dark text on light, white text on dark
+  const onDark = true; // Always dark glass as requested
 
 
   const isActive = (href: string) =>
@@ -46,17 +46,11 @@ export default function Navbar() {
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
           height: 68,
           display: "flex", alignItems: "center",
-          background: isDark
-            ? "rgba(10,14,20,0.92)"
-            : "rgba(255,255,255,0.92)",
-          backdropFilter: "blur(20px) saturate(180%)",
-          WebkitBackdropFilter: "blur(20px) saturate(180%)",
-          borderBottom: isDark
-            ? "1.5px solid rgba(255,255,255,0.10)"
-            : "1.5px solid rgba(10,126,140,0.18)",
-          boxShadow: isDark
-            ? "0 4px 28px rgba(0,0,0,0.35)"
-            : "0 4px 28px rgba(10,126,140,0.10)",
+          background: "rgba(0, 0, 0, 0.75)",
+          backdropFilter: "blur(16px) saturate(180%)",
+          WebkitBackdropFilter: "blur(16px) saturate(180%)",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
+          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
           transition: "background 0.3s ease, box-shadow 0.3s ease",
         }}
       >
@@ -243,15 +237,18 @@ export default function Navbar() {
             style={{
               position: "absolute", top: 0, right: 0, bottom: 0,
               width: 300, maxWidth: "88vw",
-              background: "var(--color-card)",
+              background: "rgba(0, 0, 0, 0.85)",
+              backdropFilter: "blur(16px) saturate(180%)",
+              WebkitBackdropFilter: "blur(16px) saturate(180%)",
+              color: "white",
               display: "flex", flexDirection: "column",
               boxShadow: "-12px 0 40px rgba(0,0,0,0.2)",
               animation: "slide-in-right 0.3s ease",
             }}
           >
             {/* Header */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 20px 14px", borderBottom: "1px solid var(--color-border)" }}>
-              <Logo size="sm" />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 20px 14px", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
+              <Logo variant="light" size="sm" />
               <button onClick={() => setDrawer(false)}
                 style={{ width: 38, height: 38, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--color-bg)", border: "none", cursor: "pointer", color: "var(--color-text-secondary)" }}>
                 <X size={18} />
@@ -264,11 +261,11 @@ export default function Navbar() {
                 <DrawerLink key={l.href} href={l.href} active={pathname === l.href}>{l.label}</DrawerLink>
               ))}
 
-              <div style={{ padding: "10px 12px 4px", fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--color-text-secondary)", marginTop: 4 }}>Services</div>
+              <div style={{ padding: "10px 12px 4px", fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.5)", marginTop: 4 }}>Services</div>
               {services.map(s => (
                 <Link key={s.href} href={s.href}
-                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px", borderRadius: 10, textDecoration: "none", minHeight: 50, fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "var(--color-text-primary)", transition: "background 0.15s" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "var(--color-primary-light)"; }}
+                  style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px", borderRadius: 10, textDecoration: "none", minHeight: 50, fontFamily: "'DM Sans',sans-serif", fontWeight: 500, fontSize: 14, color: "white", transition: "background 0.15s" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
                 >
                   <s.icon size={15} style={{ color: "var(--color-primary)", flexShrink: 0 }} />
@@ -276,54 +273,54 @@ export default function Navbar() {
                 </Link>
               ))}
 
-              <div style={{ height: 1, background: "var(--color-border)", margin: "10px 0" }} />
+              <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "10px 0" }} />
               {[{ label: "International", href: "/international" }, { label: "For Therapists", href: "/join-as-therapist" }].map(l => (
                 <DrawerLink key={l.href} href={l.href} active={pathname === l.href} secondary>{l.label}</DrawerLink>
               ))}
 
               {/* Portals section */}
-              <div style={{ height: 1, background: "var(--color-border)", margin: "10px 0" }} />
-              <div style={{ padding: "10px 12px 4px", fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--color-text-secondary)", marginTop: 4 }}>Portals</div>
+              <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "10px 0" }} />
+              <div style={{ padding: "10px 12px 4px", fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.5)", marginTop: 4 }}>Portals</div>
               <Link href="/portal/login"
                 style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px", borderRadius: 10, textDecoration: "none", fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 14, color: "var(--color-primary)", transition: "background 0.15s" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "var(--color-primary-light)"; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
               >
-                <div style={{ width: 32, height: 32, borderRadius: 8, background: "var(--color-primary-light)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(13, 155, 172, 0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <Users size={14} style={{ color: "var(--color-primary)" }} />
                 </div>
                 Parent Portal
               </Link>
-              <Link href="/admin"
-                style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px", borderRadius: 10, textDecoration: "none", fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 14, color: "#6B3FA0", transition: "background 0.15s" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(107,63,160,0.08)"; }}
+              <Link href="/admin/login"
+                style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px", borderRadius: 10, textDecoration: "none", fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 14, color: "#9F7AEA", transition: "background 0.15s" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
               >
-                <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(107,63,160,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <ShieldCheck size={14} style={{ color: "#6B3FA0" }} />
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(159,122,234,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <ShieldCheck size={14} style={{ color: "#9F7AEA" }} />
                 </div>
                 Admin Panel
               </Link>
 
               {/* Toggles */}
-              <div style={{ borderTop: "1px solid var(--color-border)", marginTop: 12, paddingTop: 16, display: "flex", flexDirection: "column", gap: 14, padding: "16px 4px 0" }}>
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: 12, paddingTop: 16, display: "flex", flexDirection: "column", gap: 14, padding: "16px 4px 0" }}>
                 {mounted && (
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "var(--color-text-primary)" }}>
+                    <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "white" }}>
                       {isDark ? "Dark Mode" : "Light Mode"}
                     </span>
                     <button onClick={() => setTheme(isDark ? "light" : "dark")}
-                      style={{ width: 48, height: 26, borderRadius: 13, position: "relative", border: "none", cursor: "pointer", background: isDark ? "var(--color-primary)" : "var(--color-border)", transition: "background 0.2s" }}>
+                      style={{ width: 48, height: 26, borderRadius: 13, position: "relative", border: "none", cursor: "pointer", background: isDark ? "var(--color-primary)" : "rgba(255,255,255,0.2)", transition: "background 0.2s" }}>
                       <span style={{ position: "absolute", top: 3, left: isDark ? "calc(100% - 22px)" : 3, width: 20, height: 20, borderRadius: "50%", background: "white", transition: "left 0.25s", boxShadow: "0 1px 4px rgba(0,0,0,0.2)" }} />
                     </button>
                   </div>
                 )}
                 <div>
-                  <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--color-text-secondary)", marginBottom: 8 }}>Currency</div>
+                  <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "rgba(255,255,255,0.5)", marginBottom: 8 }}>Currency</div>
                   <div style={{ display: "flex", gap: 8 }}>
                     {(["INR", "USD"] as const).map(c => (
                       <button key={c} onClick={() => setCurrency(c)}
-                        style={{ flex: 1, padding: "10px", borderRadius: 10, border: "1.5px solid", cursor: "pointer", fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 13, transition: "all 0.2s", borderColor: currency === c ? "var(--color-primary)" : "var(--color-border)", background: currency === c ? "var(--color-primary)" : "transparent", color: currency === c ? "white" : "var(--color-text-secondary)" }}>
+                        style={{ flex: 1, padding: "10px", borderRadius: 10, border: "1.5px solid", cursor: "pointer", fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 13, transition: "all 0.2s", borderColor: currency === c ? "var(--color-primary)" : "rgba(255,255,255,0.2)", background: currency === c ? "var(--color-primary)" : "transparent", color: currency === c ? "white" : "rgba(255,255,255,0.7)" }}>
                         {c === "INR" ? "₹ India" : "$ USD"}
                       </button>
                     ))}
@@ -409,11 +406,11 @@ function DrawerLink({ href, active, children, secondary }: { href: string; activ
       padding: "13px 12px", borderRadius: 10, textDecoration: "none",
       fontFamily: "'DM Sans',sans-serif", fontWeight: secondary ? 500 : 600,
       fontSize: secondary ? 14 : 15, minHeight: 52,
-      color: active ? "var(--color-primary)" : "var(--color-text-primary)",
-      background: active ? "var(--color-primary-light)" : "transparent",
+      color: active ? "var(--color-primary)" : "white",
+      background: active ? "rgba(13, 155, 172, 0.15)" : "transparent",
       transition: "background 0.15s",
     }}
-      onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.background = "var(--color-primary-light)"; }}
+      onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; }}
       onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.background = "transparent"; }}
     >
       {children}

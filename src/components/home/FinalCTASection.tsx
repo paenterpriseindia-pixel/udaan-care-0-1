@@ -23,7 +23,7 @@ export default function FinalCTASection() {
       position: "relative",
       padding: "64px 0",
       overflow: "hidden",
-      background: "#0D1117",
+      background: "transparent",
     }}>
       {/* Parallax background */}
       <div style={{
@@ -41,7 +41,9 @@ export default function FinalCTASection() {
       {/* Overlay */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 1,
-        background: "rgba(10,20,30,0.88)",
+        background: "rgba(0,0,0,0.5)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
       }} />
 
       {/* Decorative orbs */}

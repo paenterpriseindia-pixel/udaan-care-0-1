@@ -57,9 +57,8 @@ function VideoCard({ t, onPlay }: { t: Partial<VideoTestimonial>; onPlay: (t: Pa
 
   return (
     <div
-      className="card-lift"
+      className="card-lift glass-card"
       style={{
-        background: "var(--color-card)",
         borderRadius: 20,
         overflow: "hidden",
         border: "1px solid var(--color-border)",
@@ -147,7 +146,7 @@ function VideoModal({ t, onClose }: { t: Partial<VideoTestimonial>; onClose: () 
 
   return (
     <div
-      style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}
+      style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}
       onClick={onClose}
     >
       <div
@@ -181,7 +180,7 @@ function VideoModal({ t, onClose }: { t: Partial<VideoTestimonial>; onClose: () 
         </div>
 
         {/* Caption bar */}
-        <div style={{ background: "#0D1117", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+        <div style={{ background: "rgba(0,0,0,0.6)", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
           <div>
             <div style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 16, color: "white" }}>{t.parentName}</div>
             <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>
@@ -222,7 +221,7 @@ export default function VideoTestimonialsSection() {
       {/* ── Section ── */}
       <section
         id="video-testimonials"
-        style={{ padding: "100px 0", background: "var(--color-bg)", position: "relative", overflow: "hidden" }}
+        style={{ padding: "100px 0", position: "relative", overflow: "hidden" }}
       >
         {/* Background orbs */}
         <div className="orb orb-teal"   style={{ width: 500, height: 500, top: -100, right: -200, opacity: 0.06 }} />

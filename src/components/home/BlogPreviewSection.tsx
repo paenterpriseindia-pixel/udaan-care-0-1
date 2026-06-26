@@ -36,7 +36,7 @@ export default function BlogPreviewSection() {
   const { prices } = useCurrency();
 
   return (
-    <section style={{ padding: "64px 0", background: "var(--color-surface)" }}>
+    <section style={{ padding: "64px 0" }}>
       <div className="container">
         {/* Header */}
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 52, flexWrap: "wrap", gap: 16 }}>
@@ -79,7 +79,7 @@ export default function BlogPreviewSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="card"
+              className="glass-card"
               style={{ overflow: "hidden", display: "flex", flexDirection: "column",
                 transition: "transform 300ms ease, box-shadow 300ms ease" }}
               whileHover={{ y: -6 }}

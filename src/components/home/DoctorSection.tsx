@@ -22,7 +22,7 @@ export default function DoctorSection() {
   return (
     <>
       {/* ── PART A: Doctor intro split ── */}
-      <section style={{ padding: "64px 0", background: "var(--color-surface)" }}>
+      <section style={{ padding: "64px 0" }}>
         <div className="container">
           <div className="grid-cols-2" style={{ gap: 80, alignItems: "center" }}>
 
@@ -62,10 +62,8 @@ export default function DoctorSection() {
                 />
               </div>
               {/* Floating credential */}
-              <div style={{
+              <div className="glass-card" style={{
                 position: "absolute", bottom: 32, right: -20, zIndex: 2,
-                background: "var(--color-card)", borderRadius: 14,
-                border: "1px solid var(--color-border)",
                 padding: "16px 22px",
                 boxShadow: "0 8px 32px rgba(0,0,0,0.10)",
               }}>

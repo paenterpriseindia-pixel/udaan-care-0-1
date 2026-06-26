@@ -53,10 +53,10 @@ const track = [...testimonials, ...testimonials];
 function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
   return (
     <div
+      className="glass-card"
       style={{
         flexShrink: 0,
         width: 380,
-        background: "var(--color-card)",
         borderRadius: 20,
         borderTop: `4px solid ${t.color}`,
         padding: "36px 36px 32px",
@@ -124,14 +124,8 @@ export default function TestimonialCarousel() {
   const [paused, setPaused] = useState(false);
 
   return (
-    <section style={{ padding: "56px 0 64px", background: "#F0F9FA", overflow: "hidden" }}
-
-      className="dark-bg-surface"
-    >
+    <section style={{ padding: "56px 0 64px", overflow: "hidden" }}>
       <style>{`
-        .dark-bg-surface { background: #F0F9FA; }
-        .dark .dark-bg-surface { background: #1C2128; }
-
         @keyframes marquee-scroll {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }

@@ -35,6 +35,11 @@
   --radius-button:  10px;
   --radius-input:   10px;
   --radius-badge:   6px;
+
+  /* ── Universal Glassmorphism ── */
+  --glass-bg:       rgba(255, 255, 255, 0.65);
+  --glass-border:   rgba(0, 0, 0, 0.08);
+  --glass-blur:     blur(12px);
 }
 
 .dark {
@@ -51,6 +56,10 @@
   --shadow-card:  0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
   --shadow-hover: 0 8px 32px rgba(26,175,230,0.22);
   --shadow-dropdown: 0 12px 40px rgba(0,0,0,0.5);
+
+  /* ── Universal Glassmorphism (Dark) ── */
+  --glass-bg:       rgba(0, 0, 0, 0.45);
+  --glass-border:   rgba(255, 255, 255, 0.15);
 }
 
 
@@ -166,15 +175,20 @@ body {
 /* ─── Typography ─── */
 h1, h2, h3, h4, h5, h6 { font-family: 'Nunito', sans-serif; line-height: 1.2; color: var(--color-text-primary); }
 
-/* ─── Cards ─── */
-.card {
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
+/* ─── Cards (Now universally glass) ─── */
+.card, .glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
 }
-.card:hover { box-shadow: var(--shadow-hover); }
+.card:hover, .glass-card:hover { 
+  box-shadow: var(--shadow-hover); 
+  transform: translateY(-4px); 
+}
 
 /* ─── Buttons ─── */
 .btn {
@@ -209,16 +223,28 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Nunito', sans-serif; line-height: 1.2; co
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
 .btn-primary {
-  background: linear-gradient(135deg, #1AAFE6 0%, #5BC8F0 100%);
+  background: linear-gradient(135deg, rgba(26, 175, 230, 0.8) 0%, rgba(91, 200, 240, 0.8) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   box-shadow: var(--shadow-button);
 }
-.btn-primary:hover { box-shadow: 0 6px 24px rgba(26,175,230,0.50); }
+.btn-primary:hover { 
+  background: linear-gradient(135deg, rgba(26, 175, 230, 0.95) 0%, rgba(91, 200, 240, 0.95) 100%);
+  box-shadow: 0 6px 24px rgba(26,175,230,0.50); 
+}
 
 .btn-accent {
-  background: linear-gradient(135deg, #FF7043 0%, #FF8A65 100%);
+  background: linear-gradient(135deg, rgba(255, 112, 67, 0.8) 0%, rgba(255, 138, 101, 0.8) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   box-shadow: 0 4px 14px rgba(255,112,67,0.40);
+}
+.btn-accent:hover {
+  background: linear-gradient(135deg, rgba(255, 112, 67, 0.95) 0%, rgba(255, 138, 101, 0.95) 100%);
 }
 
 .btn-outline {
@@ -425,10 +451,10 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Nunito', sans-serif; line-height: 1.2; co
 
 /* Gradient section divider */
 .section-gradient {
-  background: linear-gradient(180deg, var(--color-surface) 0%, #F0F9FA 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(26,175,230,0.03) 100%);
 }
 .dark .section-gradient {
-  background: linear-gradient(180deg, var(--color-surface) 0%, rgba(10,126,140,0.06) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(26,175,230,0.04) 100%);
 }
 
 /* Logo gradient background for stats / CTA — matches the three figures */
@@ -670,19 +696,8 @@ nav { transition: height 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease
 }
 
 /* ═══════════════════════════════════════
-   GLASS CARD
+   GLASS CARD (Merged with .card above)
 ═══════════════════════════════════════ */
-.glass-card {
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.5);
-  border-radius: var(--radius-card);
-  box-shadow: 0 4px 24px rgba(10,126,140,0.08);
-  transition: box-shadow .3s ease, transform .3s cubic-bezier(.34,1.56,.64,1);
-}
-.glass-card:hover { box-shadow: 0 16px 48px rgba(26,175,230,0.16); transform: translateY(-4px); }
-.dark .glass-card { background: rgba(22,27,34,.75); border-color: rgba(255,255,255,.08); }
 
 /* ═══════════════════════════════════════
    SKELETON LOADER
