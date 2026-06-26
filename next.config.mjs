@@ -5,7 +5,7 @@ const nextConfig = {
     qualities: [100],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2560, 3840, 7680],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384, 640, 1080, 1920],
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 0,
     remotePatterns: [],
   },
   eslint: {
@@ -16,6 +16,23 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: false,
+  },
+  async headers() {
+    return [
+      {
+        source: '/images/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, no-store, max-age=0, must-revalidate' },
+          { key: 'Pragma', value: 'no-cache' },
+        ],
+      },
+      {
+        source: '/_next/image(.*)',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, no-store, max-age=0, must-revalidate' },
+        ],
+      }
+    ];
   },
   async rewrites() {
     return {

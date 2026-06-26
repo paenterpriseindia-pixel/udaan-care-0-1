@@ -30,7 +30,8 @@ export async function POST(req: NextRequest) {
       .from("images")
       .upload(storagePath, buffer, {
         contentType: file.type,
-        upsert: true
+        upsert: true,
+        cacheControl: "0",
       });
 
     if (uploadError) {
