@@ -290,7 +290,7 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // UPI deep link (works with Google Pay, PhonePe, Paytm)
-  const upiLink = `upi://pay?pa=700699278@YBL&pn=Udaan+Care&am=${priceNum}&cu=INR&tn=Booking+${state.childName}`;
+  const upiLink = `upi://pay?pa=7000699278@ybl&pn=Udaan+Care&am=${priceNum}&cu=INR&tn=Booking+${state.childName}`;
 
   const waText = encodeURIComponent(
     `Hello Dr. Prasoon,\n\nI have paid ₹${priceNum} for my appointment. Please confirm:\n\n` +
@@ -361,7 +361,7 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
           </a>
           <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "var(--color-text-secondary)" }}>
             or send to UPI ID:<br />
-            <strong style={{ color: "var(--color-text-primary)", fontSize: 15 }}>700699278@YBL</strong>
+            <strong style={{ color: "var(--color-text-primary)", fontSize: 15 }}>7000699278@ybl</strong>
           </div>
         </div>
       </div>
