@@ -63,11 +63,10 @@ export default function PatientsPage() {
         ))}
       </div>
 
-      {/* Table */}
-      <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, overflowX: "auto" }}>
-        <div style={{ minWidth: 900 }}>
-          {/* Table header */}
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1.5fr 1fr 1fr 40px", gap: 0, padding: "12px 20px", borderBottom: "1px solid rgba(255,255,255,0.07)", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+      {/* Table / Cards */}
+      <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16 }}>
+        {/* Table header */}
+        <div className="desktop-header" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1.5fr 1fr 1fr 40px", gap: 0, padding: "12px 20px", borderBottom: "1px solid rgba(255,255,255,0.07)", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
           <span>Patient</span><span>ID</span><span>Guardian</span><span>Diagnoses</span><span>Status</span><span />
         </div>
 
@@ -80,7 +79,8 @@ export default function PatientsPage() {
           </div>
         ) : filtered.map(p => (
           <Link key={p.id} href={`/admin/patients/${p.id}`}
-            style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1.5fr 1fr 1fr 40px", gap: 0, padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.04)", textDecoration: "none", alignItems: "center", transition: "background 0.15s" }}
+            className="patient-row"
+            style={{ padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.04)", textDecoration: "none", transition: "background 0.15s" }}
             onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
             onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
           >
@@ -93,25 +93,63 @@ export default function PatientsPage() {
                 <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)" }}>{p.gender} · {p.dob ? new Date().getFullYear() - new Date(p.dob).getFullYear() + " yrs" : "—"}</div>
               </div>
             </div>
-            <span style={{ fontSize: 13, color: "#0D9BAC", fontWeight: 700 }}>{p.uniqueId}</span>
-            <div>
+            
+            <div className="patient-id-col" style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <span className="mobile-label" style={{ display: "none", fontSize: 10, color: "rgba(255,255,255,0.4)" }}>ID</span>
+              <span style={{ fontSize: 13, color: "#0D9BAC", fontWeight: 700 }}>{p.uniqueId}</span>
+            </div>
+            
+            <div className="guardian-col" style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <span className="mobile-label" style={{ display: "none", fontSize: 10, color: "rgba(255,255,255,0.4)" }}>Guardian</span>
               <div style={{ fontSize: 13, color: "rgba(255,255,255,0.75)" }}>{p.guardianName}</div>
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)" }}>{p.guardianPhone}</div>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-              {(p.diagnoses ?? []).slice(0, 2).map(d => (
-                <span key={d} style={{ fontSize: 10, padding: "2px 6px", borderRadius: 4, background: "rgba(107,63,160,0.2)", color: "#C084FC" }}>{d}</span>
-              ))}
-              {(p.diagnoses ?? []).length > 2 && <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)" }}>+{p.diagnoses.length - 2}</span>}
+            
+            <div className="diagnoses-col">
+              <span className="mobile-label" style={{ display: "none", fontSize: 10, color: "rgba(255,255,255,0.4)" }}>Diagnoses</span>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                {(p.diagnoses ?? []).slice(0, 2).map(d => (
+                  <span key={d} style={{ fontSize: 10, padding: "2px 6px", borderRadius: 4, background: "rgba(107,63,160,0.2)", color: "#C084FC" }}>{d}</span>
+                ))}
+                {(p.diagnoses ?? []).length > 2 && <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)" }}>+{p.diagnoses.length - 2}</span>}
+              </div>
             </div>
-            <span style={{ fontSize: 11, padding: "4px 10px", borderRadius: 6, background: `${STATUS_COLORS[p.status]}22`, color: STATUS_COLORS[p.status], fontWeight: 700, display: "inline-block" }}>
-              {p.status.replace("_", " ")}
-            </span>
-            <ChevronRight size={14} style={{ color: "rgba(255,255,255,0.2)" }} />
+            
+            <div className="status-col">
+              <span style={{ fontSize: 11, padding: "4px 10px", borderRadius: 6, background: `${STATUS_COLORS[p.status]}22`, color: STATUS_COLORS[p.status], fontWeight: 700, display: "inline-block" }}>
+                {p.status.replace("_", " ")}
+              </span>
+            </div>
+            
+            <div className="chevron-col" style={{ textAlign: "right" }}>
+              <ChevronRight size={14} style={{ color: "rgba(255,255,255,0.2)" }} />
+            </div>
           </Link>
         ))}
-        </div>
       </div>
+
+      <style>{`
+        @media (min-width: 901px) {
+          .patient-row {
+            display: grid !important; 
+            grid-template-columns: 2fr 1fr 1.5fr 1fr 1fr 40px !important; 
+            gap: 0;
+            align-items: center;
+          }
+        }
+        @media (max-width: 900px) {
+          .desktop-header { display: none !important; }
+          .patient-row {
+            display: flex !important;
+            flex-direction: column !important;
+            position: relative;
+            gap: 12px;
+          }
+          .mobile-label { display: block !important; }
+          .status-col { position: absolute; top: 16px; right: 16px; }
+          .chevron-col { display: none !important; }
+        }
+      `}</style>
     </div>
   );
 }

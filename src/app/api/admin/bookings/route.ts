@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { BookingDB } from "@/lib/db";
 
+import { requireAdmin } from "@/lib/serverAuth";
+
 export async function GET() {
-  return NextResponse.json(await BookingDB.getAll());
+  try {
+    const session = await requireAdmin();
+    const isDoctor = session.user.role === "DOCTOR";
+    const doctorId = isDoctor ? session.user.id : undefined;
+    
+    return NextResponse.json(await BookingDB.getAll(doctorId));
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 401 });
+  }
 }
 
 export async function POST(req: NextRequest) {

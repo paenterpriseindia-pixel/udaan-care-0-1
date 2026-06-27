@@ -7,5 +7,8 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutPageClient />;
+  // This timestamp is generated on the server during static build or revalidation.
+  // It won't change on every client render, preventing excessive downloads!
+  const version = Date.now();
+  return <AboutPageClient version={version} />;
 }

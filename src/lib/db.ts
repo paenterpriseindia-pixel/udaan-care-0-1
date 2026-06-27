@@ -100,6 +100,7 @@ export interface Lead {
   message?: string;
   status: "new" | "contacted" | "booked" | "lost";
   notes?: string;
+  doctorId?: string; // Assigned doctor
   createdAt: string;
 }
 
@@ -258,8 +259,10 @@ export const UserDB = {
 
 // ── PATIENTS ──
 export const PatientDB = {
-  getAll: async (): Promise<Patient[]> => {
-    const { data } = await supabase.from("patients").select("*").order("created_at", { ascending: false });
+  getAll: async (doctorId?: string): Promise<Patient[]> => {
+    let q = supabase.from("patients").select("*").order("created_at", { ascending: false });
+    if (doctorId) q = q.eq("assigned_doctor_id", doctorId);
+    const { data } = await q;
     return (data ?? []).map(mapPatient);
   },
   getById: async (id: string): Promise<Patient | undefined> => {
@@ -361,8 +364,10 @@ export const GoalDB = {
 
 // ── BOOKINGS ──
 export const BookingDB = {
-  getAll: async (): Promise<Booking[]> => {
-    const { data } = await supabase.from("bookings").select("*").order("datetime", { ascending: false });
+  getAll: async (doctorId?: string): Promise<Booking[]> => {
+    let q = supabase.from("bookings").select("*").order("datetime", { ascending: false });
+    if (doctorId) q = q.eq("doctor_id", doctorId);
+    const { data } = await q;
     return (data ?? []).map(mapBooking);
   },
   getById: async (id: string): Promise<Booking | undefined> => {
@@ -473,26 +478,25 @@ export const DEFAULT_CONTENT: SiteContent = {
 // ── LEADS ────────────────────────────────────────────────────────────────────
 function mapLead(r: Record<string, unknown>): Lead {
   return {
-    id: r.id as string,
-    name: r.name as string,
-    phone: r.phone as string,
-    email: r.email as string | undefined,
-    source: (r.source as Lead["source"]) ?? "website",
-    serviceInterest: r.service_interest as string | undefined,
-    message: r.message as string | undefined,
-    status: (r.status as Lead["status"]) ?? "new",
-    notes: r.notes as string | undefined,
+    id: r.id as string, name: r.name as string, phone: r.phone as string, email: r.email as string | undefined,
+    source: r.source as Lead["source"], serviceInterest: r.service_interest as string | undefined,
+    message: r.message as string | undefined, status: r.status as Lead["status"],
+    notes: r.notes as string | undefined, doctorId: r.doctor_id as string | undefined,
     createdAt: r.created_at as string,
   };
 }
 
 export const LeadDB = {
-  getAll: async (): Promise<Lead[]> => {
-    const { data } = await supabase.from("leads").select("*").order("created_at", { ascending: false });
+  getAll: async (doctorId?: string): Promise<Lead[]> => {
+    let q = supabase.from("leads").select("*").order("created_at", { ascending: false });
+    if (doctorId) q = q.eq("doctor_id", doctorId);
+    const { data } = await q;
     return (data ?? []).map(mapLead);
   },
-  getByStatus: async (status: Lead["status"]): Promise<Lead[]> => {
-    const { data } = await supabase.from("leads").select("*").eq("status", status).order("created_at", { ascending: false });
+  getByStatus: async (status: Lead["status"], doctorId?: string): Promise<Lead[]> => {
+    let q = supabase.from("leads").select("*").eq("status", status).order("created_at", { ascending: false });
+    if (doctorId) q = q.eq("doctor_id", doctorId);
+    const { data } = await q;
     return (data ?? []).map(mapLead);
   },
   create: async (lead: Omit<Lead, "id" | "createdAt">): Promise<Lead | null> => {
@@ -500,6 +504,7 @@ export const LeadDB = {
       name: lead.name, phone: lead.phone, email: lead.email,
       source: lead.source, service_interest: lead.serviceInterest,
       message: lead.message, status: lead.status ?? "new", notes: lead.notes,
+      doctor_id: lead.doctorId,
     }]).select().single();
     if (error) { console.error("LeadDB.create:", error); return null; }
     return data ? mapLead(data) : null;

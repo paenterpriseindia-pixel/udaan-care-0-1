@@ -30,7 +30,7 @@ const qualifications = [
 
 const fadeUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } };
 
-export default function AboutPageClient() {
+export default function AboutPageClient({ version }: { version?: number }) {
   const { prices } = useCurrency();
 
   return (
@@ -42,7 +42,7 @@ export default function AboutPageClient() {
         background: "#0D1117",
       }}>
         <Image
-          src="/images/doctor/dr-prasoon-about.jpg"
+          src={`/images/doctor/dr-prasoon-about.jpg${version ? `?v=${version}` : ""}`}
           alt="Dr. Prasoon Gupta clinic"
           fill
           priority
@@ -123,7 +123,7 @@ export default function AboutPageClient() {
               <div style={{ position: "absolute", left: 0, top: 24, bottom: 24, width: 4, borderRadius: 2, background: "var(--color-primary)", zIndex: 2 }} />
               <div style={{ borderRadius: 20, overflow: "hidden", marginLeft: 20, height: "100%", position: "relative" }}>
                 <Image
-                  src="/images/doctor/dr-prasoon-about.jpg"
+                  src={`/images/doctor/dr-prasoon-about.jpg${version ? `?v=${version}` : ""}`}
                   alt="Dr. Prasoon Gupta"
                   fill
                   style={{ objectFit: "cover", objectPosition: "center top" }}

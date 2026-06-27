@@ -3,8 +3,16 @@ import { PatientDB } from "@/lib/db";
 import { requireAdmin } from "@/lib/serverAuth";
 
 export async function GET() {
-  const patients = await PatientDB.getAll();
-  return NextResponse.json(patients);
+  try {
+    const session = await requireAdmin();
+    const isDoctor = session.user.role === "DOCTOR";
+    const doctorId = isDoctor ? session.user.id : undefined;
+    
+    const patients = await PatientDB.getAll(doctorId);
+    return NextResponse.json(patients);
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 401 });
+  }
 }
 
 export async function POST(req: NextRequest) {

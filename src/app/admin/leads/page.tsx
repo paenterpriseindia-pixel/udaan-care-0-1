@@ -142,10 +142,10 @@ export default function LeadsPage() {
           {filtered.map(lead => {
             const s = STATUS_COLORS[lead.status];
             return (
-              <div key={lead.id} style={{
+              <div key={lead.id} className="lead-card" style={{
                 background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
                 borderRadius: 14, padding: "16px 20px",
-                display: "grid", gridTemplateColumns: "1fr auto", gap: 16, alignItems: "start",
+                gap: 16, alignItems: "start",
               }}>
                 <div>
                   {/* Name + status + time */}
@@ -231,6 +231,17 @@ export default function LeadsPage() {
           })}
         </div>
       )}
+      
+      <style>{`
+        @media (max-width: 900px) {
+          .grid-responsive-4 { display: grid; grid-template-columns: 1fr 1fr; }
+          .lead-card { display: flex !important; flex-direction: column !important; }
+        }
+        @media (min-width: 901px) {
+          .grid-responsive-4 { display: grid; grid-template-columns: repeat(4, 1fr); }
+          .lead-card { display: grid !important; grid-template-columns: 1fr auto !important; }
+        }
+      `}</style>
     </div>
   );
 }

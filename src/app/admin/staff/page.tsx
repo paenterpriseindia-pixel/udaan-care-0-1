@@ -224,6 +224,13 @@ export default function StaffPage() {
           </p>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
+          <Link href="/admin/staff/new" style={{
+            display: "flex", alignItems: "center", gap: 6, padding: "10px 16px", borderRadius: 10,
+            background: "linear-gradient(135deg, #0A7E8C, #6B3FA0)", border: "none",
+            color: "white", textDecoration: "none", fontFamily: "'DM Sans',sans-serif", fontSize: 13, fontWeight: 700
+          }}>
+            <Plus size={14} /> Add New Staff
+          </Link>
           <Link href="/admin/branches" style={{
             display: "flex", alignItems: "center", gap: 6, padding: "10px 16px", borderRadius: 10,
             background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
@@ -283,7 +290,7 @@ export default function StaffPage() {
           <div>No staff members yet — add them via Admin → Users</div>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(340px,1fr))", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 16 }}>
           {staff.map(user => (
             <StaffCard
               key={user.id}
@@ -297,6 +304,17 @@ export default function StaffPage() {
           ))}
         </div>
       )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .grid-responsive-4 { display: grid; grid-template-columns: 1fr 1fr; }
+          .grid-responsive-2 { display: grid; grid-template-columns: 1fr; }
+        }
+        @media (min-width: 901px) {
+          .grid-responsive-4 { display: grid; grid-template-columns: repeat(4, 1fr); }
+          .grid-responsive-2 { display: grid; grid-template-columns: 1fr 1fr; }
+        }
+      `}</style>
     </div>
   );
 }

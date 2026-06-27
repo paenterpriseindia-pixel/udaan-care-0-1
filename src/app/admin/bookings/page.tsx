@@ -126,12 +126,12 @@ export default function BookingsPage() {
                 const patient = patients.find(p => p.id === b.patientId);
                 const dt = new Date(b.datetime);
                 return (
-                  <tr key={b.id} style={{ borderBottom: "1px solid var(--color-border)" }}>
-                    <td style={{ padding: "16px 20px", whiteSpace: "nowrap" }}>
+                  <tr key={b.id} style={{ borderBottom: "1px solid var(--color-border)" }} className="responsive-tr">
+                    <td data-label="Date & Time" style={{ padding: "16px 20px", whiteSpace: "nowrap" }} className="responsive-td">
                       <div style={{ fontWeight: 600, color: "white" }}>{dt.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</div>
                       <div style={{ fontSize: 12, marginTop: 4 }}>{dt.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}</div>
                     </td>
-                    <td style={{ padding: "16px 20px", fontWeight: 600, color: "white" }}>
+                    <td data-label="Patient" style={{ padding: "16px 20px", fontWeight: 600, color: "white" }} className="responsive-td">
                       {patient?.name ?? "Unknown Patient"}
                       {patient?.guardianPhone && (
                         <a href={`https://wa.me/${patient.guardianPhone.replace(/\D/g,"")}?text=Reminder: ${patient.name}'s appointment is on ${dt.toLocaleDateString("en-IN")} at ${dt.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})}.`} target="_blank" rel="noopener noreferrer" style={{ display: "block", fontSize: 11, color: "#25D366", textDecoration: "none", marginTop: 4, fontWeight: 500 }}>
@@ -139,24 +139,24 @@ export default function BookingsPage() {
                         </a>
                       )}
                     </td>
-                    <td style={{ padding: "16px 20px" }}>
+                    <td data-label="Type" style={{ padding: "16px 20px" }} className="responsive-td">
                       <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: b.type === "ONLINE" ? "rgba(107,63,160,0.15)" : "rgba(10,126,140,0.15)", color: b.type === "ONLINE" ? "#c084fc" : "#2dd4bf", padding: "4px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700 }}>
                         {b.type === "ONLINE" ? <Video size={12} /> : <Building2 size={12} />}
                         {b.type}
                       </div>
                     </td>
-                    <td style={{ padding: "16px 20px", fontWeight: 600, color: "white" }}>
+                    <td data-label="Amount" style={{ padding: "16px 20px", fontWeight: 600, color: "white" }} className="responsive-td">
                       ₹{b.amount}
                       {b.transactionId && <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontWeight: 400, marginTop: 4, fontFamily: "monospace" }}>{b.transactionId}</div>}
                     </td>
-                    <td style={{ padding: "16px 20px" }}>
+                    <td data-label="Payment" style={{ padding: "16px 20px" }} className="responsive-td">
                       <select value={b.paymentStatus} onChange={e => updatePayment(b.id, e.target.value as Booking["paymentStatus"])} style={{ fontSize: 12, padding: "5px 10px", borderRadius: 6, border: `1px solid ${PAYMENT_COLORS[b.paymentStatus]}44`, background: `${PAYMENT_COLORS[b.paymentStatus]}15`, color: PAYMENT_COLORS[b.paymentStatus], cursor: "pointer", outline: "none", fontWeight: 700, fontFamily: "'DM Sans',sans-serif" }}>
                         <option value="UNPAID">Unpaid</option>
                         <option value="PAID">Paid</option>
                         <option value="FAILED">Failed</option>
                       </select>
                     </td>
-                    <td style={{ padding: "16px 20px" }}>
+                    <td data-label="Status" style={{ padding: "16px 20px" }} className="responsive-td">
                       <select value={b.status} onChange={e => updateStatus(b.id, e.target.value as Booking["status"])} style={{ fontSize: 12, padding: "5px 10px", borderRadius: 6, border: `1px solid ${STATUS_COLORS[b.status]}44`, background: `${STATUS_COLORS[b.status]}15`, color: STATUS_COLORS[b.status], cursor: "pointer", outline: "none", fontWeight: 700, fontFamily: "'DM Sans',sans-serif" }}>
                         <option value="PENDING">Pending</option>
                         <option value="CONFIRMED">Confirmed</option>
@@ -171,6 +171,41 @@ export default function BookingsPage() {
           </table>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .grid-responsive-2 { grid-template-columns: 1fr !important; }
+          table, thead, tbody, th, td, tr { display: block; }
+          thead tr { display: none; }
+          .responsive-tr { 
+            margin-bottom: 16px; 
+            border: 1px solid rgba(255,255,255,0.07) !important; 
+            border-radius: 12px; 
+            background: rgba(255,255,255,0.02); 
+            padding: 12px; 
+          }
+          .responsive-td { 
+            padding: 8px 0 !important; 
+            border: none !important; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            text-align: right;
+          }
+          .responsive-td::before { 
+            content: attr(data-label); 
+            color: rgba(255,255,255,0.4); 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            flex-shrink: 0; 
+            margin-right: 12px; 
+          }
+        }
+        @media (min-width: 901px) {
+          .grid-responsive-2 { display: grid; grid-template-columns: 1fr 1fr; }
+        }
+      `}</style>
     </div>
   );
 }

@@ -186,14 +186,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           >
             <Menu size={18} />
           </button>
-          {/* Mobile hamburger */}
-          <button
-            className="show-mobile-only"
-            onClick={() => setMobileOpen(true)}
-            style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.5)", padding: 6, borderRadius: 8 }}
-          >
-            <Menu size={18} />
-          </button>
+          {/* Mobile topbar adjustments */}
 
           {/* Breadcrumb */}
           <div style={{ flex: 1, fontSize: 15, fontWeight: 600, color: "rgba(255,255,255,0.7)" }}>
@@ -208,15 +201,72 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Page content */}
-        <main style={{ flex: 1, padding: "28px 24px", overflowX: "hidden" }}>
+        <main className="admin-main-content" style={{ flex: 1, padding: "28px 24px", overflowX: "hidden" }}>
           {children}
         </main>
       </div>
 
+      {/* ── Mobile Bottom Navigation ── */}
+      <nav className="mobile-bottom-nav">
+        {[
+          { href: "/admin/dashboard", label: "Home", icon: LayoutDashboard },
+          { href: "/admin/patients", label: "Patients", icon: Users },
+          { href: "/admin/bookings", label: "Bookings", icon: Calendar },
+        ].map(item => {
+          const active = pathname.startsWith(item.href) && (item.href !== "/admin" || pathname === "/admin");
+          const Icon = item.icon;
+          return (
+            <Link key={item.href} href={item.href} className={`bottom-nav-item ${active ? "active" : ""}`}>
+              <Icon size={20} />
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
+        <button className="bottom-nav-item" onClick={() => setMobileOpen(true)}>
+          <Menu size={20} />
+          <span>Menu</span>
+        </button>
+      </nav>
+
       <style>{`
+        .mobile-bottom-nav {
+          display: none;
+        }
         @media (max-width: 900px) {
           .admin-main { margin-left: 0 !important; }
           .hide-mobile { display: none !important; }
+          .admin-main-content { padding-bottom: 80px !important; padding-left: 16px !important; padding-right: 16px !important; }
+          
+          .mobile-bottom-nav {
+            display: flex;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 64px;
+            background: rgba(13,17,23,0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            z-index: 90;
+            padding-bottom: env(safe-area-inset-bottom);
+          }
+          
+          .bottom-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            border: none;
+            background: transparent;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+          }
+          .bottom-nav-item.active {
+            color: #1AAFE6;
+          }
         }
         @media (min-width: 901px) {
           .show-mobile-only { display: none !important; }

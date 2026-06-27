@@ -152,10 +152,6 @@ export default function AdminLoginPage() {
           </a>
         </div>
 
-        {/* Default credentials hint */}
-        <div style={{ marginTop: 16, padding: "10px 14px", borderRadius: 8, background: "rgba(245,130,13,0.08)", border: "1px solid rgba(245,130,13,0.2)", fontSize: 12, color: "rgba(245,130,13,0.8)", textAlign: "center" }}>
-          Default: admin@udaancare.in / admin123
-        </div>
       </div>
 
       <style>{`@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }`}</style>

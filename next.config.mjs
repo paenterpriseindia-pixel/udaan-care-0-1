@@ -7,6 +7,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384, 640, 1080, 1920],
     minimumCacheTTL: 0,
     remotePatterns: [],
+    unoptimized: true, // Fixes Vercel INVALID_IMAGE_OPTIMIZE_REQUEST for rewritten Supabase URLs
   },
   eslint: {
     ignoreDuringBuilds: true,

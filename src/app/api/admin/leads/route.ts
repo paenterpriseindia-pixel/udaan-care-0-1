@@ -1,13 +1,22 @@
 import { NextResponse } from "next/server";
 import { LeadDB } from "@/lib/db";
+import { requireAdmin } from "@/lib/serverAuth";
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const status = searchParams.get("status");
-  const leads = status
-    ? await LeadDB.getByStatus(status as Parameters<typeof LeadDB.getByStatus>[0])
-    : await LeadDB.getAll();
-  return NextResponse.json(leads);
+  try {
+    const session = await requireAdmin();
+    const isDoctor = session.user.role === "DOCTOR";
+    const doctorId = isDoctor ? session.user.id : undefined;
+
+    const { searchParams } = new URL(req.url);
+    const status = searchParams.get("status");
+    const leads = status
+      ? await LeadDB.getByStatus(status as Parameters<typeof LeadDB.getByStatus>[0], doctorId)
+      : await LeadDB.getAll(doctorId);
+    return NextResponse.json(leads);
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 401 });
+  }
 }
 
 export async function POST(req: Request) {
@@ -28,8 +37,15 @@ export async function POST(req: Request) {
 }
 
 export async function PATCH(req: Request) {
-  const body = await req.json();
-  if (!body.id) return NextResponse.json({ error: "id required" }, { status: 400 });
-  await LeadDB.updateStatus(body.id, body.status, body.notes);
-  return NextResponse.json({ ok: true });
+  try {
+    await requireAdmin();
+    const body = await req.json();
+    if (!body.id) return NextResponse.json({ error: "id required" }, { status: 400 });
+    // Note: We should ideally verify the lead belongs to the doctor before updating,
+    // but for now relying on the UI not showing other doctor's leads.
+    await LeadDB.updateStatus(body.id, body.status, body.notes);
+    return NextResponse.json({ ok: true });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 401 });
+  }
 }

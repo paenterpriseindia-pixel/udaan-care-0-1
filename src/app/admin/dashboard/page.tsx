@@ -4,12 +4,15 @@ import Link from "next/link";
 import {
   Users, Calendar, Clock, CheckCircle, AlertCircle,
   ArrowRight, UserPlus, Plus, MessageCircle, TrendingUp,
-  Video, Building2, CalendarClock, RefreshCw
+  Video, Building2, CalendarClock, RefreshCw, IndianRupee,
+  Wallet
 } from "lucide-react";
 import type { Patient, Booking, Lead } from "@/lib/db";
-
+import { useSession } from "next-auth/react";
 
 export default function AdminDashboard() {
+  const { data: session } = useSession();
+  const userName = session?.user?.name || "Dr. Prasoon";
   const [patients, setPatients]   = useState<Patient[]>([]);
   const [bookings, setBookings]   = useState<Booking[]>([]);
   const [leads, setLeads]         = useState<Lead[]>([]);
@@ -84,7 +87,7 @@ export default function AdminDashboard() {
       {/* Greeting */}
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: 28, color: "white", marginBottom: 4 }}>
-          {greeting}, Dr. Prasoon
+          {greeting}, {userName}
         </h1>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "rgba(255,255,255,0.4)" }}>
           {now.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
@@ -267,6 +270,49 @@ export default function AdminDashboard() {
           })}
         </div>
       </div>
+
+      {/* Doctor Payout Section (Only visible for DOCTOR role) */}
+      {session?.user?.role === "DOCTOR" && (() => {
+        const myPaidBookings = bookings.filter(b => b.paymentStatus === "PAID");
+        const totalGenerated = myPaidBookings.reduce((sum, b) => sum + (b.amount || 0), 0);
+        const doctorShare = totalGenerated * 0.30;
+        
+        return (
+          <div style={{ ...card, marginTop: 24, background: "linear-gradient(135deg, rgba(10,126,140,0.1), rgba(107,63,160,0.1))", border: "1px solid rgba(10,126,140,0.2)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(10,126,140,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#1AAFE6" }}>
+                <Wallet size={20} />
+              </div>
+              <div>
+                <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 18, color: "white", margin: 0 }}>My Earnings & Payouts</h2>
+                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "rgba(255,255,255,0.5)", margin: 0 }}>You earn 30% of all paid bookings assigned to you.</p>
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+              <div style={{ background: "rgba(0,0,0,0.2)", borderRadius: 12, padding: 16, border: "1px solid rgba(255,255,255,0.05)" }}>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginBottom: 4, fontWeight: 600 }}>Total Revenue Generated</div>
+                <div style={{ fontSize: 24, fontWeight: 900, color: "white", display: "flex", alignItems: "center" }}><IndianRupee size={20} /> {totalGenerated.toLocaleString()}</div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>From {myPaidBookings.length} paid sessions</div>
+              </div>
+              <div style={{ background: "rgba(34,197,94,0.1)", borderRadius: 12, padding: 16, border: "1px solid rgba(34,197,94,0.2)" }}>
+                <div style={{ fontSize: 12, color: "#22c55e", marginBottom: 4, fontWeight: 600 }}>Your Share (30%)</div>
+                <div style={{ fontSize: 24, fontWeight: 900, color: "#22c55e", display: "flex", alignItems: "center" }}><IndianRupee size={20} /> {Math.floor(doctorShare).toLocaleString()}</div>
+                <div style={{ fontSize: 11, color: "rgba(34,197,94,0.6)", marginTop: 4 }}>Ready for next payout cycle</div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+      {/* ── Mobile Responsive Styles ── */}
+      <style>{`
+        @media (max-width: 900px) {
+          .grid-responsive-2 { display: flex !important; flex-direction: column !important; gap: 20px !important; }
+        }
+        @media (min-width: 901px) {
+          .grid-responsive-2 { display: grid; grid-template-columns: 1fr 1fr; }
+        }
+      `}</style>
     </div>
   );
 }
