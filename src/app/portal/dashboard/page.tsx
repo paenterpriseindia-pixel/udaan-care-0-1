@@ -9,7 +9,7 @@ import BottomNav from "@/components/portal/BottomNav";
 import { useLanguage } from "@/components/portal/LanguageProvider";
 import Link from "next/link";
 
-interface PortalData { patient: Patient; sessions: Session[]; goals: Goal[]; bookings: Booking[]; }
+interface PortalData { patient?: Patient; sessions?: Session[]; goals?: Goal[]; bookings?: Booking[]; error?: string; }
 
 export default function ParentDashboard() {
   const { data: sessionData, status } = useSession();
@@ -41,8 +41,18 @@ export default function ParentDashboard() {
   }
 
   if (!data) return null;
+  if (data.error || !data.patient) {
+    return (
+      <div style={{ minHeight: "100vh", padding: 24, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#f8fafc", fontFamily: "'DM Sans',sans-serif", textAlign: "center" }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, color: "#1e293b", marginBottom: 12 }}>Patient record not found</h2>
+        <p style={{ color: "#64748b", fontSize: 15, marginBottom: 24 }}>We could not find your records. Please contact support.</p>
+        <button onClick={() => router.push('/portal/login')} style={{ background: "#0A7E8C", color: "white", border: "none", padding: "12px 24px", borderRadius: 8, fontWeight: 700, cursor: "pointer" }}>Back to Login</button>
+      </div>
+    );
+  }
 
-  const { patient, sessions, goals, bookings } = data;
+  const patient = data.patient as Patient;
+  const { sessions = [], goals = [], bookings = [] } = data;
   const achievedGoals = goals.filter(g => g.achievedAt).length;
   const progressPct = goals.length > 0 ? Math.round((achievedGoals / goals.length) * 100) : 0;
   
