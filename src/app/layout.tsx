@@ -3,7 +3,6 @@ import "./globals.css";
 import SplashWrapper from "@/components/shared/SplashWrapper";
 import { Providers } from "@/providers/Providers";
 import SmoothEffects from "@/components/providers/SmoothEffects";
-import GlobalBackButton from "@/components/shared/GlobalBackButton";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -64,7 +63,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Providers>
           <SmoothEffects />
-          <GlobalBackButton />
           <SplashWrapper>{children}</SplashWrapper>
         </Providers>
 

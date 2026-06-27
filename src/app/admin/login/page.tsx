@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
       padding: 24, fontFamily: "'DM Sans', sans-serif",
     }}>
       {/* Back Button */}
-      <Link href="/" style={{ position: "absolute", top: 24, left: 24, display: "flex", alignItems: "center", gap: 6, color: "rgba(255,255,255,0.6)", textDecoration: "none", fontSize: 14, fontWeight: 700 }}>
+      <Link href="/" style={{ position: "absolute", top: 24, left: 24, display: "flex", alignItems: "center", gap: 6, color: "rgba(255,255,255,0.6)", textDecoration: "none", fontSize: 14, fontWeight: 700, zIndex: 10 }}>
         <ArrowLeft size={18} /> Back to Home
       </Link>
 

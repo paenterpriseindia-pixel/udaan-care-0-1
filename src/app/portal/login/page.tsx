@@ -65,12 +65,12 @@ export default function ParentPortalLogin() {
   return (
     <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, #f0f9ff 0%, #e8f4f8 50%, #f5f0ff 100%)", padding: 24, fontFamily: "'DM Sans',sans-serif", position: "relative" }}>
       {/* Back Button */}
-      <Link href="/" style={{ position: "absolute", top: 24, left: 24, display: "flex", alignItems: "center", gap: 6, color: "#64748b", textDecoration: "none", fontSize: 14, fontWeight: 700 }}>
+      <Link href="/" style={{ position: "absolute", top: 24, left: 24, display: "flex", alignItems: "center", gap: 6, color: "#64748b", textDecoration: "none", fontSize: 14, fontWeight: 700, zIndex: 10 }}>
         <ArrowLeft size={18} /> Back to Home
       </Link>
 
       {/* Small Language Toggle */}
-      <div style={{ position: "absolute", top: 24, right: 24, display: "flex", gap: 8, background: "white", padding: 4, borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+      <div style={{ position: "absolute", top: 24, right: 24, display: "flex", gap: 8, background: "white", padding: 4, borderRadius: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.05)", zIndex: 10 }}>
         <button onClick={() => setLang("en")} style={{ padding: "6px 10px", borderRadius: 8, border: "none", background: lang === "en" ? "rgba(10,126,140,0.1)" : "transparent", color: lang === "en" ? "#0A7E8C" : "#94a3b8", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>EN</button>
         <button onClick={() => setLang("hi")} style={{ padding: "6px 10px", borderRadius: 8, border: "none", background: lang === "hi" ? "rgba(10,126,140,0.1)" : "transparent", color: lang === "hi" ? "#0A7E8C" : "#94a3b8", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>HI</button>
       </div>
