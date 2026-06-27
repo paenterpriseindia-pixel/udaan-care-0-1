@@ -2,8 +2,9 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Hash, Lock, ArrowRight } from "lucide-react";
+import { Hash, Lock, ArrowRight, Languages } from "lucide-react";
 import LogoImg from "@/components/shared/LogoImg";
+import { useLanguage } from "@/components/portal/LanguageProvider";
 
 
 export default function ParentPortalLogin() {
@@ -12,6 +13,8 @@ export default function ParentPortalLogin() {
   const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { lang, setLang, t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,8 +26,40 @@ export default function ParentPortalLogin() {
     });
     setLoading(false);
     if (res?.ok) router.push("/portal/dashboard");
-    else setError("Invalid Patient ID or PIN. Please contact the clinic.");
+    else setError(t("invalid_login"));
   };
+
+  if (!lang) {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "#f8fafc", padding: 24, fontFamily: "'DM Sans',sans-serif" }}>
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <LogoImg variant="dark" height={100} style={{ margin: "0 auto 24px", display: "block" }} />
+          <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: 24, color: "#1a1a2e", marginBottom: 8 }}>
+            Welcome to Udaan Care
+          </h1>
+          <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 700, fontSize: 20, color: "#64748b", marginBottom: 0 }}>
+            उड़ान केयर में आपका स्वागत है
+          </h2>
+        </div>
+        
+        <div style={{ display: "flex", flexDirection: "column", gap: 16, width: "100%", maxWidth: 320 }}>
+          <button
+            onClick={() => setLang("en")}
+            style={{ padding: 18, borderRadius: 16, background: "white", border: "2px solid #e2e8f0", color: "#1e293b", fontSize: 18, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, transition: "all 0.2s", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}
+          >
+            <Languages size={20} color="#0A7E8C" /> English
+          </button>
+          
+          <button
+            onClick={() => setLang("hi")}
+            style={{ padding: 18, borderRadius: 16, background: "white", border: "2px solid #e2e8f0", color: "#1e293b", fontSize: 20, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, transition: "all 0.2s", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}
+          >
+            <Languages size={20} color="#0A7E8C" /> हिंदी
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, #f0f9ff 0%, #e8f4f8 50%, #f5f0ff 100%)", padding: 24, fontFamily: "'DM Sans',sans-serif" }}>
@@ -39,13 +74,13 @@ export default function ParentPortalLogin() {
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 14px", borderRadius: 20, background: "rgba(10,126,140,0.08)", border: "1px solid rgba(10,126,140,0.15)", marginBottom: 16 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: "#0A7E8C", letterSpacing: "0.06em" }}>PARENT PORTAL</span>
           </div>
-          <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: 24, color: "#1a1a2e", marginBottom: 6 }}>Track your child's progress</h1>
-          <p style={{ fontSize: 14, color: "#64748b" }}>Use the Patient ID and PIN provided by the clinic</p>
+          <h1 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 900, fontSize: 24, color: "#1a1a2e", marginBottom: 6 }}>{t("welcome")}</h1>
+          <p style={{ fontSize: 14, color: "#64748b" }}>{t("choose_language")} / Use Patient ID</p>
         </div>
 
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div>
-            <label style={{ fontSize: 13, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>Patient ID</label>
+            <label style={{ fontSize: 13, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>{t("patient_id")}</label>
             <div style={{ position: "relative" }}>
               <Hash size={15} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: "#9CA3AF" }} />
               <input
@@ -60,7 +95,7 @@ export default function ParentPortalLogin() {
           </div>
 
           <div>
-            <label style={{ fontSize: 13, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>4-Digit PIN</label>
+            <label style={{ fontSize: 13, fontWeight: 600, color: "#374151", display: "block", marginBottom: 6 }}>{t("pin")}</label>
             <div style={{ position: "relative" }}>
               <Lock size={15} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: "#9CA3AF" }} />
               <input
@@ -86,16 +121,16 @@ export default function ParentPortalLogin() {
             display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 4,
             fontFamily: "'DM Sans',sans-serif",
           }}>
-            {loading ? <><div style={{ width: 18, height: 18, border: "2px solid rgba(255,255,255,0.3)", borderTop: "2px solid white", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} /> Logging in…</> : <>View Progress <ArrowRight size={15} /></>}
+            {loading ? <><div style={{ width: 18, height: 18, border: "2px solid rgba(255,255,255,0.3)", borderTop: "2px solid white", borderRadius: "50%", animation: "spin 0.7s linear infinite" }} /> {t("logging_in")}</> : <>{t("login_button")} <ArrowRight size={15} /></>}
           </button>
           
           <div style={{ textAlign: "center", marginTop: 4 }}>
-            <a href="/portal/forgot-password" style={{ color: "#64748b", fontSize: 13, textDecoration: "none" }}>Forgot PIN?</a>
+            <a href="/portal/forgot-password" style={{ color: "#64748b", fontSize: 13, textDecoration: "none" }}>{t("forgot_pin")}</a>
           </div>
         </form>
 
         <div style={{ marginTop: 28, textAlign: "center", paddingTop: 24, borderTop: "1px solid #f1f5f9", fontSize: 13, color: "#94a3b8" }}>
-          Don't have your ID? <a href="https://wa.me/" style={{ color: "#0A7E8C", textDecoration: "none", fontWeight: 600 }}>Contact Udaan Care</a>
+          {t("no_id")} <a href="https://wa.me/" style={{ color: "#0A7E8C", textDecoration: "none", fontWeight: 600 }}>{t("contact_clinic")}</a>
         </div>
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`}</style>
