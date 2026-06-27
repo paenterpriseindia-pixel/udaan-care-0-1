@@ -3,8 +3,9 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Eye, EyeOff, Lock, Mail, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, ArrowRight, ArrowLeft } from "lucide-react";
 import LogoImg from "@/components/shared/LogoImg";
+import Link from "next/link";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -35,6 +36,11 @@ export default function AdminLoginPage() {
       background: "linear-gradient(135deg, #0D1117 0%, #0A1628 50%, #0D1117 100%)",
       padding: 24, fontFamily: "'DM Sans', sans-serif",
     }}>
+      {/* Back Button */}
+      <Link href="/" style={{ position: "absolute", top: 24, left: 24, display: "flex", alignItems: "center", gap: 6, color: "rgba(255,255,255,0.6)", textDecoration: "none", fontSize: 14, fontWeight: 700 }}>
+        <ArrowLeft size={18} /> Back to Home
+      </Link>
+
       {/* Background glow orbs */}
       <div style={{ position: "fixed", top: -200, right: -200, width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(107,63,160,0.12), transparent 70%)", pointerEvents: "none" }} />
       <div style={{ position: "fixed", bottom: -200, left: -200, width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(10,126,140,0.1), transparent 70%)", pointerEvents: "none" }} />
