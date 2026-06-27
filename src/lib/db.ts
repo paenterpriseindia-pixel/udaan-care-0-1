@@ -512,6 +512,9 @@ export const LeadDB = {
   updateStatus: async (id: string, status: Lead["status"], notes?: string): Promise<void> => {
     await supabase.from("leads").update({ status, notes, updated_at: new Date().toISOString() }).eq("id", id);
   },
+  assignDoctor: async (id: string, doctorId: string | null): Promise<void> => {
+    await supabase.from("leads").update({ doctor_id: doctorId, updated_at: new Date().toISOString() }).eq("id", id);
+  },
   delete: async (id: string): Promise<void> => {
     await supabase.from("leads").delete().eq("id", id);
   },

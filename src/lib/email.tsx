@@ -21,6 +21,7 @@ interface BookingConfirmationProps {
   date: string;
   time: string;
   sessionType: string;
+  zoomLink?: string;
 }
 
 export function BookingConfirmationEmail({
@@ -29,6 +30,7 @@ export function BookingConfirmationEmail({
   date,
   time,
   sessionType,
+  zoomLink,
 }: BookingConfirmationProps) {
   const logoUrl = 'https://fbogcjvivaehpsgabtqv.supabase.co/storage/v1/object/public/images/logo/logo-dark.png';
 
@@ -93,10 +95,22 @@ export function BookingConfirmationEmail({
             {/* What to expect */}
             <Section style={infoSection}>
               <Text style={infoTitle}>What to expect next?</Text>
-              <Text style={infoText}>
-                • If you booked an <strong>Online Consultation</strong>, Dr. Prasoon will share a Zoom link via WhatsApp shortly before the session.<br/><br/>
-                • If you booked a <strong>Clinic Visit</strong>, please arrive 10 minutes early at our Katni clinic.
-              </Text>
+              
+              {zoomLink ? (
+                <>
+                  <Text style={infoText}>
+                    You have successfully booked an <strong>Online Consultation</strong>. Click the button below to join the Zoom meeting at your scheduled time.
+                  </Text>
+                  <a href={zoomLink} style={zoomButton} target="_blank" rel="noopener noreferrer">
+                    Join Zoom Meeting
+                  </a>
+                </>
+              ) : (
+                <Text style={infoText}>
+                  • If you booked an <strong>Online Consultation</strong>, Dr. Prasoon will share a Zoom link via WhatsApp shortly before the session.<br/><br/>
+                  • If you booked a <strong>Clinic Visit</strong>, please arrive 10 minutes early at our Katni clinic.
+                </Text>
+              )}
             </Section>
 
             {/* Reschedule */}
@@ -263,6 +277,18 @@ const infoText = {
 const hr = {
   borderColor: '#e5e7eb',
   margin: '0',
+};
+
+const zoomButton = {
+  backgroundColor: '#1AAFE6',
+  color: '#ffffff',
+  padding: '12px 24px',
+  borderRadius: '8px',
+  textDecoration: 'none',
+  fontWeight: 'bold',
+  display: 'inline-block',
+  marginTop: '16px',
+  fontFamily: '"Nunito", sans-serif',
 };
 
 const footer = {

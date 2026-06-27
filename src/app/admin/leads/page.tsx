@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { MessageCircle, CheckCircle, Calendar, Trash2, Filter, Search, UserPlus, TrendingUp, Clock, XCircle } from "lucide-react";
-import type { Lead } from "@/lib/db";
+import type { Lead, User } from "@/lib/db";
 
 const STATUS_COLORS: Record<Lead["status"], { bg: string; border: string; text: string; label: string }> = {
   new:       { bg: "rgba(26,175,230,0.15)",  border: "rgba(26,175,230,0.3)",  text: "#1AAFE6", label: "New" },
@@ -27,10 +27,18 @@ export default function LeadsPage() {
   const [filter, setFilter] = useState<Lead["status"] | "all">("all");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [doctors, setDoctors] = useState<User[]>([]);
 
   const load = () => {
     const url = filter === "all" ? "/api/admin/leads" : `/api/admin/leads?status=${filter}`;
-    fetch(url).then(r => r.json()).then(d => { setLeads(Array.isArray(d) ? d : []); setLoading(false); });
+    Promise.all([
+      fetch(url).then(r => r.json()),
+      fetch("/api/admin/doctors").then(r => r.json())
+    ]).then(([leadsData, doctorsData]) => {
+      setLeads(Array.isArray(leadsData) ? leadsData : []);
+      setDoctors(Array.isArray(doctorsData) ? doctorsData : []);
+      setLoading(false);
+    });
   };
   useEffect(() => { setLoading(true); load(); }, [filter]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -40,6 +48,14 @@ export default function LeadsPage() {
       body: JSON.stringify({ id, status }),
     });
     setLeads(l => l.map(x => x.id === id ? { ...x, status } : x));
+  };
+
+  const assignDoctor = async (id: string, doctorId: string) => {
+    await fetch("/api/admin/leads/assign", {
+      method: "PATCH", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, doctorId }),
+    });
+    setLeads(l => l.map(x => x.id === id ? { ...x, doctorId } : x));
   };
 
   const deleteLead = async (id: string) => {
@@ -175,6 +191,32 @@ export default function LeadsPage() {
                       "{lead.message}"
                     </div>
                   )}
+                  {/* Doctor Assignment */}
+                  <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", fontFamily: "'DM Sans',sans-serif" }}>Assign:</span>
+                    <select
+                      value={lead.doctorId || ""}
+                      onChange={(e) => assignDoctor(lead.id, e.target.value)}
+                      style={{
+                        background: "rgba(255,255,255,0.06)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        borderRadius: 6,
+                        color: lead.doctorId ? "#1AAFE6" : "white",
+                        padding: "4px 8px",
+                        fontSize: 12,
+                        fontFamily: "'DM Sans',sans-serif",
+                        outline: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <option value="" style={{ color: "black" }}>Unassigned</option>
+                      {doctors.map(doc => (
+                        <option key={doc.id} value={doc.id} style={{ color: "black" }}>
+                          Dr. {doc.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
                   {/* Status change buttons */}
                   <div style={{ display: "flex", gap: 6, marginTop: 12, flexWrap: "wrap" }}>

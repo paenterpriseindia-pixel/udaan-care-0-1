@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { LeadDB } from "@/lib/db";
 import { sendBookingEmail } from "@/lib/email";
+import { createZoomMeeting } from "@/lib/zoom";
 
 export async function POST(req: Request) {
   try {
@@ -45,6 +46,15 @@ export async function POST(req: Request) {
 
     const confNumber = `UC-${lead.id.substring(0, 6).toUpperCase()}`;
 
+    let zoomLink: string | undefined = undefined;
+    if (leadData.serviceInterest?.toLowerCase().includes("online")) {
+      const startIso = (leadData.date && leadData.time) 
+        ? new Date(`${leadData.date}T${leadData.time}:00+05:30`).toISOString()
+        : new Date(Date.now() + 86400000).toISOString();
+      const generatedLink = await createZoomMeeting(`Online Consultation - ${leadData.name}`, startIso, 45);
+      if (generatedLink) zoomLink = generatedLink;
+    }
+
     // Send email
     if (leadData.email) {
       await sendBookingEmail(leadData.email, {
@@ -53,6 +63,7 @@ export async function POST(req: Request) {
         date: leadData.date || 'N/A',
         time: leadData.time || 'N/A',
         sessionType: leadData.serviceInterest || 'Consultation',
+        zoomLink,
       });
     }
 

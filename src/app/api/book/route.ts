@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { LeadDB } from "@/lib/db";
 import { sendBookingEmail } from "@/lib/email";
+import { createZoomMeeting } from "@/lib/zoom";
 
 export async function POST(req: Request) {
   try {
@@ -25,6 +26,16 @@ export async function POST(req: Request) {
     // Generate Confirmation Number from Lead ID
     const confNumber = `UC-${lead.id.substring(0, 6).toUpperCase()}`;
 
+    let zoomLink: string | undefined = undefined;
+    if (body.serviceInterest?.toLowerCase().includes("online")) {
+      // Free consultation usually 30 mins
+      const startIso = (body.date && body.time) 
+        ? new Date(`${body.date}T${body.time}:00+05:30`).toISOString()
+        : new Date(Date.now() + 86400000).toISOString(); // fallback tomorrow
+      const generatedLink = await createZoomMeeting(`Online Consultation - ${body.name}`, startIso, 30);
+      if (generatedLink) zoomLink = generatedLink;
+    }
+
     // Send email
     if (body.email) {
       await sendBookingEmail(body.email, {
@@ -33,6 +44,7 @@ export async function POST(req: Request) {
         date: body.date || 'N/A',
         time: body.time || 'N/A',
         sessionType: body.serviceInterest || 'Consultation',
+        zoomLink,
       });
     }
 
