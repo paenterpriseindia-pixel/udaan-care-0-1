@@ -7,6 +7,7 @@
  */
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 interface LogoImgProps {
   /** "light" = white logo for dark backgrounds (admin, footer)
@@ -17,7 +18,7 @@ interface LogoImgProps {
 }
 
 export default function LogoImg({ variant, height = 44, style }: LogoImgProps) {
-  const base = variant === "light" ? "/images/logo/logo-light" : "/images/logo/logo-dark";
+  const src = variant === "light" ? "/images/logo/logo-light.png" : "/images/logo/logo-dark.png";
   const [failed, setFailed] = useState(false);
 
   if (failed) {
@@ -36,21 +37,24 @@ export default function LogoImg({ variant, height = 44, style }: LogoImgProps) {
   }
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={`${base}.png`}
-      alt="Udaan Care — Small Steps. Strong Wings"
-      style={{
-        height,
-        width: "auto",
-        objectFit: "contain",
-        display: "block",
-        background: "transparent",
-        border: "none",
-        ...style,
-      }}
-      onError={() => setFailed(true)}
-    />
+        <Image
+          src={src}
+          alt="Udaan Care — Small Steps. Strong Wings"
+          width={180}
+          height={height}
+          priority
+          unoptimized
+          style={{
+            height,
+            width: "auto",
+            objectFit: "contain",
+            display: "block",
+            background: "transparent",
+            border: "none",
+            ...style,
+          }}
+          onError={() => setFailed(true)}
+        />
   );
 }
 

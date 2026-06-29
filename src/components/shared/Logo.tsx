@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useState } from "react";
 
 interface LogoProps {
   variant?: "auto" | "light" | "dark";
@@ -9,15 +9,9 @@ interface LogoProps {
 }
 
 export default function Logo({ variant = "auto", size = "md" }: LogoProps) {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const [imgError, setImgError] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
-  const isDark = variant === "light" || (variant === "auto" && mounted && resolvedTheme === "dark");
-  const src = isDark ? "/images/logo/logo-light.png" : "/images/logo/logo-dark.png";
   const logoHeight = size === "sm" ? 32 : size === "lg" ? 56 : 44;
+  const logoWidth = size === "sm" ? 120 : size === "lg" ? 200 : 160;
 
   const textFallback = (
     <span style={{
@@ -35,17 +29,43 @@ export default function Logo({ variant = "auto", size = "md" }: LogoProps) {
   return (
     <Link href="/" style={{ display: "inline-flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}>
       {imgError ? textFallback : (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={src}
-          alt="Udaan Care — Small Steps. Strong Wings"
-          style={{
-            height: logoHeight, width: "auto", maxWidth: "100%",
-            objectFit: "contain", display: "block",
-            background: "transparent", border: "none", outline: "none",
-          }}
-          onError={() => setImgError(true)}
-        />
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {/* Dark logo (shown on light mode, hidden on dark mode or forced light variant) */}
+          <div className={variant === "light" ? "hidden" : variant === "dark" ? "block" : "block dark:hidden"}>
+            <Image
+              src="/images/logo/logo-dark.png"
+              alt="Udaan Care — Small Steps. Strong Wings"
+              width={logoWidth}
+              height={logoHeight}
+              priority
+              unoptimized
+              style={{
+                height: logoHeight, width: "auto", maxWidth: "100%",
+                objectFit: "contain", display: "block",
+                background: "transparent", border: "none", outline: "none",
+              }}
+              onError={() => setImgError(true)}
+            />
+          </div>
+          
+          {/* Light logo (hidden on light mode, shown on dark mode or forced light variant) */}
+          <div className={variant === "light" ? "block" : variant === "dark" ? "hidden" : "hidden dark:block"}>
+            <Image
+              src="/images/logo/logo-light.png"
+              alt="Udaan Care — Small Steps. Strong Wings"
+              width={logoWidth}
+              height={logoHeight}
+              priority
+              unoptimized
+              style={{
+                height: logoHeight, width: "auto", maxWidth: "100%",
+                objectFit: "contain", display: "block",
+                background: "transparent", border: "none", outline: "none",
+              }}
+              onError={() => setImgError(true)}
+            />
+          </div>
+        </div>
       )}
     </Link>
   );

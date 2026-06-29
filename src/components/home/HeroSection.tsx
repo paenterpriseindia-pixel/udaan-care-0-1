@@ -95,6 +95,7 @@ export default function HeroSection() {
           alt="Hero background"
           fill
           priority
+          unoptimized
           style={{ objectFit: "cover", objectPosition: "center top" }}
           sizes="100vw"
           quality={100}
@@ -325,6 +326,7 @@ export default function HeroSection() {
               style={{ objectFit: "cover", objectPosition: "center top" }}
               sizes="340px"
               priority
+              unoptimized
               quality={100}
             />
           </motion.div>
