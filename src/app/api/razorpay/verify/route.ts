@@ -55,16 +55,20 @@ export async function POST(req: Request) {
       if (generatedLink) zoomLink = generatedLink;
     }
 
-    // Send email
+    // Send email (wrapped in try-catch to ensure we still return success if email fails)
     if (leadData.email) {
-      await sendBookingEmail(leadData.email, {
-        clientName: leadData.name,
-        confirmationNumber: confNumber,
-        date: leadData.date || 'N/A',
-        time: leadData.time || 'N/A',
-        sessionType: leadData.serviceInterest || 'Consultation',
-        zoomLink,
-      });
+      try {
+        await sendBookingEmail(leadData.email, {
+          clientName: leadData.name,
+          confirmationNumber: confNumber,
+          date: leadData.date || 'N/A',
+          time: leadData.time || 'N/A',
+          sessionType: leadData.serviceInterest || 'Consultation',
+          zoomLink,
+        });
+      } catch (emailErr) {
+        console.error("Failed to send booking confirmation email:", emailErr);
+      }
     }
 
     return NextResponse.json({ success: true, confirmationNumber: confNumber });

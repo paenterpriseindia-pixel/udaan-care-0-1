@@ -10,7 +10,10 @@ export default withAuth(
     const isApi = pathname.startsWith("/api/");
 
     // Admin routes: only ADMIN or DOCTOR
-    if ((pathname.startsWith("/admin") && pathname !== "/admin/login") || pathname.startsWith("/api/admin")) {
+    // EXCEPTION: POST /api/admin/leads is used by the public Contact form
+    const isPublicLeadPost = pathname === "/api/admin/leads" && req.method === "POST";
+    
+    if (((pathname.startsWith("/admin") && pathname !== "/admin/login") || pathname.startsWith("/api/admin")) && !isPublicLeadPost) {
       if (!token || (role !== "ADMIN" && role !== "DOCTOR")) {
         if (isApi) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         return NextResponse.redirect(new URL("/admin/login", req.url));
@@ -22,6 +25,16 @@ export default withAuth(
       if (!token || role !== "PARENT") {
         if (isApi) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         return NextResponse.redirect(new URL("/portal/login", req.url));
+      }
+    }
+
+    // Redirect already logged in users away from login pages
+    if (token) {
+      if (pathname === "/admin/login" && (role === "ADMIN" || role === "DOCTOR")) {
+        return NextResponse.redirect(new URL("/admin", req.url));
+      }
+      if (pathname === "/portal/login" && role === "PARENT") {
+        return NextResponse.redirect(new URL("/portal", req.url));
       }
     }
 

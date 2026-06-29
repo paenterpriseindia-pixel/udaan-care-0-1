@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { LeadDB } from "@/lib/db";
 import { requireAdmin } from "@/lib/serverAuth";
+import { sendAdminLeadEmail } from "@/lib/email";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 export async function GET(req: Request) {
   try {
@@ -20,6 +22,11 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for") || "unknown";
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+  }
+
   const body = await req.json();
   const lead = await LeadDB.create({
     name: body.name ?? "Unknown",
@@ -31,9 +38,16 @@ export async function POST(req: Request) {
     status: "new",
     notes: body.notes,
   });
-  return lead
-    ? NextResponse.json(lead, { status: 201 })
-    : NextResponse.json({ error: "Failed to create lead" }, { status: 500 });
+
+  // Fire and forget email notification to ensure clinic gets the lead even if DB is down
+  sendAdminLeadEmail(body).catch(console.error);
+
+  if (lead) {
+    return NextResponse.json(lead, { status: 201 });
+  } else {
+    // Return success to the user so they aren't blocked, the clinic will receive the email.
+    return NextResponse.json({ success: true, note: "Saved via email fallback" }, { status: 201 });
+  }
 }
 
 export async function PATCH(req: Request) {

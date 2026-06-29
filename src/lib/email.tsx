@@ -345,3 +345,42 @@ export async function sendBookingEmail(to: string, props: BookingConfirmationPro
     return { ok: false, error: err };
   }
 }
+
+export async function sendAdminLeadEmail(leadData: any) {
+  if (!resend) {
+    console.log('[Email Mock] Admin Lead Email:', leadData);
+    return { ok: true, mock: true };
+  }
+
+  try {
+    const htmlContent = `
+      <h2>New Lead / Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${leadData.name}</p>
+      <p><strong>Phone:</strong> ${leadData.phone}</p>
+      <p><strong>Email:</strong> ${leadData.email || 'N/A'}</p>
+      <p><strong>Source:</strong> ${leadData.source || 'website'}</p>
+      <p><strong>Service Interest:</strong> ${leadData.serviceInterest || 'N/A'}</p>
+      <p><strong>Message:</strong></p>
+      <blockquote style="background: #f9f9f9; padding: 10px; border-left: 4px solid #ccc;">
+        ${leadData.message || 'No message provided.'}
+      </blockquote>
+      <p><a href="https://udaancare.in/admin">View in Admin Panel</a></p>
+    `;
+
+    const { data, error } = await resend.emails.send({
+      from: 'UdaanCare System <prasoon@udaancare.in>',
+      to: ['care@udaancare.in', 'prasoon@udaancare.in'],
+      subject: `New Lead: ${leadData.name}`,
+      html: htmlContent,
+    });
+
+    if (error) {
+      console.error('[Resend Admin Error]', error);
+      return { ok: false, error };
+    }
+    return { ok: true, data };
+  } catch (err) {
+    console.error('[Resend Admin Exception]', err);
+    return { ok: false, error: err };
+  }
+}

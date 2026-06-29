@@ -47,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               name: "Udaan Care",
               url: "https://udaancare.in",
               telephone: ["+91-8349764084", "+91-8349550671"],
-              email: "care@udaan.in",
+              email: "care@udaancare.in",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "Sai Kripa First Floor, Garg Chowraha, Pathak Gali, Near Rama Pharma, Over Bridge Road",

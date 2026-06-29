@@ -6,12 +6,18 @@ export default function ContactPage() {
   const [form, setForm] = useState({ name: "", phone: "", email: "", message: "" });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!form.name || !form.phone || !form.message) {
+      setErrorMsg("Please fill in required fields.");
+      return;
+    }
     setSending(true);
+    setErrorMsg("");
     try {
-      await fetch("/api/admin/leads", {
+      const res = await fetch("/api/admin/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -23,9 +29,14 @@ export default function ContactPage() {
           status: "new",
         }),
       });
-    } catch { /* silent — don't block UX */ }
-    setSending(false);
-    setSent(true);
+      if (!res.ok) throw new Error("Submission failed");
+      setSent(true);
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg("Failed to send message. Please try WhatsApp or calling us.");
+    } finally {
+      setSending(false);
+    }
   };
 
 
@@ -161,7 +172,14 @@ export default function ContactPage() {
                       <label style={{ display: "block", fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 13, color: "var(--color-text-primary)", marginBottom: 6 }}>Message <span style={{ color: "var(--color-accent)" }}>*</span></label>
                       <textarea className="input" required placeholder="Tell us about your child and how we can help..." style={{ minHeight: 120, resize: "none" }} value={form.message} onChange={e => setForm({...form, message: e.target.value})} />
                     </div>
-                    <button type="submit" disabled={sending} className="btn btn-primary" style={{ width: "100%", justifyContent: "center", padding: "14px" }}>
+                    
+                    {errorMsg && (
+                      <div style={{ padding: 12, background: "rgba(229,62,62,0.1)", color: "#E53E3E", borderRadius: 8, fontSize: 13, fontFamily: "'DM Sans',sans-serif" }}>
+                        {errorMsg}
+                      </div>
+                    )}
+
+                    <button type="submit" disabled={sending} className="btn btn-primary" style={{ width: "100%", justifyContent: "center", padding: "14px", opacity: sending ? 0.7 : 1 }}>
                       {sending ? "Sending..." : <><Send size={15} />Send Message</>}
                     </button>
                     <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--color-text-secondary)", textAlign: "center" }}>

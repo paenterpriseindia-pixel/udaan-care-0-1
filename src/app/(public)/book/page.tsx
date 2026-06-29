@@ -277,6 +277,13 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
     if (leadSent) return; // Prevent double clicking
     setLeadSent(true);
     
+    // Quick validation before attempting payment
+    if (!state.childName || !state.parentName || !state.phone || !state.email || !state.date || !state.time) {
+      alert("Please ensure all booking details are filled out correctly before proceeding to payment.");
+      setLeadSent(false);
+      return;
+    }
+
     try {
       // 1. Create order on backend
       const res = await fetch("/api/razorpay/create-order", {
@@ -284,17 +291,46 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: priceNum }),
       });
-      const order = await res.json();
       
-      if (!order.id) {
-        alert("Server error. Please try again or use UPI.");
+      if (res.status === 503) {
+        // Payment gateway not configured. Fallback to direct booking capture.
+        alert("Payment gateway not configured. Your booking request will be saved and our team will contact you for payment.");
+        const fallbackRes = await fetch("/api/book", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: state.parentName || state.childName,
+            phone: state.phone,
+            email: state.email,
+            date: state.date,
+            time: state.time,
+            source: "website_payment_bypass",
+            serviceInterest: state.type === "online" ? "Online Consultation" : "Clinic Visit",
+            message: state.reason,
+          }),
+        });
+        if (fallbackRes.ok) {
+          window.location.href = "/";
+        } else {
+          alert("Failed to submit booking. Please contact us directly.");
+          setLeadSent(false);
+        }
+        return;
+      }
+
+      const order = await res.json();
+      if (!order.id) throw new Error("Order creation failed");
+
+      // 2. Open Razorpay Checkout
+      const rzpKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+      if (!rzpKey) {
+        alert("Payment gateway key missing in frontend. Please contact support to book.");
         setLeadSent(false);
         return;
       }
 
-      // 2. Open Razorpay Checkout
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T6IKIEWy4JFJOJ", // Fallback to provided key if env missing
+        key: rzpKey,
         amount: order.amount,
         currency: order.currency,
         name: "UdaanCare",
@@ -358,7 +394,9 @@ function Step4({ state, prices }: { state: BookingState; prices: any }) {
 
   // Capture lead for abandoned cart manually if they don't click razorpay
   useEffect(() => {
-    // Only capture if they stay on this step for 10 seconds without paying
+    // Only capture if they stay on this step for 10 seconds without paying, and we have valid data
+    if (!state.phone || !state.email || !state.parentName) return;
+
     const timer = setTimeout(() => {
        fetch("/api/book", {
           method: "POST",

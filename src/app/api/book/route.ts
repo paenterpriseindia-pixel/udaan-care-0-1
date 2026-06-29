@@ -2,9 +2,15 @@ import { NextResponse } from "next/server";
 import { LeadDB } from "@/lib/db";
 import { sendBookingEmail } from "@/lib/email";
 import { createZoomMeeting } from "@/lib/zoom";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get("x-forwarded-for") || "unknown";
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+    }
+
     const body = await req.json();
     
     // Save as a lead with booking details in notes
@@ -19,12 +25,15 @@ export async function POST(req: Request) {
       notes: `Requested Booking -> Date: ${body.date || 'N/A'}, Time: ${body.time || 'N/A'}`,
     });
 
-    if (!lead) {
-      return NextResponse.json({ error: "Failed to create booking record" }, { status: 500 });
+    let confIdStr = lead?.id;
+    if (!confIdStr) {
+      // If DB insert failed, we don't want to block the user. We'll generate a random string.
+      confIdStr = Math.random().toString(36).substring(2, 10);
+      console.warn("LeadDB failed in /api/book, continuing with fallback ID:", confIdStr);
     }
 
-    // Generate Confirmation Number from Lead ID
-    const confNumber = `UC-${lead.id.substring(0, 6).toUpperCase()}`;
+    // Generate Confirmation Number from Lead ID (or fallback)
+    const confNumber = `UC-${confIdStr.substring(0, 6).toUpperCase()}`;
 
     let zoomLink: string | undefined = undefined;
     if (body.serviceInterest?.toLowerCase().includes("online")) {
