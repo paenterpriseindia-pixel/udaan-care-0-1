@@ -30,7 +30,7 @@ export default function NotesPage() {
     );
   }
 
-  const sortedSessions = [...sessions].sort((a, b) => b.date.localeCompare(a.date));
+  const sortedSessions = [...sessions].sort((a, b) => (b?.date || "").localeCompare(a?.date || ""));
 
   return (
     <div style={{ minHeight: "100vh", background: "#f1f5f9", paddingBottom: 100, fontFamily: "'DM Sans',sans-serif" }}>

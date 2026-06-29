@@ -31,8 +31,8 @@ export default function AppointmentsPage() {
     );
   }
 
-  const upcoming = bookings.filter(b => b.datetime > new Date().toISOString() && b.status !== "CANCELLED").sort((a, b) => a.datetime.localeCompare(b.datetime));
-  const past = bookings.filter(b => b.datetime <= new Date().toISOString() || b.status === "CANCELLED").sort((a, b) => b.datetime.localeCompare(a.datetime));
+  const upcoming = bookings.filter(b => b?.datetime && b.datetime > new Date().toISOString() && b.status !== "CANCELLED").sort((a, b) => (a?.datetime || "").localeCompare(b?.datetime || ""));
+  const past = bookings.filter(b => b?.datetime && (b.datetime <= new Date().toISOString() || b.status === "CANCELLED")).sort((a, b) => (b?.datetime || "").localeCompare(a?.datetime || ""));
 
   return (
     <div style={{ minHeight: "100vh", background: "#f1f5f9", paddingBottom: 100, fontFamily: "'DM Sans',sans-serif" }}>

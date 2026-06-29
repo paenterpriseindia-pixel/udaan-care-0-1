@@ -56,9 +56,9 @@ export default function ParentDashboard() {
   const achievedGoals = goals.filter(g => g.achievedAt).length;
   const progressPct = goals.length > 0 ? Math.round((achievedGoals / goals.length) * 100) : 0;
   
-  const upcomingBookings = bookings.filter(b => b.datetime > new Date().toISOString() && b.status !== "CANCELLED").sort((a, b) => a.datetime.localeCompare(b.datetime));
+  const upcomingBookings = bookings.filter(b => b?.datetime && b.datetime > new Date().toISOString() && b.status !== "CANCELLED").sort((a, b) => (a?.datetime || "").localeCompare(b?.datetime || ""));
   const nextAppointment = upcomingBookings[0];
-  const recentNotes = [...sessions].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 2);
+  const recentNotes = [...sessions].sort((a, b) => (b?.date || "").localeCompare(a?.date || "")).slice(0, 2);
 
   return (
     <div style={{ minHeight: "100vh", background: "#f1f5f9", paddingBottom: 100, fontFamily: "'DM Sans',sans-serif" }}>
