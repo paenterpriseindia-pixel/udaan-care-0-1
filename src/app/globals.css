@@ -40,6 +40,10 @@
   --glass-bg:       rgba(255, 255, 255, 0.65);
   --glass-border:   rgba(0, 0, 0, 0.08);
   --glass-blur:     blur(12px);
+
+  /* ── Logo Display Toggles ── */
+  --logo-dark-display: block;
+  --logo-light-display: none;
 }
 
 .dark {
@@ -60,6 +64,10 @@
   /* ── Universal Glassmorphism (Dark) ── */
   --glass-bg:       rgba(0, 0, 0, 0.45);
   --glass-border:   rgba(255, 255, 255, 0.15);
+
+  /* ── Logo Display Toggles ── */
+  --logo-dark-display: none;
+  --logo-light-display: block;
 }
 
 

@@ -31,7 +31,7 @@ export default function Logo({ variant = "auto", size = "md" }: LogoProps) {
       {imgError ? textFallback : (
         <div style={{ display: "flex", alignItems: "center" }}>
           {/* Dark logo (shown on light mode, hidden on dark mode or forced light variant) */}
-          <div className={variant === "light" ? "hidden" : variant === "dark" ? "block" : "block dark:hidden"}>
+          <div style={{ display: variant === "light" ? "none" : variant === "dark" ? "block" : "var(--logo-dark-display)" }}>
             <Image
               src="/images/logo/logo-dark.png"
               alt="Udaan Care — Small Steps. Strong Wings"
@@ -49,7 +49,7 @@ export default function Logo({ variant = "auto", size = "md" }: LogoProps) {
           </div>
           
           {/* Light logo (hidden on light mode, shown on dark mode or forced light variant) */}
-          <div className={variant === "light" ? "block" : variant === "dark" ? "hidden" : "hidden dark:block"}>
+          <div style={{ display: variant === "light" ? "block" : variant === "dark" ? "none" : "var(--logo-light-display)" }}>
             <Image
               src="/images/logo/logo-light.png"
               alt="Udaan Care — Small Steps. Strong Wings"
