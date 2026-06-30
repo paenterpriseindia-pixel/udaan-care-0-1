@@ -12,8 +12,10 @@ export default withAuth(
     // Admin routes: only ADMIN or DOCTOR
     // EXCEPTION: POST /api/admin/leads is used by the public Contact form
     const isPublicLeadPost = pathname === "/api/admin/leads" && req.method === "POST";
+    // EXCEPTION: Parents fetching their own dashboard data
+    const isParentFetchingSelf = role === "PARENT" && pathname === `/api/admin/patients/${token?.patientId}` && req.method === "GET";
     
-    if (((pathname.startsWith("/admin") && pathname !== "/admin/login") || pathname.startsWith("/api/admin")) && !isPublicLeadPost) {
+    if (((pathname.startsWith("/admin") && pathname !== "/admin/login") || pathname.startsWith("/api/admin")) && !isPublicLeadPost && !isParentFetchingSelf) {
       if (!token || (role !== "ADMIN" && role !== "DOCTOR")) {
         if (isApi) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         return NextResponse.redirect(new URL("/admin/login", req.url));
