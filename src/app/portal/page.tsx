@@ -1,1 +1,5 @@
-﻿import { redirect } from "next/navigation";`n`nexport default function PortalIndexPage() {`n  redirect("/portal/dashboard");`n}
+import { redirect } from "next/navigation";
+
+export default function PortalIndexPage() {
+  redirect("/portal/dashboard");
+}
