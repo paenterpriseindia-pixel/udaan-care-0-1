@@ -18,7 +18,8 @@ export default function FactRibbon() {
       background: "#086A75", // Slightly darker than primary for contrast
       color: "rgba(255,255,255,0.95)",
       overflow: "hidden",
-      position: "relative",
+      position: "absolute",
+      top: 68,
       padding: "8px 0",
       display: "flex",
       alignItems: "center",

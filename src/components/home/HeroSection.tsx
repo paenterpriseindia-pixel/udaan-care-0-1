@@ -128,7 +128,7 @@ export default function HeroSection() {
         className="container grid-sidebar-right"
         style={{
           position: "relative", zIndex: 2,
-          paddingTop: 68, paddingBottom: 40,
+          paddingTop: 108, paddingBottom: 40,
           gap: 64, alignItems: "center",
         }}
       >
