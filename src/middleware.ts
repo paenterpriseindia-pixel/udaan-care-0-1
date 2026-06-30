@@ -31,10 +31,10 @@ export default withAuth(
     // Redirect already logged in users away from login pages
     if (token) {
       if (pathname === "/admin/login" && (role === "ADMIN" || role === "DOCTOR")) {
-        return NextResponse.redirect(new URL("/admin", req.url));
+        return NextResponse.redirect(new URL("/admin/dashboard", req.url));
       }
       if (pathname === "/portal/login" && role === "PARENT") {
-        return NextResponse.redirect(new URL("/portal", req.url));
+        return NextResponse.redirect(new URL("/portal/dashboard", req.url));
       }
     }
 
