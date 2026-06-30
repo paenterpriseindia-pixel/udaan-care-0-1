@@ -2,7 +2,7 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useCurrency } from "@/context/CurrencyContext";
-import { ArrowRight, Calendar, Clock, Share2, Copy, Check } from "lucide-react";
+import { ArrowRight, Calendar, Clock, Share2, Copy, Check, Bookmark } from "lucide-react";
 import { useState } from "react";
 
 const ARTICLES: Record<string, {
@@ -347,7 +347,7 @@ export default function BlogArticlePage() {
                     onClick={() => setSaved(s => !s)}
                     style={{
                       display: "flex", alignItems: "center", gap: 8,
-                      padding: "10px 18px", borderRadius: 10, border: "none", cursor: "pointer",
+                      padding: "10px 18px", borderRadius: 10, cursor: "pointer",
                       fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 13,
                       background: saved ? "var(--color-primary)" : "var(--color-surface)",
                       color: saved ? "white" : "var(--color-text-primary)",
