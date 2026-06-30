@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://fbogcjvivaehpsgabtqv.supabase.co";
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "missing-key-prevent-build-crash";
 
 // Server-side admin client — full access, never exposed to browser
 export const supabase = createClient(supabaseUrl, supabaseKey, {
