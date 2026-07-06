@@ -38,6 +38,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
         <meta name="theme-color" content="#0A7E8C" />
+        
+        {/* Replace GOOGLE_VERIFICATION_CODE_HERE with */}
+        {/* the code from search.google.com/search-console */}
+        {/* Replace BING_VERIFICATION_CODE_HERE with */}
+        {/* the code from bing.com/webmasters */}
+        <meta 
+          name="google-site-verification" 
+          content="GOOGLE_VERIFICATION_CODE_HERE" 
+        />
+        <meta 
+          name="msvalidate.01" 
+          content="BING_VERIFICATION_CODE_HERE" 
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

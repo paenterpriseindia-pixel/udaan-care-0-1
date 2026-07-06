@@ -151,6 +151,69 @@ export interface VideoTestimonial {
   createdAt: string;
 }
 
+// ── NEW: Bootcamp ─────────────────────────────────────────────────────────────
+export interface Bootcamp {
+  id: string;
+  slug: string;
+  title: string;
+  eventType: string;
+  shortDescription: string;
+  fullDescription: string;
+  coverImageUrl?: string;
+  category: string;
+  eventDate: string; // ISO string
+  startTime: string;
+  endTime: string;
+  timezone: string;
+  platform: string;
+  meetingLink?: string;
+  priceINR: number;
+  priceUSD: number;
+  earlyBirdINR?: number;
+  earlyBirdUSD?: number;
+  earlyBirdDeadline?: string;
+  isFree: boolean;
+  totalSeats: number;
+  registrationDeadline: string;
+  isFeatured: boolean;
+  isPublished: boolean;
+  coHostName?: string;
+  coHostEmail?: string;
+  revenueSplitPercent: number;
+  whatIsIncluded?: any;
+  whoIsItFor?: string;
+  learningOutcomes?: any;
+  agenda?: string;
+  faqs?: any;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+  deletedAt?: string;
+}
+
+// ── NEW: Bootcamp Registration ────────────────────────────────────────────────
+export interface BootcampRegistration {
+  id: string;
+  bootcampId: string;
+  parentName: string;
+  childName?: string;
+  childAge?: number;
+  email: string;
+  phone: string;
+  city?: string;
+  reasonForJoining?: string;
+  currency: string;
+  amountPaid: number;
+  paymentStatus: string;
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
+  webhookVerified: boolean;
+  isWaitlisted: boolean;
+  attended: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // ── NEW: Staff Attendance ─────────────────────────────────────────────────────
 export interface StaffAttendance {
   id: string;
@@ -847,4 +910,154 @@ export const VideoTestimonialDB = {
   toggleActive: async (id: string, isActive: boolean): Promise<void> => {
     await supabase.from("video_testimonials").update({ is_active: isActive }).eq("id", id);
   },
+};
+
+// ── BOOTCAMPS ─────────────────────────────────────────────────────────────────
+function mapBootcamp(r: Record<string, unknown>): Bootcamp {
+  return {
+    id: r.id as string, slug: r.slug as string, title: r.title as string, eventType: r.event_type as string,
+    shortDescription: r.short_description as string, fullDescription: r.full_description as string,
+    coverImageUrl: r.cover_image_url as string | undefined, category: r.category as string,
+    eventDate: r.event_date as string, startTime: r.start_time as string, endTime: r.end_time as string,
+    timezone: r.timezone as string, platform: r.platform as string, meetingLink: r.meeting_link as string | undefined,
+    priceINR: r.price_inr as number, priceUSD: r.price_usd as number,
+    earlyBirdINR: r.early_bird_inr as number | undefined, earlyBirdUSD: r.early_bird_usd as number | undefined,
+    earlyBirdDeadline: r.early_bird_deadline as string | undefined, isFree: r.is_free as boolean,
+    totalSeats: r.total_seats as number, registrationDeadline: r.registration_deadline as string,
+    isFeatured: r.is_featured as boolean, isPublished: r.is_published as boolean,
+    coHostName: r.co_host_name as string | undefined, coHostEmail: r.co_host_email as string | undefined,
+    revenueSplitPercent: r.revenue_split_percent as number, whatIsIncluded: r.what_is_included,
+    whoIsItFor: r.who_is_it_for as string | undefined, learningOutcomes: r.learning_outcomes,
+    agenda: r.agenda as string | undefined, faqs: r.faqs, tags: (r.tags as string[]) || [],
+    createdAt: r.created_at as string, updatedAt: r.updated_at as string, deletedAt: r.deleted_at as string | undefined,
+  };
+}
+
+export const BootcampDB = {
+  getAll: async (includeDeleted = false): Promise<Bootcamp[]> => {
+    let query = supabase.from("bootcamps").select("*").order("event_date", { ascending: true });
+    if (!includeDeleted) query = query.is("deleted_at", null);
+    const { data } = await query;
+    return (data ?? []).map(mapBootcamp);
+  },
+  getById: async (id: string): Promise<Bootcamp | undefined> => {
+    const { data } = await supabase.from("bootcamps").select("*").eq("id", id).single();
+    return data ? mapBootcamp(data) : undefined;
+  },
+  getBySlug: async (slug: string): Promise<Bootcamp | undefined> => {
+    const { data } = await supabase.from("bootcamps").select("*").eq("id", slug).is("deleted_at", null).single();
+    return data ? mapBootcamp(data) : undefined;
+  },
+  create: async (input: Omit<Bootcamp, "id" | "createdAt" | "updatedAt" | "deletedAt">): Promise<Bootcamp> => {
+    const payload = {
+      slug: input.slug, title: input.title, event_type: input.eventType,
+      short_description: input.shortDescription, full_description: input.fullDescription,
+      cover_image_url: input.coverImageUrl, category: input.category,
+      event_date: input.eventDate, start_time: input.startTime, end_time: input.endTime,
+      timezone: input.timezone, platform: input.platform, meeting_link: input.meetingLink,
+      price_inr: input.priceINR, price_usd: input.priceUSD,
+      early_bird_inr: input.earlyBirdINR, early_bird_usd: input.earlyBirdUSD,
+      early_bird_deadline: input.earlyBirdDeadline, is_free: input.isFree,
+      total_seats: input.totalSeats, registration_deadline: input.registrationDeadline,
+      is_featured: input.isFeatured, is_published: input.isPublished,
+      co_host_name: input.coHostName, co_host_email: input.coHostEmail,
+      revenue_split_percent: input.revenueSplitPercent, what_is_included: input.whatIsIncluded,
+      who_is_it_for: input.whoIsItFor, learning_outcomes: input.learningOutcomes,
+      agenda: input.agenda, faqs: input.faqs, tags: input.tags,
+    };
+    const { data, error } = await supabase.from("bootcamps").insert(payload).select().single();
+    if (error) throw error;
+    return mapBootcamp(data);
+  },
+  update: async (id: string, input: Partial<Bootcamp>): Promise<Bootcamp | undefined> => {
+    const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    if (input.slug !== undefined) patch.slug = input.slug;
+    if (input.title !== undefined) patch.title = input.title;
+    if (input.eventType !== undefined) patch.event_type = input.eventType;
+    if (input.shortDescription !== undefined) patch.short_description = input.shortDescription;
+    if (input.fullDescription !== undefined) patch.full_description = input.fullDescription;
+    if (input.coverImageUrl !== undefined) patch.cover_image_url = input.coverImageUrl;
+    if (input.category !== undefined) patch.category = input.category;
+    if (input.eventDate !== undefined) patch.event_date = input.eventDate;
+    if (input.startTime !== undefined) patch.start_time = input.startTime;
+    if (input.endTime !== undefined) patch.end_time = input.endTime;
+    if (input.timezone !== undefined) patch.timezone = input.timezone;
+    if (input.platform !== undefined) patch.platform = input.platform;
+    if (input.meetingLink !== undefined) patch.meeting_link = input.meetingLink;
+    if (input.priceINR !== undefined) patch.price_inr = input.priceINR;
+    if (input.priceUSD !== undefined) patch.price_usd = input.priceUSD;
+    if (input.earlyBirdINR !== undefined) patch.early_bird_inr = input.earlyBirdINR;
+    if (input.earlyBirdUSD !== undefined) patch.early_bird_usd = input.earlyBirdUSD;
+    if (input.earlyBirdDeadline !== undefined) patch.early_bird_deadline = input.earlyBirdDeadline;
+    if (input.isFree !== undefined) patch.is_free = input.isFree;
+    if (input.totalSeats !== undefined) patch.total_seats = input.totalSeats;
+    if (input.registrationDeadline !== undefined) patch.registration_deadline = input.registrationDeadline;
+    if (input.isFeatured !== undefined) patch.is_featured = input.isFeatured;
+    if (input.isPublished !== undefined) patch.is_published = input.isPublished;
+    if (input.coHostName !== undefined) patch.co_host_name = input.coHostName;
+    if (input.coHostEmail !== undefined) patch.co_host_email = input.coHostEmail;
+    if (input.revenueSplitPercent !== undefined) patch.revenue_split_percent = input.revenueSplitPercent;
+    if (input.whatIsIncluded !== undefined) patch.what_is_included = input.whatIsIncluded;
+    if (input.whoIsItFor !== undefined) patch.who_is_it_for = input.whoIsItFor;
+    if (input.learningOutcomes !== undefined) patch.learning_outcomes = input.learningOutcomes;
+    if (input.agenda !== undefined) patch.agenda = input.agenda;
+    if (input.faqs !== undefined) patch.faqs = input.faqs;
+    if (input.tags !== undefined) patch.tags = input.tags;
+    
+    const { data, error } = await supabase.from("bootcamps").update(patch).eq("id", id).select().single();
+    if (error) throw error;
+    return data ? mapBootcamp(data) : undefined;
+  },
+  softDelete: async (id: string): Promise<void> => {
+    await supabase.from("bootcamps").update({ deleted_at: new Date().toISOString() }).eq("id", id);
+  },
+};
+
+// ── BOOTCAMP REGISTRATIONS ────────────────────────────────────────────────────
+function mapBootcampRegistration(r: Record<string, unknown>): BootcampRegistration {
+  return {
+    id: r.id as string, bootcampId: r.bootcamp_id as string, parentName: r.parent_name as string,
+    childName: r.child_name as string | undefined, childAge: r.child_age as number | undefined,
+    email: r.email as string, phone: r.phone as string, city: r.city as string | undefined,
+    reasonForJoining: r.reason_for_joining as string | undefined, currency: r.currency as string,
+    amountPaid: r.amount_paid as number, paymentStatus: r.payment_status as string,
+    razorpayOrderId: r.razorpay_order_id as string | undefined, razorpayPaymentId: r.razorpay_payment_id as string | undefined,
+    webhookVerified: r.webhook_verified as boolean, isWaitlisted: r.is_waitlisted as boolean,
+    attended: r.attended as boolean, createdAt: r.created_at as string, updatedAt: r.updated_at as string,
+  };
+}
+
+export const BootcampRegistrationDB = {
+  getByBootcampId: async (bootcampId: string): Promise<BootcampRegistration[]> => {
+    const { data } = await supabase.from("bootcamp_registrations").select("*").eq("bootcamp_id", bootcampId).order("created_at", { ascending: false });
+    return (data ?? []).map(mapBootcampRegistration);
+  },
+  getById: async (id: string): Promise<BootcampRegistration | undefined> => {
+    const { data } = await supabase.from("bootcamp_registrations").select("*").eq("id", id).single();
+    return data ? mapBootcampRegistration(data) : undefined;
+  },
+  create: async (input: Omit<BootcampRegistration, "id" | "createdAt" | "updatedAt">): Promise<BootcampRegistration> => {
+    const payload = {
+      bootcamp_id: input.bootcampId, parent_name: input.parentName, child_name: input.childName,
+      child_age: input.childAge, email: input.email, phone: input.phone, city: input.city,
+      reason_for_joining: input.reasonForJoining, currency: input.currency, amount_paid: input.amountPaid,
+      payment_status: input.paymentStatus, razorpay_order_id: input.razorpayOrderId,
+      razorpay_payment_id: input.razorpayPaymentId, webhook_verified: input.webhookVerified,
+      is_waitlisted: input.isWaitlisted, attended: input.attended,
+    };
+    const { data, error } = await supabase.from("bootcamp_registrations").insert(payload).select().single();
+    if (error) throw error;
+    return mapBootcampRegistration(data);
+  },
+  update: async (id: string, input: Partial<BootcampRegistration>): Promise<BootcampRegistration | undefined> => {
+    const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    if (input.paymentStatus !== undefined) patch.payment_status = input.paymentStatus;
+    if (input.razorpayPaymentId !== undefined) patch.razorpay_payment_id = input.razorpayPaymentId;
+    if (input.webhookVerified !== undefined) patch.webhook_verified = input.webhookVerified;
+    if (input.attended !== undefined) patch.attended = input.attended;
+    
+    const { data, error } = await supabase.from("bootcamp_registrations").update(patch).eq("id", id).select().single();
+    if (error) throw error;
+    return data ? mapBootcampRegistration(data) : undefined;
+  }
 };

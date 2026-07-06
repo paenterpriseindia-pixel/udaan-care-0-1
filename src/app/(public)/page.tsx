@@ -7,6 +7,7 @@ import HowItWorksSection from "@/components/home/HowItWorksSection";
 import BlogPreviewSection from "@/components/home/BlogPreviewSection";
 import FAQSection        from "@/components/home/FAQSection";
 import FinalCTASection   from "@/components/home/FinalCTASection";
+import BootcampTeaser    from "@/components/home/BootcampTeaser";
 
 // Heavy / client-only — loaded dynamically
 
@@ -21,6 +22,7 @@ export default function HomePage() {
 
       {/* Sections in order */}
       <HeroSection />
+      <BootcampTeaser />
       <StatsSection />
       <ServicesSection />
       <DoctorSection />

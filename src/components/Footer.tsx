@@ -29,6 +29,7 @@ const services = [
 ];
 const pages = [
   { label: "Book Appointment",  href: "/book" },
+  { label: "Programs & Bootcamps", href: "/bootcamp" },
   { label: "Blog",              href: "/blog" },
   { label: "About Us",          href: "/about" },
   { label: "Contact",           href: "/contact" },

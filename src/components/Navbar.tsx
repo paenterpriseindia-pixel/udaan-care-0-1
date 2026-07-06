@@ -7,7 +7,7 @@ import { useCurrency } from "@/context/CurrencyContext";
 import Logo from "./shared/Logo";
 import {
   Menu, X, ChevronDown, Moon, Sun, Phone,
-  Activity, Heart, Brain, Video, ShieldCheck, Users,
+  Activity, Heart, Brain, Video, ShieldCheck, Users, BookOpen,
 } from "lucide-react";
 
 const services = [
@@ -15,6 +15,7 @@ const services = [
   { label: "Pediatric Therapy",    href: "/services/pediatric-therapy",    icon: Heart,   desc: "Play-based developmental support" },
   { label: "Sensory Integration",  href: "/services/sensory-integration",  icon: Brain,   desc: "Sensory regulation and processing" },
   { label: "Online Therapy",       href: "/services/online-therapy",       icon: Video,   desc: "Expert sessions via Zoom" },
+  { label: "Programs & Bootcamps", href: "/bootcamp",                      icon: BookOpen,desc: "Expert-led training & workshops" },
 ];
 
 export default function Navbar() {
