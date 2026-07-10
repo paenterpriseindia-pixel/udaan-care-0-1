@@ -18,12 +18,12 @@ export default function FactRibbon() {
       background: "#086A75", // Slightly darker than primary for contrast
       color: "rgba(255,255,255,0.95)",
       overflow: "hidden",
-      position: "absolute",
+      position: "fixed",
       top: 68,
       padding: "8px 0",
       display: "flex",
       alignItems: "center",
-      zIndex: 40,
+      zIndex: 49,
     }}>
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes scrollTicker {

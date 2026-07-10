@@ -129,9 +129,14 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div style={{ borderTop: "1px solid var(--glass-border)", paddingTop: 24, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--color-text-secondary)", opacity: 0.8 }}>
-            © 2025 Udaan Care · udaancare.in · Katni, Madhya Pradesh, India
-          </span>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--color-text-secondary)", opacity: 0.8 }}>
+              © 2025 Udaan Care · udaancare.in · Katni, Madhya Pradesh, India
+            </span>
+            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--color-text-secondary)", opacity: 0.8 }}>
+              Made by Prateek Gupta
+            </span>
+          </div>
           <div style={{ display: "flex", gap: 20 }}>
             {[{ label: "Privacy Policy", href: "/privacy" }, { label: "Terms of Service", href: "/terms" }, { label: "Refund Policy", href: "/refund" }].map((l) => (
               <Link key={l.href} href={l.href} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "var(--color-text-secondary)", opacity: 0.8, textDecoration: "none", transition: "color 0.15s" }}

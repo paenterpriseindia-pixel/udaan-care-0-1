@@ -27,7 +27,7 @@ export default async function BootcampsIndexPage() {
   return (
     <div style={{ background: "#F7FAFC", minHeight: "100vh", paddingBottom: 80 }}>
       {/* HEADER HERO */}
-      <section style={{ background: "linear-gradient(135deg, #0A7E8C, #065F6A)", padding: "80px 20px 60px", textAlign: "center", color: "white" }}>
+      <section style={{ background: "linear-gradient(135deg, #0A7E8C, #065F6A)", padding: "140px 20px 60px", textAlign: "center", color: "white" }}>
         <div className="container" style={{ maxWidth: 800, margin: "0 auto" }}>
           <div style={{ display: "inline-block", background: "rgba(255,255,255,0.2)", padding: "6px 16px", borderRadius: 30, fontSize: 13, fontWeight: 700, letterSpacing: "0.05em", marginBottom: 20, fontFamily: "'DM Sans', sans-serif" }}>
             EXPERT SESSIONS

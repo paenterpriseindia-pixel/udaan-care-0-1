@@ -28,7 +28,7 @@ export default async function BootcampDetailPage({ params }: { params: { slug: s
   return (
     <div style={{ background: "#F7FAFC", minHeight: "100vh", paddingBottom: 100 }}>
       {/* HEADER HERO */}
-      <section style={{ background: "linear-gradient(135deg, #0A7E8C, #065F6A)", padding: "80px 20px 40px", color: "white", position: "relative", overflow: "hidden" }}>
+      <section style={{ background: "linear-gradient(135deg, #0A7E8C, #065F6A)", padding: "140px 20px 40px", color: "white", position: "relative", overflow: "hidden" }}>
         
         {bootcamp.coverImageUrl && (
           <div style={{ position: "absolute", inset: 0, opacity: 0.1, zIndex: 0 }}>
